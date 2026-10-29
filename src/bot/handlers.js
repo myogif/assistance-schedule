@@ -7,13 +7,36 @@ const DEFAULT_NICHE = process.env.ACTIVE_NICHE || 'finance';
 
 /**
  * Authorization middleware.
- * If TELEGRAM_ALLOWED_USERS is set, restricts bot access to listed usernames/IDs.
+ * Private chat: checks TELEGRAM_ALLOWED_USERS (if set).
+ * Group/supergroup: checks TELEGRAM_ALLOWED_GROUPS (if set); member identity not required.
+ * Channel: ignored.
  */
 function authMiddleware(ctx, next) {
-  const allowed = process.env.TELEGRAM_ALLOWED_USERS;
-  if (!allowed || !allowed.trim()) {
+  const chatType = ctx.chat?.type;
+
+  // Ignore channel posts
+  if (chatType === 'channel') return;
+
+  if (chatType === 'group' || chatType === 'supergroup') {
+    const allowedGroups = process.env.TELEGRAM_ALLOWED_GROUPS;
+    if (allowedGroups && allowedGroups.trim()) {
+      const groupList = allowedGroups
+        .split(',')
+        .map((g) => g.trim().replace(/^@/, '').toLowerCase())
+        .filter(Boolean);
+      const chatId = String(ctx.chat?.id || '');
+      const chatUsername = String(ctx.chat?.username || '').toLowerCase();
+      const isAllowed = groupList.includes(chatId) || groupList.includes(chatUsername);
+      if (!isAllowed) {
+        return ctx.reply('⛔ Grup ini tidak diizinkan menggunakan bot ini.');
+      }
+    }
     return next();
   }
+
+  // Private chat — original logic
+  const allowed = process.env.TELEGRAM_ALLOWED_USERS;
+  if (!allowed || !allowed.trim()) return next();
 
   const allowedList = allowed
     .split(',')
@@ -22,7 +45,6 @@ function authMiddleware(ctx, next) {
 
   const userId = String(ctx.from?.id || '');
   const username = String(ctx.from?.username || '').toLowerCase();
-
   const isAllowed = allowedList.includes(userId) || allowedList.includes(username);
 
   if (!isAllowed) {
@@ -47,6 +69,11 @@ async function handleStart(ctx) {
     '📌 <b>Cara Kirim Berita:</b>',
     '1. Kirim URL berita (contoh: <code>https://market.bisnis.com/...</code>)',
     '2. Atau kirim teks berita langsung ke chat ini',
+    '',
+    '👥 <b>Cara Pakai di Grup:</b>',
+    '1. Tambahkan bot ke grup Telegram',
+    '2. Kirim URL atau teks berita langsung di grup',
+    '3. Bot akan proses dan balas notifikasi di grup yang sama',
     '',
     '⚙️ <b>Perintah Manajemen Prompt:</b>',
     '/status — Cek status sistem & koneksi database',
