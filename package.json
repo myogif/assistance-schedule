@@ -1,0 +1,47 @@
+{
+  "name": "assistance-schedule",
+  "version": "1.0.0",
+  "description": "Modular Multi-Niche Autopost Service with Database-backed Prompts and Telegram Bot",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "server": "node src/server.js",
+    "bot": "node src/bot/index.js",
+    "auto": "node scripts/auto.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "db:migrate": "npx sequelize-cli db:migrate",
+    "db:seed": "npx sequelize-cli db:seed:all",
+    "db:reset": "npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
+  },
+  "keywords": [
+    "autopost",
+    "telegram-bot",
+    "instagram",
+    "zernio",
+    "sequelize",
+    "multi-niche"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^16.4.7",
+    "express": "^4.22.3",
+    "openai": "^4.85.0",
+    "pg": "^8.13.1",
+    "pg-hstore": "^2.3.4",
+    "playwright": "^1.50.0",
+    "sequelize": "^6.37.5",
+    "sharp": "^0.33.5",
+    "sqlite3": "^5.1.7",
+    "swagger-ui-express": "^5.0.1",
+    "telegraf": "^4.16.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.31.0",
+    "sequelize-cli": "^6.6.2"
+  }
+}
