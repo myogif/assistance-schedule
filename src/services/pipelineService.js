@@ -4,6 +4,7 @@ const { extractArticleEntities } = require('./aiExtractor');
 const { generateEditorialImage } = require('./imageGenerator');
 const promptService = require('./promptService');
 const { publishToInstagram } = require('./zernioPublisher');
+const { fetchStockPrices } = require('./stockPriceFetcher');
 
 /**
  * Runs the end-to-end autopost pipeline for a given niche and article input.
@@ -62,6 +63,16 @@ async function runPipeline(params = {}) {
     // 2. Extract entities and editorial concepts
     onProgress(2, 4, 'Menganalisis artikel & mengekstrak konsep editorial...');
     const extracted = await extractArticleEntities(article, nicheCode);
+
+    // Fetch live stock prices for extracted tickers
+    if (extracted.stocks && extracted.stocks.length > 0) {
+      const tickerCodes = extracted.stocks.map((s) => s.ticker);
+      const priceMap = await fetchStockPrices(tickerCodes);
+      extracted.stocks = extracted.stocks.map((s) => ({
+        ...s,
+        ...(priceMap.has(s.ticker) ? priceMap.get(s.ticker) : {}),
+      }));
+    }
 
     await postLog.update({
       extractedData: extracted,

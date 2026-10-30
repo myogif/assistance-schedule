@@ -123,11 +123,23 @@ function buildVisualPrompt(promptRecord, extracted) {
     composition_mode: compositionMode = 'macro_general',
   } = extracted;
 
-  const stockTicker = stocks?.[0]?.ticker ? `$${stocks[0].ticker}` : '$IHSG';
-  const stockName = stocks?.[0]?.name || (stocks?.[0]?.ticker ? `PT ${stocks[0].ticker} Tbk` : 'Indonesia Stock Exchange');
+  const primaryStock = stocks?.[0] || null;
+  const stockTicker = primaryStock?.ticker ? `$${primaryStock.ticker}` : '$IHSG';
+  const stockName = primaryStock?.name || (primaryStock?.ticker ? `PT ${primaryStock.ticker} Tbk` : 'Indonesia Stock Exchange');
   const tickerList = stocks?.length > 0
     ? stocks.map((s) => `$${s.ticker} (${s.name || s.ticker})`).join(', ')
     : '$IHSG (Indeks Harga Saham Gabungan)';
+
+  // Live price data (injected if available, otherwise placeholder)
+  const stockPrice = primaryStock?.price || '—';
+  const stockChangePct = primaryStock?.change_pct || '—';
+  const stockDirection = primaryStock?.direction || 'flat';
+  const gainIndicator = stockDirection === 'up'
+    ? `+${stockChangePct}`
+    : stockDirection === 'down'
+    ? `-${stockChangePct}`
+    : `${stockChangePct}`;
+  const gainColor = stockDirection === 'up' ? 'glowing green' : stockDirection === 'down' ? 'glowing red' : 'neutral white';
 
   const personName = person?.name || 'Indonesian Business Leader';
   const personRole = person?.role ? ` (${person.role})` : '';
@@ -145,7 +157,7 @@ function buildVisualPrompt(promptRecord, extracted) {
       compositionTemplate = [
         'Upper-Center Composition & Visual Background (Occupying the upper 60% of the canvas):',
         '- Focal Point: A highly realistic, authoritative editorial portrait photo of {{personName}}{{personRole}}, positioned prominently.',
-        '- Left Flanking: Floating 3D glassmorphic market card for stock {{stockTicker}} ({{stockName}}).',
+        '- Left Flanking: Floating 3D glassmorphic market card for stock {{stockTicker}} ({{stockName}}) with Rp {{stockPrice}} {{gainColor}} {{gainIndicator}} and glowing multi-bar candlestick chart.',
         '- Right Flanking: 3D glassmorphic corporate emblem card for {{stockName}} and Jakarta skyline.',
       ].join('\n');
     } else if (compositionMode === 'person_only') {
@@ -157,7 +169,7 @@ function buildVisualPrompt(promptRecord, extracted) {
     } else if (compositionMode === 'stocks_only') {
       compositionTemplate = [
         'Upper-Center Composition & Visual Background (Occupying the upper 55% of the canvas):',
-        '- Focal Point: Dual sleek 3D floating glassmorphic stock ticker cards for {{tickerList}} with glowing candlestick curves.',
+        '- Focal Point: Dual sleek 3D floating glassmorphic stock ticker cards for {{tickerList}} featuring Rp {{stockPrice}}, {{gainColor}} indicator {{gainIndicator}}, and glowing candlestick curves.',
         '- Background: Modern Indonesia Stock Exchange (IDX) trading floor backdrop.',
       ].join('\n');
     } else {
@@ -173,7 +185,10 @@ function buildVisualPrompt(promptRecord, extracted) {
     .replace(/\{\{personRole\}\}/g, personRole)
     .replace(/\{\{stockTicker\}\}/g, stockTicker)
     .replace(/\{\{stockName\}\}/g, stockName)
-    .replace(/\{\{tickerList\}\}/g, tickerList);
+    .replace(/\{\{tickerList\}\}/g, tickerList)
+    .replace(/\{\{stockPrice\}\}/g, stockPrice)
+    .replace(/\{\{gainIndicator\}\}/g, gainIndicator)
+    .replace(/\{\{gainColor\}\}/g, gainColor);
 
   const defaultVisualTemplate = [
     'Format: Tall portrait 4:5 editorial poster (1080x1350 portrait format) for Instagram feed. The entire canvas is vertical/portrait orientation — DO NOT generate a square or landscape image.',

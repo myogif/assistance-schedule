@@ -63,7 +63,7 @@ Composition Details:
           '- Focal Point: A highly realistic, authoritative editorial portrait photo of {{personName}}{{personRole}}, wearing a sharply tailored dark navy business suit, crisp white dress shirt, silk tie, elegant rectangular executive eyeglasses, confident expression at a 3/4 angle with cinematic cyan rim lighting, positioned prominently in the upper-center area.',
           '- Left Flanking Visual Elements:',
           '  1. Elegant glassmorphic executive quote card in quotation marks attributed to {{personName}}.',
-          '  2. Floating 3D glassmorphic market card for stock {{stockTicker}} ({{stockName}}) featuring the complete company name, prominent bold stock price nominal (e.g. \'2,360\'), glowing green positive gain indicator (+5.36%), and a glowing multi-bar candlestick chart.',
+          '  2. Floating 3D glassmorphic market card for stock {{stockTicker}} ({{stockName}}) featuring the complete company name, prominent bold stock price nominal Rp {{stockPrice}}, {{gainColor}} gain indicator {{gainIndicator}}, and a glowing multi-bar candlestick chart.',
           '- Right Flanking Visual Elements:',
           '  1. Modern glass skyscrapers of the Jakarta financial district with office windows glowing at dusk.',
           '  2. 3D glassmorphic corporate emblem card featuring the official circular logo of {{stockName}}, full corporate entity name, and official corporate tagline.',
@@ -76,7 +76,7 @@ Composition Details:
         ].join('\n'),
         stocks_only: [
           'Upper-Center Composition & Visual Background (Occupying the upper 55% of the canvas):',
-          '- Focal Point: Dual sleek 3D floating glassmorphic stock ticker cards for {{tickerList}} featuring bold price nominals, glowing green/red percentage change indicators, and glowing 3D candlestick curves with shallow depth of field, positioned symmetrically in the upper half.',
+          '- Focal Point: Dual sleek 3D floating glassmorphic stock ticker cards for {{tickerList}} featuring bold price nominal Rp {{stockPrice}}, {{gainColor}} percentage change indicator {{gainIndicator}}, and glowing 3D candlestick curves with shallow depth of field, positioned symmetrically in the upper half.',
           '- Background & Environment: Modern Indonesia Stock Exchange (IDX) trading floor backdrop with dynamic glowing market trend curves, order book depth data, and illuminated financial network nodes across the upper canvas.',
         ].join('\n'),
         macro_general: [

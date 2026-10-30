@@ -34,16 +34,40 @@ async function scrapeArticle(url) {
   try {
     browser = await chromium.launch({
       headless,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-blink-features=AutomationControlled',
+        '--disable-dev-shm-usage',
+        '--disable-web-security',
+      ],
     });
 
     const context = await browser.newContext({
-      userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-      viewport: { width: 1280, height: 800 },
+      userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+      viewport: { width: 1366, height: 768 },
+      locale: 'id-ID',
+      extraHTTPHeaders: {
+        'Accept-Language': 'id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+      },
     });
 
     const page = await context.newPage();
-    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+
+    // Block ads, analytics, and tracking to speed up load
+    await page.route('**/*', (route) => {
+      const blocked = ['doubleclick', 'googlesyndication', 'googletagmanager', 'googletagservices',
+        'google-analytics', 'facebook.net', 'hotjar', 'mixpanel', 'chartbeat'];
+      const url = route.request().url();
+      if (blocked.some((b) => url.includes(b))) {
+        return route.abort();
+      }
+      return route.continue();
+    });
+
+    await page.goto(url, { waitUntil: 'load', timeout: 45000 });
+    await page.waitForTimeout(1500);
 
     const articleData = await page.evaluate(() => {
       const ogTitle = document.querySelector('meta[property="og:title"]')?.content
@@ -62,7 +86,11 @@ async function scrapeArticle(url) {
         || document.querySelector('meta[name="twitter:image"]')?.content
         || null;
 
-      const container = document.querySelector('article, [class*="detail-text"], [class*="read__content"], [class*="article-content"], main');
+      const container = document.querySelector(
+        '[class*="tmpt-desk-kon"], [class*="detail-kontan"], [class*="detail-news"], [class*="content-detail"], '
+        + 'article, [class*="detail-text"], [class*="read__content"], '
+        + '[class*="article-content"], [class*="article__body"], main',
+      );
       const pElements = Array.from((container || document.body).querySelectorAll('p'));
       const rawParagraphs = pElements.map((el) => el.innerText || '');
 

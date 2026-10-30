@@ -50,7 +50,7 @@ async function presignUpload(filename) {
       Authorization: `Bearer ${process.env.ZERNIO_API_KEY}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ filename }),
+    body: JSON.stringify({ filename, contentType: 'image/png' }),
   });
 
   if (!res.ok) {

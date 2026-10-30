@@ -44,6 +44,10 @@ function registerHandlers(bot) {
   bot.command('setprompt', handleSetPrompt);
   bot.command('resetprompt', handleResetPrompt);
   bot.on('text', handleArticleMessage);
+  bot.catch((err, ctx) => {
+    console.error(`[BOT ERROR] chat=${ctx?.chat?.id} user=${ctx?.from?.id}:`, err.message);
+    ctx?.reply('❌ Terjadi kesalahan internal. Silakan coba lagi.').catch(() => {});
+  });
 }
 
 async function startBot() {
@@ -70,7 +74,7 @@ async function startBot() {
     process.exit(1);
   }
 
-  const bot = new Telegraf(botToken);
+  const bot = new Telegraf(botToken, { handlerTimeout: Infinity });
   registerHandlers(bot);
 
   process.once('SIGINT', () => bot.stop('SIGINT'));
