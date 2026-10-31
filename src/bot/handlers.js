@@ -117,7 +117,7 @@ async function handleStatus(ctx) {
     const message = [
       '📊 <b>Status Sistem Assistance Schedule:</b>',
       '',
-      `🏷️ <b>Active Niche:</b> <code>${DEFAULT_NICHE}</code> (${niche?.name || 'Not Found'})`,
+      `🏷️ <b>Active Niche:</b> <code>${escapeHtml(DEFAULT_NICHE)}</code> (${escapeHtml(niche?.name || 'Not Found')})`,
       `💾 <b>Database:</b> Terhubung (${sequelize.getDialect().toUpperCase()})`,
       `📝 <b>Prompt Aktif:</b> ${promptsCount} template`,
       `🤖 <b>OpenAI API:</b> ${openaiConfigured ? '✅ Terkonfigurasi' : '❌ Belum diisi'}`,
@@ -141,13 +141,13 @@ async function handleListPrompts(ctx) {
     }
 
     const lines = [
-      `📋 <b>Daftar Prompt untuk Niche: ${DEFAULT_NICHE}</b>`,
+      `📋 <b>Daftar Prompt untuk Niche: ${escapeHtml(DEFAULT_NICHE)}</b>`,
       '',
     ];
 
     prompts.forEach((p) => {
-      lines.push(`• <b>${p.type}</b> (v${p.version})`);
-      lines.push(`  Nama: ${p.name}`);
+      lines.push(`• <b>${escapeHtml(p.type)}</b> (v${p.version})`);
+      lines.push(`  Nama: ${escapeHtml(p.name)}`);
       lines.push('');
     });
 
@@ -174,11 +174,11 @@ async function handleGetPrompt(ctx) {
   try {
     const promptRecord = await promptService.getActivePrompt(DEFAULT_NICHE, type);
     const replyText = [
-      `📌 <b>Prompt: ${promptRecord.type} (v${promptRecord.version})</b>`,
-      `<b>Nama:</b> ${promptRecord.name}`,
+      `📌 <b>Prompt: ${escapeHtml(promptRecord.type)} (v${promptRecord.version})</b>`,
+      `<b>Nama:</b> ${escapeHtml(promptRecord.name)}`,
       '',
       '<b>System Prompt:</b>',
-      `<code>${promptRecord.systemPrompt.slice(0, 3000)}</code>`,
+      `<code>${escapeHtml(promptRecord.systemPrompt.slice(0, 3000))}</code>`,
     ].join('\n');
 
     return ctx.replyWithHTML(replyText);
