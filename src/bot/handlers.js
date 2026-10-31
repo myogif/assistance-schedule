@@ -1,11 +1,6 @@
-const fs = require('fs');
 const { Niche, Prompt, sequelize } = require('../models');
 const promptService = require('../services/promptService');
 const pipelineService = require('../services/pipelineService');
-const https = require('https');
-
-// One-shot agent: bypasses stale keepAlive sockets that build up during long pipelines.
-const freshAgent = new https.Agent({ keepAlive: false });
 
 /**
  * Escapes characters that Telegram's HTML parse_mode treats as markup.
@@ -322,17 +317,7 @@ async function handleArticleMessage(ctx) {
       ].join('\n');
     }
 
-    // Send generated image if exists
-    if (result.imagePath && fs.existsSync(result.imagePath)) {
-      await ctx.telegram.sendPhoto(
-        ctx.chat.id,
-        { source: result.imagePath },
-        { caption: summaryText, parse_mode: 'HTML' },
-        { agent: freshAgent },
-      );
-    } else {
-      await ctx.replyWithHTML(summaryText);
-    }
+    await ctx.replyWithHTML(summaryText);
   } catch (err) {
     const errorMsg = [
       '❌ <b>Gagal Memproses Artikel:</b>',
