@@ -7,6 +7,19 @@ const https = require('https');
 // One-shot agent: bypasses stale keepAlive sockets that build up during long pipelines.
 const freshAgent = new https.Agent({ keepAlive: false });
 
+/**
+ * Escapes characters that Telegram's HTML parse_mode treats as markup.
+ * Telegram HTML supports only: <b>, <i>, <u>, <s>, <code>, <pre>, <a>, <tg-spoiler>.
+ * Any other `<` in content causes a 400 parse error.
+ */
+function escapeHtml(str) {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
 const DEFAULT_NICHE = process.env.ACTIVE_NICHE || 'finance';
 
 /**
@@ -283,8 +296,8 @@ async function handleArticleMessage(ctx) {
     if (dryRun) {
       summaryText = [
         '🔍 <b>[DRY-RUN SELESAI]</b>',
-        `📰 <b>Headline:</b> ${displayHeadline}`,
-        `🏷️ <b>Kategori:</b> #${category}`,
+        `📰 <b>Headline:</b> ${escapeHtml(displayHeadline)}`,
+        `🏷️ <b>Kategori:</b> #${escapeHtml(category)}`,
         `💾 <b>Database Log ID:</b> #${result.logId}`,
         '',
         '<i>Gambar dan publikasi dilewati karena mode dry-run.</i>',
@@ -292,8 +305,8 @@ async function handleArticleMessage(ctx) {
     } else if (skipPublish) {
       summaryText = [
         '🎨 <b>[GAMBAR SELESAI DIGENERATE]</b>',
-        `📰 <b>Headline:</b> ${displayHeadline}`,
-        `🏷️ <b>Kategori:</b> #${category}`,
+        `📰 <b>Headline:</b> ${escapeHtml(displayHeadline)}`,
+        `🏷️ <b>Kategori:</b> #${escapeHtml(category)}`,
         `💾 <b>Database Log ID:</b> #${result.logId}`,
         '',
         '<i>Publikasi ke Instagram dilewati.</i>',
@@ -301,10 +314,10 @@ async function handleArticleMessage(ctx) {
     } else {
       summaryText = [
         '✅ <b>Berhasil Dipublikasikan ke Instagram!</b>',
-        `📌 <b>Post ID:</b> <code>${result.publishResult?.postId || '-'}</code>`,
-        `🔗 <b>URL:</b> ${result.publishResult?.platformPostUrl || '(sedang diproses)'}`,
-        `📰 <b>Headline:</b> ${displayHeadline}`,
-        `🏷️ <b>Kategori:</b> #${category}`,
+        `📌 <b>Post ID:</b> <code>${escapeHtml(result.publishResult?.postId || '-')}</code>`,
+        `🔗 <b>URL:</b> ${escapeHtml(result.publishResult?.platformPostUrl || '(sedang diproses)')}`,
+        `📰 <b>Headline:</b> ${escapeHtml(displayHeadline)}`,
+        `🏷️ <b>Kategori:</b> #${escapeHtml(category)}`,
         `💾 <b>Database Log ID:</b> #${result.logId}`,
       ].join('\n');
     }
@@ -323,7 +336,7 @@ async function handleArticleMessage(ctx) {
   } catch (err) {
     const errorMsg = [
       '❌ <b>Gagal Memproses Artikel:</b>',
-      `<code>${err.message}</code>`,
+      `<code>${escapeHtml(err.message)}</code>`,
     ].join('\n');
     await ctx.replyWithHTML(errorMsg);
   }
