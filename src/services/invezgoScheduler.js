@@ -2,8 +2,10 @@
  * Invezgo Blog Auto-Broadcast Scheduler
  *
  * Polls https://invezgo.com/id/blog every INVEZGO_CHECK_INTERVAL_MS milliseconds
- * (default 30 minutes), compares against already-sent URLs, and sends each new
- * article to the configured Telegram group/channel as a formatted HTML message.
+ * (default 30 minutes). For each new article:
+ *   1. Sends the article URL (plain text) to the configured Telegram group.
+ *   2. Runs the full pipeline (AI extract → image generation → Instagram publish).
+ *   3. While processing, skips subsequent check cycles (lock-protected).
  *
  * Required env:
  *   TELEGRAM_NEWS_GROUP_ID  — target group/channel ID (e.g. -1001234567890)
@@ -13,46 +15,18 @@
  */
 
 const { fetchInvezgoBlogList } = require('./invezgoScraper');
+const { runPipeline } = require('./pipelineService');
 
 const DEFAULT_INTERVAL_MS = 30 * 60 * 1000; // 30 minutes
-/** Delay between consecutive sendMessage calls to avoid Telegram 429 rate-limit */
-const SEND_DELAY_MS = 1500;
-
-/**
- * Builds the HTML message text for a single article.
- * @param {{ title: string, url: string, date: string, description: string }} article
- * @returns {string}
- */
-function buildMessage(article) {
-  // Escape HTML special chars for Telegram HTML parse_mode
-  const esc = (s) => (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-  const lines = [
-    '📰 <b>INVEZGO — Artikel Baru</b>',
-    '',
-    `<b>${esc(article.title)}</b>`,
-  ];
-
-  if (article.description) {
-    lines.push(`<i>${esc(article.description)}</i>`);
-  }
-
-  if (article.date) {
-    lines.push(`🗓 ${esc(article.date)}`);
-  }
-
-  lines.push('');
-  lines.push(`🔗 <a href="${esc(article.url)}">Baca selengkapnya</a>`);
-
-  return lines.join('\n');
-}
 
 /**
  * Starts the Invezgo blog polling scheduler.
  *
- * Fires an initial check immediately on start, then repeats on the configured interval.
- * Uses an in-memory Set for deduplication — on process restart, at most one batch of
- * previously-seen articles may be re-sent (acceptable trade-off vs. DB dependency).
+ * Uses an in-memory Set for URL deduplication — on process restart, at most
+ * one batch of previously-seen articles may be re-processed.
+ *
+ * Uses a module-level `isProcessing` flag so check cycles are fully skipped
+ * while a pipeline run is still in progress.
  *
  * @param {import('telegraf').Telegraf} bot  Live Telegraf instance with a valid token.
  */
@@ -67,62 +41,78 @@ function startInvezgoScheduler(bot) {
   }
 
   const intervalMs = parseInt(process.env.INVEZGO_CHECK_INTERVAL_MS, 10) || DEFAULT_INTERVAL_MS;
+  const nicheCode = process.env.ACTIVE_NICHE || 'finance';
 
-  /** @type {Set<string>} URLs already sent this session */
+  /** @type {Set<string>} URLs already processed this session */
   const sentUrls = new Set();
 
+  /** Lock: true while any pipeline is running — check cycles are skipped */
+  let isProcessing = false;
+
   /**
-   * Sends a single article to the group and marks it sent.
-   * Returns a promise that resolves after the send delay.
-   * Never rejects — errors are logged, URL is still marked sent.
-   * @param {object} article
+   * Sends URL to group, runs the full pipeline, marks URL as done.
+   * Never rejects — errors are logged.
+   * @param {{ title: string, url: string, date: string }} article
    * @returns {Promise<void>}
    */
-  function sendArticle(article) {
+  function processArticle(article) {
+    // Mark immediately so concurrent/overlapping cycles never double-queue
+    sentUrls.add(article.url);
+    isProcessing = true;
+
+    console.log(`[invezgoScheduler] Processing: ${article.title.slice(0, 60)}`);
+
+    // Step 1: notify group with plain URL
     return bot.telegram
-      .sendMessage(groupId, buildMessage(article), {
-        parse_mode: 'HTML',
-        disable_web_page_preview: false,
-      })
-      .then(() => {
-        console.log(`[invezgoScheduler] Sent: ${article.title.slice(0, 60)}`);
-      })
+      .sendMessage(groupId, article.url)
       .catch((err) => {
-        console.error(
-          `[invezgoScheduler] Failed to send "${article.title.slice(0, 40)}":`,
-          err.message,
+        console.error('[invezgoScheduler] Failed to send URL to group:', err.message);
+      })
+      // Step 2: run full pipeline (AI extract → image → Instagram publish)
+      .then(() => runPipeline({
+        input: { url: article.url },
+        nicheCode,
+        triggeredBy: 'invezgo_scheduler',
+      }))
+      .then((result) => {
+        console.log(
+          `[invezgoScheduler] Done: ${article.title.slice(0, 50)} | status: ${result.status}`,
         );
       })
+      .catch((err) => {
+        console.error(`[invezgoScheduler] Pipeline failed for "${article.title.slice(0, 40)}":`, err.message);
+      })
       .then(() => {
-        // Mark sent regardless of outcome to prevent retry-spam on persistent errors
-        sentUrls.add(article.url);
-        // Rate-limit guard: wait between sends
-        return new Promise((resolve) => { setTimeout(resolve, SEND_DELAY_MS); });
+        isProcessing = false;
       });
   }
 
   function checkAndSend() {
+    // Skip cycle entirely if a pipeline is still running
+    if (isProcessing) {
+      console.log('[invezgoScheduler] Still processing previous article, skipping cycle.');
+      return Promise.resolve();
+    }
+
     return fetchInvezgoBlogList()
       .then((articles) => {
         const newArticles = articles.filter((a) => !sentUrls.has(a.url));
+
         if (newArticles.length === 0) return Promise.resolve();
 
-        console.log(
-          `[invezgoScheduler] ${newArticles.length} new article(s) found, sending to ${groupId}…`,
-        );
+        console.log(`[invezgoScheduler] ${newArticles.length} new article(s) found.`);
 
-        // Reverse so messages arrive oldest-first in the group feed
+        // Process oldest-first, one at a time sequentially
         const ordered = [...newArticles].reverse();
 
-        // Send sequentially via promise chain (no await-in-loop)
+        // Chain processArticle calls so each waits for the previous to finish
         return ordered.reduce(
-          (chain, article) => chain.then(() => sendArticle(article)),
+          (chain, article) => chain.then(() => (isProcessing ? Promise.resolve() : processArticle(article))),
           Promise.resolve(),
         );
       })
       .catch((err) => {
         console.error('[invezgoScheduler] Failed to fetch blog list:', err.message);
-        // skip cycle, interval keeps running
       });
   }
 
