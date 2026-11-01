@@ -12,7 +12,7 @@ const {
   handleArticleMessage,
   handleNewsCheck,
 } = require('./handlers');
-const { startInvezgoScheduler } = require('../services/invezgoScheduler');
+const { startBroadcastScheduler } = require('../services/broadcastScheduler');
 
 const DEFAULT_NICHE = process.env.ACTIVE_NICHE || 'finance';
 
@@ -87,7 +87,7 @@ async function startBot() {
   await bot.launch();
   console.log('🚀 Telegram bot is actively polling for messages!');
 
-  startInvezgoScheduler(bot);
+  startBroadcastScheduler(bot);
 }
 
 if (require.main === module) {

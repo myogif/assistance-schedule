@@ -80,13 +80,14 @@ async function handleStart(ctx) {
     '• Publikasi otomatis ke Instagram via Zernio API',
     '',
     '📌 <b>Cara Kirim Berita:</b>',
-    '1. Kirim URL berita (contoh: <code>https://market.bisnis.com/...</code>)',
-    '2. Atau kirim teks berita langsung ke chat ini',
+    '1. Kirim URL berita langsung (contoh: <code>https://invezgo.com/id/blog/...</code>)',
+    '2. Atau teruskan (forward) pesan siaran berita berformat Invezgo yang memuat link artikel',
+    '3. Tambahkan prefix <code>!dryrun</code> untuk simulasi tanpa posting ke Instagram',
     '',
     '👥 <b>Cara Pakai di Grup:</b>',
     '1. Tambahkan bot ke grup Telegram',
-    '2. Kirim URL atau teks berita langsung di grup',
-    '3. Bot akan proses dan balas notifikasi di grup yang sama',
+    '2. Kirim atau teruskan link/pesan siaran artikel Invezgo di grup',
+    '3. Bot akan memproses otomatis dan mengirimkan notifikasi publikasi ke grup',
     '',
     '⚙️ <b>Perintah Manajemen Prompt:</b>',
     '/status — Cek status sistem & koneksi database',
@@ -94,6 +95,7 @@ async function handleStart(ctx) {
     '/getprompt &lt;type&gt; — Tampilkan teks prompt tertentu',
     '/setprompt &lt;type&gt; &lt;teks&gt; — Perbarui prompt di database',
     '/resetprompt &lt;type&gt; — Kembalikan prompt ke versi default',
+    '/newscheck — Cek artikel terbaru Invezgo',
   ].join('\n');
 
   return ctx.replyWithHTML(message);
@@ -235,31 +237,140 @@ async function handleResetPrompt(ctx) {
 }
 
 /**
+ * Cleans extracted URL candidate by trimming whitespace, surrounding brackets/quotes,
+ * and trailing punctuation.
+ *
+ * @param {string} rawUrl
+ * @returns {string|null}
+ */
+function cleanExtractedUrl(rawUrl) {
+  if (!rawUrl || typeof rawUrl !== 'string') return null;
+  let url = rawUrl.trim();
+
+  // Strip wrapping quotes or brackets: <url>, (url), [url], "url", 'url'
+  url = url.replace(/^[<(['"]+/, '');
+
+  // Strip trailing punctuation common in written text
+  url = url.replace(/[.,;:!?'"]+$/, '');
+
+  // Strip trailing closing brackets if unbalanced
+  while (url.endsWith(')') && (url.match(/\(/g) || []).length < (url.match(/\)/g) || []).length) {
+    url = url.slice(0, -1);
+  }
+  while (url.endsWith(']') && (url.match(/\[/g) || []).length < (url.match(/\]/g) || []).length) {
+    url = url.slice(0, -1);
+  }
+  while (url.endsWith('>') && (url.match(/</g) || []).length < (url.match(/>/g) || []).length) {
+    url = url.slice(0, -1);
+  }
+
+  return /^https?:\/\//i.test(url) ? url : null;
+}
+
+/**
+ * Extracts an article URL from a Telegram message using hierarchy:
+ * 1. Telegram text_link entity (hyperlink attached to text)
+ * 2. Telegram url entity (explicit URL detected by Telegram)
+ * 3. Fallback regex search on message text or caption
+ *
+ * @param {object|string} message - Telegram message object or raw text string
+ * @returns {string|null} - Extracted clean URL or null if not found
+ */
+function extractArticleUrl(message) {
+  if (!message) return null;
+
+  const msgObj = typeof message === 'string' ? { text: message } : message;
+  const text = msgObj.text || msgObj.caption || '';
+  let entities = [];
+  if (Array.isArray(msgObj.entities)) {
+    entities = msgObj.entities;
+  } else if (Array.isArray(msgObj.caption_entities)) {
+    entities = msgObj.caption_entities;
+  }
+
+  // 1. Check for text_link entities
+  const textLinkEntity = entities.find((e) => e.type === 'text_link' && e.url && cleanExtractedUrl(e.url));
+  if (textLinkEntity) {
+    return cleanExtractedUrl(textLinkEntity.url);
+  }
+
+  // 2. Check for url entities
+  const urlEntity = entities.find((e) => {
+    if (e.type === 'url' && typeof e.offset === 'number' && typeof e.length === 'number') {
+      const raw = text.slice(e.offset, e.offset + e.length);
+      return Boolean(cleanExtractedUrl(raw));
+    }
+    return false;
+  });
+  if (urlEntity) {
+    return cleanExtractedUrl(text.slice(urlEntity.offset, urlEntity.offset + urlEntity.length));
+  }
+  // 3. Fallback: regex search on text
+  if (text) {
+    const match = text.match(/https?:\/\/[^\s<>"'`]+/i);
+    if (match) {
+      const cleaned = cleanExtractedUrl(match[0]);
+      if (cleaned) return cleaned;
+    }
+  }
+
+  return null;
+}
+
+/**
  * Article submission handler for raw text or URL messages.
  */
 async function handleArticleMessage(ctx) {
-  const rawText = ctx.message?.text?.trim() || '';
+  const { message } = ctx;
+  const rawText = (message?.text || message?.caption || '').trim();
   if (!rawText || rawText.startsWith('/')) {
     return;
   }
 
-  let textToProcess = rawText;
-  let dryRun = false;
-  let skipPublish = false;
+  // 1. Ekstrak modifier: !dryrun, --dry-run, !skip, --skip-publish
+  const dryRun = /(^|\s)(!dryrun|--dry-run)(\s|$)/i.test(rawText);
+  const skipPublish = /(^|\s)(!skip|--skip-publish)(\s|$)/i.test(rawText);
 
-  if (textToProcess.startsWith('!dryrun') || textToProcess.startsWith('--dry-run')) {
-    dryRun = true;
-    textToProcess = textToProcess.replace(/^(!dryrun|--dry-run)\s*/i, '').trim();
-  } else if (textToProcess.startsWith('!skip') || textToProcess.startsWith('--skip-publish')) {
-    skipPublish = true;
-    textToProcess = textToProcess.replace(/^(!skip|--skip-publish)\s*/i, '').trim();
-  }
+  // 2. Ekstrak URL via smart extraction
+  const url = extractArticleUrl(message);
 
-  // Hanya proses jika input adalah URL valid — abaikan teks biasa/pesan dari bot lain
-  if (!/^https?:\/\//i.test(textToProcess)) {
+  // 3. Jika URL tidak ditemukan
+  if (!url) {
+    const chatType = ctx.chat?.type;
+    const isPrivate = chatType === 'private';
+    let entities = [];
+    if (Array.isArray(message?.entities)) {
+      entities = message.entities;
+    } else if (Array.isArray(message?.caption_entities)) {
+      entities = message.caption_entities;
+    }
+    const botUsername = ctx.botInfo?.username?.toLowerCase();
+    const hasMention = entities.some((e) => {
+      if (e.type === 'mention') {
+        const mentionText = rawText.slice(e.offset, e.offset + e.length).toLowerCase();
+        return !botUsername || mentionText === `@${botUsername}`;
+      }
+      return false;
+    }) || (botUsername && rawText.toLowerCase().includes(`@${botUsername}`));
+    const hasCommandPrefix = rawText.startsWith('!') || rawText.startsWith('--');
+
+    if (isPrivate || hasCommandPrefix || hasMention) {
+      const errorMsg = [
+        '❌ <b>URL Berita Tidak Ditemukan</b>',
+        '',
+        'Harap kirimkan pesan yang memuat URL artikel yang valid.',
+        'Contoh:',
+        '• <code>https://invezgo.com/id/blog/judul-artikel</code>',
+        '• Atau teruskan (forward) pesan berita yang memuat link artikel.',
+        '',
+        '<i>Tips: Tambahkan <code>!dryrun</code> untuk simulasi tanpa posting ke Instagram.</i>',
+      ].join('\n');
+      return ctx.replyWithHTML(errorMsg);
+    }
+
+    // Abaikan obrolan umum di grup tanpa URL/mention
     return;
   }
-
   const sender = ctx.from?.username ? `@${ctx.from.username}` : `telegram_user_${ctx.from?.id || 'anon'}`;
   const statusMsg = await ctx.reply('⏳ [1/4] Mengambil & memproses artikel...');
 
@@ -279,7 +390,7 @@ async function handleArticleMessage(ctx) {
   try {
     const result = await pipelineService.runPipeline({
       nicheCode: DEFAULT_NICHE,
-      input: textToProcess,
+      input: { url },
       triggeredBy: sender,
       dryRun,
       skipPublish,
@@ -360,4 +471,6 @@ module.exports = {
   handleResetPrompt,
   handleArticleMessage,
   handleNewsCheck,
+  extractArticleUrl,
+  cleanExtractedUrl,
 };
