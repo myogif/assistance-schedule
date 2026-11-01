@@ -10,7 +10,9 @@ const {
   handleSetPrompt,
   handleResetPrompt,
   handleArticleMessage,
+  handleNewsCheck,
 } = require('./handlers');
+const { startInvezgoScheduler } = require('../services/invezgoScheduler');
 
 const DEFAULT_NICHE = process.env.ACTIVE_NICHE || 'finance';
 
@@ -43,6 +45,7 @@ function registerHandlers(bot) {
   bot.command('getprompt', handleGetPrompt);
   bot.command('setprompt', handleSetPrompt);
   bot.command('resetprompt', handleResetPrompt);
+  bot.command('newscheck', handleNewsCheck);
   bot.on('text', handleArticleMessage);
   bot.catch((err, ctx) => {
     console.error(`[BOT ERROR] chat=${ctx?.chat?.id} user=${ctx?.from?.id}:`, err.message);
@@ -83,6 +86,8 @@ async function startBot() {
   console.log(`🤖 Assistance Schedule Telegram Bot is starting for niche "${DEFAULT_NICHE}"...`);
   await bot.launch();
   console.log('🚀 Telegram bot is actively polling for messages!');
+
+  startInvezgoScheduler(bot);
 }
 
 if (require.main === module) {

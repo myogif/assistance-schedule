@@ -1,6 +1,7 @@
 const { Niche, Prompt, sequelize } = require('../models');
 const promptService = require('../services/promptService');
 const pipelineService = require('../services/pipelineService');
+const { fetchInvezgoBlogList } = require('../services/invezgoScraper');
 
 /**
  * Escapes characters that Telegram's HTML parse_mode treats as markup.
@@ -254,8 +255,9 @@ async function handleArticleMessage(ctx) {
     textToProcess = textToProcess.replace(/^(!skip|--skip-publish)\s*/i, '').trim();
   }
 
-  if (!textToProcess) {
-    return ctx.reply('⚠️ Masukkan URL atau teks artikel setelah perintah.');
+  // Hanya proses jika input adalah URL valid — abaikan teks biasa/pesan dari bot lain
+  if (!/^https?:\/\//i.test(textToProcess)) {
+    return;
   }
 
   const sender = ctx.from?.username ? `@${ctx.from.username}` : `telegram_user_${ctx.from?.id || 'anon'}`;
@@ -327,6 +329,27 @@ async function handleArticleMessage(ctx) {
   }
 }
 
+/**
+ * /newscheck — manually trigger one Invezgo blog fetch and preview 5 latest articles.
+ */
+async function handleNewsCheck(ctx) {
+  try {
+    const articles = await fetchInvezgoBlogList();
+    if (articles.length === 0) {
+      return ctx.replyWithHTML('⚠️ Tidak ada artikel ditemukan. Struktur halaman mungkin berubah.');
+    }
+    const preview = articles.slice(0, 5).map((a, i) => (
+      `${i + 1}. <a href="${escapeHtml(a.url)}">${escapeHtml(a.title)}</a>\n   🗓 ${escapeHtml(a.date)}`
+    )).join('\n\n');
+    return ctx.replyWithHTML(
+      `📋 <b>5 Artikel Terbaru Invezgo:</b>\n\n${preview}\n\n<i>Total ditemukan: ${articles.length} artikel</i>`,
+      { disable_web_page_preview: true },
+    );
+  } catch (err) {
+    return ctx.replyWithHTML(`❌ <b>Gagal fetch blog Invezgo:</b>\n<code>${escapeHtml(err.message)}</code>`);
+  }
+}
+
 module.exports = {
   authMiddleware,
   handleStart,
@@ -336,4 +359,5 @@ module.exports = {
   handleSetPrompt,
   handleResetPrompt,
   handleArticleMessage,
+  handleNewsCheck,
 };
