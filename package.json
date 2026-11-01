@@ -8,6 +8,7 @@
     "server": "node src/server.js",
     "bot": "node src/bot/index.js",
     "auto": "node scripts/auto.js",
+    "test": "node --test tests/**/*.test.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "db:migrate": "npx sequelize-cli db:migrate",

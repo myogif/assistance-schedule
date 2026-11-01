@@ -11,6 +11,7 @@ const {
   handleResetPrompt,
   handleArticleMessage,
   handleNewsCheck,
+  handleBroadcastNow,
 } = require('./handlers');
 const { startBroadcastScheduler } = require('../services/broadcastScheduler');
 
@@ -46,6 +47,7 @@ function registerHandlers(bot) {
   bot.command('setprompt', handleSetPrompt);
   bot.command('resetprompt', handleResetPrompt);
   bot.command('newscheck', handleNewsCheck);
+  bot.command('broadcastnow', handleBroadcastNow);
   bot.on('text', handleArticleMessage);
   bot.catch((err, ctx) => {
     console.error(`[BOT ERROR] chat=${ctx?.chat?.id} user=${ctx?.from?.id}:`, err.message);

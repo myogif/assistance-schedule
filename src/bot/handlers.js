@@ -1,8 +1,8 @@
 const { Niche, Prompt, sequelize } = require('../models');
 const promptService = require('../services/promptService');
 const pipelineService = require('../services/pipelineService');
-const { fetchInvezgoBlogList } = require('../services/invezgoScraper');
-
+const invezgoScraper = require('../services/invezgoScraper');
+const broadcastScheduler = require('../services/broadcastScheduler');
 /**
  * Escapes characters that Telegram's HTML parse_mode treats as markup.
  * Telegram HTML supports only: <b>, <i>, <u>, <s>, <code>, <pre>, <a>, <tg-spoiler>.
@@ -96,6 +96,7 @@ async function handleStart(ctx) {
     '/setprompt &lt;type&gt; &lt;teks&gt; — Perbarui prompt di database',
     '/resetprompt &lt;type&gt; — Kembalikan prompt ke versi default',
     '/newscheck — Cek artikel terbaru Invezgo',
+    '/broadcastnow — Broadcast & posting Instagram artikel terbaru',
   ].join('\n');
 
   return ctx.replyWithHTML(message);
@@ -445,7 +446,7 @@ async function handleArticleMessage(ctx) {
  */
 async function handleNewsCheck(ctx) {
   try {
-    const articles = await fetchInvezgoBlogList();
+    const articles = await invezgoScraper.fetchInvezgoBlogList();
     if (articles.length === 0) {
       return ctx.replyWithHTML('⚠️ Tidak ada artikel ditemukan. Struktur halaman mungkin berubah.');
     }
@@ -461,6 +462,78 @@ async function handleNewsCheck(ctx) {
   }
 }
 
+/**
+ * /broadcastnow — manually trigger fetching the latest Invezgo article
+ * and immediately broadcast + execute full autopost pipeline to Instagram.
+ */
+async function handleBroadcastNow(ctx) {
+  if (broadcastScheduler.isBroadcastProcessing()) {
+    return ctx.replyWithHTML(
+      '⏳ <b>Proses Sedang Berjalan:</b>\nBot sedang memproses artikel lain ke Instagram. Harap tunggu beberapa saat.',
+    );
+  }
+
+  const targetGroupId = process.env.TELEGRAM_NEWS_GROUP_ID?.trim() || ctx.chat.id;
+  const sender = ctx.from?.username
+    ? `@${ctx.from.username}`
+    : `telegram_user_${ctx.from?.id || 'anon'}`;
+
+  const initMsg = await ctx.replyWithHTML(
+    '🚀 <b>Memulai broadcast & auto-posting artikel terbaru ke Instagram...</b>\n<i>Mengambil artikel dari blog Invezgo...</i>',
+  );
+
+  try {
+    const articles = await invezgoScraper.fetchInvezgoBlogList();
+    if (!articles || articles.length === 0) {
+      return ctx.replyWithHTML('⚠️ <b>Tidak ada artikel ditemukan di blog Invezgo.</b>');
+    }
+
+    const latestArticle = articles[0];
+
+    // If caller is in private chat and target is a group, update caller with details
+    if (String(targetGroupId) !== String(ctx.chat.id)) {
+      try {
+        await ctx.telegram.editMessageText(
+          ctx.chat.id,
+          initMsg.message_id,
+          null,
+          `🚀 <b>Memproses Artikel Terbaru:</b>\n📰 <b>${escapeHtml(latestArticle.title)}</b>\n🎯 <b>Target:</b> <code>${escapeHtml(String(targetGroupId))}</code>\n\n<i>Pesan siaran dan progres dikirim ke grup target.</i>`,
+          { parse_mode: 'HTML' },
+        );
+      } catch (_) {
+        // ignore edit error
+      }
+    }
+
+    const result = await broadcastScheduler.processArticleWithFeedback(
+      ctx,
+      targetGroupId,
+      latestArticle,
+      DEFAULT_NICHE,
+      { triggeredBy: sender },
+    );
+
+    if (String(targetGroupId) !== String(ctx.chat.id)) {
+      const igUrl = result?.publishResult?.platformPostUrl;
+      const successLines = [
+        '✅ <b>Broadcast & Autopost Selesai!</b>',
+        `📰 <b>Headline:</b> ${escapeHtml(result?.extracted?.headline || latestArticle.title)}`,
+      ];
+      if (igUrl) {
+        successLines.push(`🔗 <a href="${escapeHtml(igUrl)}">Lihat Post Instagram</a>`);
+      }
+      await ctx.replyWithHTML(successLines.join('\n'), { disable_web_page_preview: false });
+    }
+
+    return result;
+  } catch (err) {
+    const errorText = [
+      '❌ <b>Gagal Menjalankan Broadcast Now:</b>',
+      `<code>${escapeHtml(err.message)}</code>`,
+    ].join('\n');
+    return ctx.replyWithHTML(errorText);
+  }
+}
 module.exports = {
   authMiddleware,
   handleStart,
@@ -471,6 +544,7 @@ module.exports = {
   handleResetPrompt,
   handleArticleMessage,
   handleNewsCheck,
+  handleBroadcastNow,
   extractArticleUrl,
   cleanExtractedUrl,
 };
