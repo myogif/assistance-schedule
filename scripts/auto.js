@@ -14,6 +14,7 @@ function printBanner(nicheCode) {
 function parseCliArgs(argv = process.argv.slice(2)) {
   let dryRun = false;
   let skipPublish = false;
+  let isCarousel = false;
   let url = null;
   let text = null;
   let niche = process.env.ACTIVE_NICHE || 'finance';
@@ -25,6 +26,8 @@ function parseCliArgs(argv = process.argv.slice(2)) {
       dryRun = true;
     } else if (arg === '--skip-publish' || arg === '--no-publish') {
       skipPublish = true;
+    } else if (arg === '--carousel') {
+      isCarousel = true;
     } else if (arg.startsWith('--url=')) {
       url = arg.slice('--url='.length).trim();
     } else if (arg === '--url' && i + 1 < argv.length) {
@@ -45,6 +48,7 @@ function parseCliArgs(argv = process.argv.slice(2)) {
   return {
     dryRun,
     skipPublish,
+    isCarousel,
     url,
     text,
     niche,
@@ -135,6 +139,8 @@ async function main() {
       triggeredBy: 'cli',
       dryRun: cliOpts.dryRun,
       skipPublish: cliOpts.skipPublish,
+      isCarousel: cliOpts.isCarousel,
+      postFormat: cliOpts.isCarousel ? 'carousel' : undefined,
       onProgress: (step, total, desc) => {
         console.log(`[${step}/${total}] ${desc}`);
       },

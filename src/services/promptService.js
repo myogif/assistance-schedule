@@ -320,6 +320,110 @@ function buildCaption(promptRecord, extracted, source = 'Editorial') {
   return caption.trim();
 }
 
+/**
+ * Builds the visual prompt for a specific carousel slide.
+ * @param {Object} slide - { slide_number, slide_type, chapter_title, headline, subtitle, visual_scene }
+ * @param {Object} carouselData - Overall carousel data with category, headline, stocks, etc.
+ * @param {Object} [options={}] - { totalSlides?: number }
+ * @returns {string}
+ */
+function buildCarouselSlidePrompt(slide, carouselData, options = {}) {
+  const totalSlides = options.totalSlides || (Array.isArray(carouselData.slides) ? carouselData.slides.length : 4);
+  const slideNumber = slide.slide_number || 1;
+  const isCover = slideNumber === 1 || slide.slide_type === 'cover';
+  const isLast = slideNumber === totalSlides;
+  const category = carouselData.category || 'IDX MARKET WATCH';
+
+  const chapterBadge = isCover
+    ? `— ${category} —`
+    : `— SLIDE ${slideNumber}/${totalSlides} • ${slide.chapter_title || 'STORY'} —`;
+
+  const footerAction = isLast
+    ? '[Discussion icon] TULIS PENDAPAT DI KOMENTAR | [Share icon] BAGIKAN KE REKAN INVESTOR'
+    : `[Swipe icon] GESER KE KIRI (SLIDE ${slideNumber + 1}/${totalSlides}) | [Bookmark icon] SIMPAN POSTINGAN`;
+
+  // Stocks data insertion for data slide
+  let stockVisualDetail = '';
+  if (slide.slide_type === 'data' && carouselData.stocks && carouselData.stocks.length > 0) {
+    const cardsText = carouselData.stocks.map((s, idx) => {
+      const ticker = s.ticker ? `$${s.ticker}` : '$IHSG';
+      const name = s.name || ticker;
+      const priceText = s.price ? `Rp ${s.price}` : '';
+      const changeText = s.change_pct ? `(${s.direction === 'down' ? '-' : '+'}${s.change_pct})` : '';
+      return `Card ${idx + 1}: ${ticker} (${name}) ${priceText} ${changeText}`.trim();
+    }).join('; ');
+    stockVisualDetail = `\n- Market Data Cards: 3D floating glassmorphic cards displaying ${cardsText} with glowing candlestick accents.`;
+  }
+
+  const visualPrompt = [
+    'Format: Tall portrait 4:5 editorial poster (1080x1350 portrait format) for Instagram feed carousel slide. The entire canvas is strictly vertical/portrait orientation — DO NOT generate a square or landscape image.',
+    'Style & Aesthetic: Ultra-sharp Bloomberg Markets & Financial Times Weekend magazine cover aesthetic, high contrast, clean centered typography integration, dark navy blue (#060B14) background, electric cyan blue (#00D2FF) data accents, pristine editorial lighting, 8k resolution.',
+    '',
+    `Upper-Center Composition & Visual Scene (Slide ${slideNumber} of ${totalSlides}):`,
+    `- Scene & Atmosphere: ${slide.visual_scene || 'Modern Indonesian financial market environment with glowing data streams and cinematic cyan rim lighting.'}${stockVisualDetail}`,
+    '',
+    'Bottom-Center Typography & Information Structure (Strictly Anchored at Lower-Center / Bottom 45%):',
+    `1. Category Tag / Micro-Typography Bar: Centered badge '${chapterBadge}' in clean tracked uppercase sans-serif positioned directly above the headline.`,
+    `2. Centered Dual-Tone Headline Typography: Centered bold condensed uppercase typography reading "${slide.headline}". Key action words styled in electric cyan blue (#00D2FF), entity names in crisp white (#FFFFFF).`,
+    `3. Centered Subtitle & Narrative: Set directly below headline, perfectly center-aligned: "${slide.subtitle}".`,
+    '4. Visual Hierarchy Invariant: The text block is strictly anchored at the lower-center / bottom 45% of the poster, leaving the upper 55% clean and dramatic for the scene visualization.',
+    '',
+    'Footer & Branding Elements (Anchored at very bottom edge):',
+    `- Carousel Indicator: ${footerAction}`,
+    "- Official Footer Branding: Centered elegant dark navy shield emblem logo with gold crown and gold letter 'S' watermark, bold branding text 'SOVSTOCK', and tagline 'MARKET INSIGHTS FOR A BRIGHTER TOMORROW' placed at the bottom edge beneath the text block.",
+    '',
+    '- Visual Data Integrity: Accurately render only the exact text and numbers provided above. Do not invent unverified numbers, fake ticker symbols, or random text.',
+  ].join('\n');
+
+  return visualPrompt;
+}
+
+/**
+ * Builds an Instagram caption tailored for a multi-slide carousel story.
+ * @param {Object} carouselData
+ * @param {string} [source='Invezgo']
+ * @returns {string}
+ */
+function buildCarouselCaption(carouselData, source = 'Invezgo') {
+  const headline = carouselData.headline || 'MARKET STORY';
+  const category = carouselData.category || 'IDX MARKET WATCH';
+  const slides = Array.isArray(carouselData.slides) ? carouselData.slides : [];
+
+  if (carouselData.draftCaption && carouselData.draftCaption.length > 60) {
+    let draft = carouselData.draftCaption.trim();
+    if (!draft.includes('👉 Geser') && !draft.includes('swipe')) {
+      draft = `${draft}\n\n👉 Geser ke kiri (swipe) untuk membaca rangkuman visual lengkap!`;
+    }
+    if (!draft.includes('Disclaimer:')) {
+      draft = `${draft}\n\n---\nDisclaimer: Informasi ini disajikan murni untuk tujuan edukasi dan berita pasar modal. Keputusan investasi sepenuhnya berada di tangan investor.`;
+    }
+    return draft;
+  }
+
+  const lines = [
+    `🚨 ${headline}`,
+    '',
+    `Rangkuman visual cerita pasar: #${category.replace(/\s+/g, '')}`,
+    '',
+    '👉 Geser ke kiri (swipe) untuk membaca setiap slide:',
+  ];
+
+  slides.slice(1).forEach((slide, idx) => {
+    lines.push(`📌 [Slide ${idx + 2}] ${slide.headline}: ${slide.subtitle}`);
+  });
+
+  lines.push('');
+  lines.push('💬 Bagaimana pandangan Anda tentang perkembangan ini? Tulis pendapat Anda di kolom komentar!');
+  lines.push('');
+  lines.push(`Sumber: ${source || 'Editorial'}`);
+  lines.push('#sovstock #IHSG #SahamIndonesia #Investasi #PasarModal #CarouselSaham #EdukasiSaham');
+  lines.push('');
+  lines.push('---');
+  lines.push('Disclaimer: Informasi ini disajikan murni untuk tujuan edukasi dan berita pasar modal, bukan merupakan ajakan membeli atau menjual efek tertentu. Keputusan investasi sepenuhnya berada di tangan investor.');
+
+  return lines.join('\n');
+}
+
 module.exports = {
   getActivePrompt,
   listPrompts,
@@ -327,4 +431,6 @@ module.exports = {
   clearPromptCache,
   buildVisualPrompt,
   buildCaption,
+  buildCarouselSlidePrompt,
+  buildCarouselCaption,
 };

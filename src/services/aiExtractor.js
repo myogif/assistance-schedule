@@ -164,8 +164,184 @@ async function extractArticleEntities(article, nicheCode = 'finance', openaiClie
   };
 }
 
+const CAROUSEL_SYSTEM_PROMPT = `You are an elite Indonesian financial editor and Instagram visual storytelling strategist for sovstock.
+Transform the provided news article into an engaging, multi-slide Instagram carousel story (default 4 slides) that breaks down complex financial news into a compelling narrative arc:
+
+Slide 1 (Cover / Hook):
+- "headline": Uppercase, high-impact headline in Indonesian (max 8-10 words).
+- "subtitle": Intriguing 1-sentence hook that makes readers swipe left.
+- "visual_scene": Clear visual prompt description for background (modern Indonesian financial environment, Jakarta skyline, trading floor, or executive portrait).
+
+Slide 2 (Context / Apa yang Terjadi?):
+- "headline": Short punchy chapter title (e.g. "LATAR BELAKANG", "KRONOLOGI PERISTIWA").
+- "subtitle": 1-2 concise sentences explaining why and how this event occurred.
+- "visual_scene": Contextual visual scene description.
+
+Slide 3 (Data / Fakta & Angka Kunci):
+- "headline": Chapter title for key metrics (e.g. "FAKTA & ANGKA UTAMA", "PERGERAKAN EMITEN").
+- "subtitle": Highlight key numeric facts, stock movements, deal values, or pivotal regulations.
+- "visual_scene": 3D glassmorphic stock ticker cards and glowing data visualization.
+
+Slide 4 (Impact / Kesimpulan & Diskusi):
+- "headline": Chapter title for future outlook (e.g. "DAMPAK BAGI INVESTOR", "LANGKAH STRATEGIS").
+- "subtitle": Strategic takeaway and a discussion-provoking question for comments.
+- "visual_scene": Architectural financial monument with subtle ambient lighting.
+
+Output strict JSON:
+{
+  "category": "IDX MARKET WATCH" | "PERBANKAN" | "EMITEN" | "MAKRO" | "REGULASI" | "NASIONAL",
+  "headline": "...",
+  "subtitle": "...",
+  "story_angle": "Short phrase describing the narrative hook",
+  "person": { "name": string|null, "role": string|null },
+  "stocks": [{ "ticker": "BBCA", "name": "Bank Central Asia" }],
+  "slides": [
+    {
+      "slide_number": 1,
+      "slide_type": "cover" | "context" | "data" | "impact" | "conclusion",
+      "chapter_title": "...",
+      "headline": "...",
+      "subtitle": "...",
+      "visual_scene": "..."
+    }
+  ],
+  "caption": "Engaging Instagram caption with hook, slide recap, swipe CTA (Geser ke kiri 👉), and hashtags (#sovstock #IHSG #SahamIndonesia #Investasi #PasarModal)"
+}`;
+
+/**
+ * Extracts a multi-slide carousel story arc from an article.
+ * @param {Object} article - { title, text, source, url }
+ * @param {string} [nicheCode='finance']
+ * @param {OpenAI} [openaiClient]
+ * @param {Object} [options={}]
+ * @returns {Promise<Object>}
+ */
+async function extractArticleCarouselStory(article, nicheCode = 'finance', openaiClient = null, options = {}) {
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey && !openaiClient) {
+    throw new Error('OPENAI_API_KEY is not set in environment.');
+  }
+
+  const openai = openaiClient || new OpenAI({ apiKey });
+  const model = process.env.TEXT_MODEL || 'gpt-4o';
+  const targetSlideCount = parseInt(options.slideCount || process.env.CAROUSEL_SLIDE_COUNT || '4', 10);
+
+  const userContent = [
+    `Title: ${article.title || 'Market Update'}`,
+    `Source: ${article.source || 'Unknown'}`,
+    article.url ? `URL: ${article.url}` : null,
+    `Target Slide Count: ${targetSlideCount} slides`,
+    'Content:',
+    (article.text || article.title || '').slice(0, 4500),
+  ].filter(Boolean).join('\n');
+
+  let parsed = null;
+  try {
+    const completion = await openai.chat.completions.create({
+      model,
+      response_format: { type: 'json_object' },
+      messages: [
+        { role: 'system', content: CAROUSEL_SYSTEM_PROMPT },
+        { role: 'user', content: userContent },
+      ],
+      temperature: 0.25,
+    });
+
+    const rawJson = completion.choices[0]?.message?.content;
+    if (rawJson) {
+      parsed = JSON.parse(rawJson);
+    }
+  } catch (err) {
+    console.warn('[aiExtractor] OpenAI carousel story extraction failed, falling back:', err.message);
+  }
+
+  // Fallback if parsing failed or invalid
+  if (!parsed || !Array.isArray(parsed.slides) || parsed.slides.length < 2) {
+    const singleData = await extractArticleEntities(article, nicheCode, openai);
+    return {
+      category: singleData.category,
+      headline: singleData.headline,
+      subtitle: singleData.subtitle,
+      person: singleData.person,
+      stocks: singleData.stocks,
+      story_angle: singleData.headline,
+      slides: [
+        {
+          slide_number: 1,
+          slide_type: 'cover',
+          chapter_title: singleData.category,
+          headline: singleData.headline,
+          subtitle: singleData.subtitle,
+          visual_scene: 'Modern Indonesian capital market backdrop with dramatic lighting.',
+        },
+        {
+          slide_number: 2,
+          slide_type: 'context',
+          chapter_title: 'RINGKASAN BERITA',
+          headline: 'POKOK PERISTIWA',
+          subtitle: singleData.subtitle || article.title || '',
+          visual_scene: 'Futuristic glassmorphic financial network nodes and charts.',
+        },
+      ],
+      draftCaption: singleData.draftCaption,
+    };
+  }
+
+  // Validate stocks
+  let stocks = [];
+  if (Array.isArray(parsed.stocks)) {
+    const seen = new Set();
+    stocks = parsed.stocks
+      .map((item) => {
+        const rawCode = typeof item === 'string' ? item : item?.ticker;
+        const cleanTicker = sanitizeTicker(rawCode);
+        if (!cleanTicker || seen.has(cleanTicker)) return null;
+        seen.add(cleanTicker);
+        return {
+          ticker: cleanTicker,
+          name: (typeof item === 'object' && item?.name) ? item.name : cleanTicker,
+        };
+      })
+      .filter(Boolean);
+  }
+
+  // Validate person
+  const person = resolvePerson(parsed.person);
+
+  // Normalize category
+  let category = String(parsed.category || 'IDX MARKET WATCH').trim().toUpperCase();
+  if (!VALID_CATEGORIES.includes(category)) {
+    category = 'IDX MARKET WATCH';
+  }
+
+  const headline = String(parsed.headline || article.title || 'IDX MARKET UPDATE').trim().toUpperCase();
+  const subtitle = String(parsed.subtitle || article.title || '').trim();
+
+  // Ensure slides have proper numbering and defaults
+  const slides = parsed.slides.map((s, idx) => ({
+    slide_number: s.slide_number || idx + 1,
+    slide_type: s.slide_type || (idx === 0 ? 'cover' : 'context'),
+    chapter_title: s.chapter_title || `CHAPTER 0${idx + 1}`,
+    headline: String(s.headline || headline).trim().toUpperCase(),
+    subtitle: String(s.subtitle || subtitle).trim(),
+    visual_scene: String(s.visual_scene || 'Editorial Bloomberg style Jakarta market atmosphere').trim(),
+  }));
+
+  return {
+    category,
+    headline,
+    subtitle,
+    story_angle: parsed.story_angle || headline,
+    person,
+    stocks,
+    slides,
+    draftCaption: parsed.caption || null,
+  };
+}
+
 module.exports = {
   extractArticleEntities,
+  extractArticleCarouselStory,
   sanitizeTicker,
   resolvePerson,
 };

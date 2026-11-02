@@ -20,22 +20,17 @@ async function resizeToInstagram(buffer) {
 }
 
 /**
- * Generates editorial image using local API endpoint or OpenAI image model fallback.
- * @param {Object} extracted - Extracted entities object
- * @param {Object} options - { nicheCode?: string, outputDir?: string, openaiClient?: OpenAI }
- * @returns {Promise<{imagePath: string, latestImagePath: string, model: string, durationSeconds: number, visualPrompt: string}>}
+ * Generates a resized image buffer from a visual prompt using local API or OpenAI fallback.
+ * @param {string} visualPrompt
+ * @param {Object} [options={}]
+ * @returns {Promise<{buffer: Buffer, model: string, revisedPrompt: string|null}>}
  */
-async function generateEditorialImage(extracted, options = {}) {
-  const nicheCode = options.nicheCode || 'finance';
-  const promptRecord = await promptService.getActivePrompt(nicheCode, 'visual_image');
-  const visualPrompt = promptService.buildVisualPrompt(promptRecord, extracted);
-
+async function generateImageBufferFromPrompt(visualPrompt, options = {}) {
   const localEndpoint = process.env.LOCAL_IMAGE_API_URL || 'http://localhost:20128/v1/images/generations';
   const localApiKey = process.env.LOCAL_IMAGE_API_KEY || 'sk-5e835ab2c467c876-dovups-b2f50d68';
   const localModel = process.env.LOCAL_IMAGE_MODEL || 'ag/gemini-3.1-flash-image';
-  const imageSize = process.env.IMAGE_SIZE || promptRecord.config?.size || '1088x1360';
+  const imageSize = process.env.IMAGE_SIZE || options.imageSize || '1088x1360';
 
-  const startTime = Date.now();
   let usedModel = null;
   let revisedPrompt = null;
   let imageBuffer = null;
@@ -68,7 +63,7 @@ async function generateEditorialImage(extracted, options = {}) {
         revisedPrompt = localJson.data[0].revised_prompt || null;
       }
     }
-  } catch (err) {
+  } catch (_) {
     // Local API failed or not reachable, fallback to OpenAI
   }
 
@@ -137,11 +132,33 @@ async function generateEditorialImage(extracted, options = {}) {
   }
 
   // Resize to strict 1080x1350 PNG
-  imageBuffer = await resizeToInstagram(imageBuffer);
+  const resizedBuffer = await resizeToInstagram(imageBuffer);
+  return {
+    buffer: resizedBuffer,
+    model: usedModel,
+    revisedPrompt,
+  };
+}
+
+/**
+ * Generates editorial single image using local API endpoint or OpenAI image model fallback.
+ * @param {Object} extracted - Extracted entities object
+ * @param {Object} options - { nicheCode?: string, outputDir?: string, openaiClient?: OpenAI }
+ * @returns {Promise<{imagePath: string, latestImagePath: string, model: string, durationSeconds: number, visualPrompt: string}>}
+ */
+async function generateEditorialImage(extracted, options = {}) {
+  const nicheCode = options.nicheCode || 'finance';
+  const promptRecord = await promptService.getActivePrompt(nicheCode, 'visual_image');
+  const visualPrompt = promptService.buildVisualPrompt(promptRecord, extracted);
+  const imageSize = process.env.IMAGE_SIZE || promptRecord.config?.size || '1088x1360';
+
+  const startTime = Date.now();
+  const { buffer, model, revisedPrompt } = await generateImageBufferFromPrompt(visualPrompt, {
+    ...options,
+    imageSize,
+  });
 
   const durationSeconds = Number(((Date.now() - startTime) / 1000).toFixed(2));
-
-  // Determine output directory
   const baseOutputDir = options.outputDir || path.resolve(process.cwd(), 'output', nicheCode);
   if (!fs.existsSync(baseOutputDir)) {
     fs.mkdirSync(baseOutputDir, { recursive: true });
@@ -152,21 +169,97 @@ async function generateEditorialImage(extracted, options = {}) {
   const imagePath = path.join(baseOutputDir, imageFilename);
   const latestImagePath = path.join(baseOutputDir, `latest-${nicheCode}.png`);
 
-  fs.writeFileSync(imagePath, imageBuffer);
+  fs.writeFileSync(imagePath, buffer);
   fs.copyFileSync(imagePath, latestImagePath);
 
   return {
     imagePath,
     latestImagePath,
-    buffer: imageBuffer,
-    model: usedModel,
+    buffer,
+    model,
     durationSeconds,
     revisedPrompt,
     visualPrompt,
   };
 }
 
+/**
+ * Generates multi-slide carousel images from carousel story data.
+ * @param {Object} carouselData - Extracted carousel story data with slides
+ * @param {Object} [options={}] - { nicheCode?, outputDir?, openaiClient?, onProgress? }
+ * @returns {Promise<{imagePath: string, imagePaths: string[], slideCount: number, durationSeconds: number, visualPrompts: string[], model: string}>}
+ */
+async function generateCarouselImages(carouselData, options = {}) {
+  const nicheCode = options.nicheCode || 'finance';
+  const slides = Array.isArray(carouselData.slides) && carouselData.slides.length > 0
+    ? carouselData.slides
+    : [
+      {
+        slide_number: 1,
+        slide_type: 'cover',
+        chapter_title: carouselData.category || 'COVER',
+        headline: carouselData.headline || 'MARKET STORY',
+        subtitle: carouselData.subtitle || '',
+        visual_scene: 'Modern Indonesian capital market environment.',
+      },
+    ];
+
+  const onProgress = typeof options.onProgress === 'function' ? options.onProgress : () => {};
+  const baseOutputDir = options.outputDir || path.resolve(process.cwd(), 'output', nicheCode);
+  if (!fs.existsSync(baseOutputDir)) {
+    fs.mkdirSync(baseOutputDir, { recursive: true });
+  }
+
+  const startTime = Date.now();
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const imagePaths = [];
+  const visualPrompts = [];
+  let usedModel = null;
+
+  /* eslint-disable no-await-in-loop */
+  for (let i = 0; i < slides.length; i += 1) {
+    const slide = slides[i];
+    const slideNum = slide.slide_number || i + 1;
+    const visualPrompt = promptService.buildCarouselSlidePrompt(slide, carouselData, {
+      totalSlides: slides.length,
+    });
+    visualPrompts.push(visualPrompt);
+
+    onProgress(i + 1, slides.length, `Menghasilkan gambar slide ${slideNum}/${slides.length}...`);
+    console.log(`[imageGenerator] Generating carousel slide ${slideNum}/${slides.length}...`);
+
+    const { buffer, model } = await generateImageBufferFromPrompt(visualPrompt, options);
+    usedModel = model;
+
+    const filename = `editorial-${nicheCode}-${timestamp}-slide-${slideNum}.png`;
+    const filePath = path.join(baseOutputDir, filename);
+    fs.writeFileSync(filePath, buffer);
+    imagePaths.push(filePath);
+
+    // Copy first slide as latest
+    if (i === 0) {
+      const latestPath = path.join(baseOutputDir, `latest-${nicheCode}.png`);
+      fs.copyFileSync(filePath, latestPath);
+    }
+  }
+  /* eslint-enable no-await-in-loop */
+
+  const durationSeconds = Number(((Date.now() - startTime) / 1000).toFixed(2));
+
+  return {
+    imagePath: imagePaths[0],
+    imagePaths,
+    slideCount: imagePaths.length,
+    durationSeconds,
+    visualPrompts,
+    visualPrompt: visualPrompts[0],
+    model: usedModel,
+  };
+}
+
 module.exports = {
   generateEditorialImage,
+  generateCarouselImages,
+  generateImageBufferFromPrompt,
   resizeToInstagram,
 };

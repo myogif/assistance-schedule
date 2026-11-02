@@ -146,12 +146,14 @@ async function processArticleWithFeedback(
 
   try {
     // 4. Run full pipeline
+    const postFormat = options.postFormat || process.env.BROADCAST_POST_FORMAT || process.env.POST_FORMAT || 'single';
     const result = await pipelineService.runPipeline({
       input: { url: article.url },
       nicheCode: nicheCode || 'finance',
       triggeredBy: options.triggeredBy || 'broadcast_scheduler',
       dryRun: Boolean(options.dryRun),
       skipPublish: Boolean(options.skipPublish),
+      postFormat,
       onProgress: updateProgress,
     });
 
@@ -188,6 +190,7 @@ async function processArticleWithFeedback(
         lines.push(`🔗 <a href="${escapeHtml(igPostUrl)}">Lihat Post Instagram</a>`);
       }
       lines.push(`📰 <b>Headline:</b> ${escapeHtml(displayHeadline)}`);
+      lines.push(`📱 <b>Format:</b> ${escapeHtml(result?.isCarousel ? `Carousel (${result?.imagePaths?.length || 4} slide)` : 'Single Poster')}`);
       finalMsg = lines.join('\n');
     } else {
       finalMsg = [

@@ -100,6 +100,8 @@ async function createPost(req, res, next) {
       input,
       dryRun = false,
       skipPublish = false,
+      postFormat = null,
+      isCarousel = false,
     } = req.body;
 
     if (!input) {
@@ -119,6 +121,8 @@ async function createPost(req, res, next) {
       triggeredBy: 'api',
       dryRun: Boolean(dryRun),
       skipPublish: Boolean(skipPublish),
+      postFormat,
+      isCarousel: Boolean(isCarousel),
     });
 
     return res.status(201).json({

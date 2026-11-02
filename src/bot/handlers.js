@@ -82,7 +82,8 @@ async function handleStart(ctx) {
     '📌 <b>Cara Kirim Berita:</b>',
     '1. Kirim URL berita langsung (contoh: <code>https://invezgo.com/id/blog/...</code>)',
     '2. Atau teruskan (forward) pesan siaran berita berformat Invezgo yang memuat link artikel',
-    '3. Tambahkan prefix <code>!dryrun</code> untuk simulasi tanpa posting ke Instagram',
+    '3. Tambahkan <code>!carousel</code> untuk format carousel (multi-slide storytelling)',
+    '4. Tambahkan <code>!dryrun</code> untuk simulasi tanpa posting ke Instagram',
     '',
     '👥 <b>Cara Pakai di Grup:</b>',
     '1. Tambahkan bot ke grup Telegram',
@@ -97,6 +98,7 @@ async function handleStart(ctx) {
     '/resetprompt &lt;type&gt; — Kembalikan prompt ke versi default',
     '/newscheck — Cek artikel terbaru Invezgo',
     '/broadcastnow — Broadcast & posting Instagram artikel terbaru',
+    '/carousel &lt;url&gt; — Rangkum & posting carousel storytelling ke Instagram',
   ].join('\n');
 
   return ctx.replyWithHTML(message);
@@ -328,10 +330,17 @@ async function handleArticleMessage(ctx) {
     return;
   }
 
-  // 1. Ekstrak modifier: !dryrun, --dry-run, !skip, --skip-publish
+  // 1. Ekstrak modifier: !dryrun, !skip, !carousel, !single
   const dryRun = /(^|\s)(!dryrun|--dry-run)(\s|$)/i.test(rawText);
   const skipPublish = /(^|\s)(!skip|--skip-publish)(\s|$)/i.test(rawText);
-
+  const wantsCarousel = /(^|\s)(!carousel|--carousel)(\s|$)/i.test(rawText);
+  const wantsSingle = /(^|\s)(!single|--single)(\s|$)/i.test(rawText);
+  let postFormat = null;
+  if (wantsSingle) {
+    postFormat = 'single';
+  } else if (wantsCarousel) {
+    postFormat = 'carousel';
+  }
   // 2. Ekstrak URL via smart extraction
   const url = extractArticleUrl(message);
 
@@ -395,17 +404,23 @@ async function handleArticleMessage(ctx) {
       triggeredBy: sender,
       dryRun,
       skipPublish,
+      postFormat,
       onProgress: updateProgress,
     });
 
     const displayHeadline = result.extracted?.headline || result.article?.title || 'Market Update';
     const category = result.extracted?.category || 'IDX MARKET WATCH';
 
+    const formatLabel = result.isCarousel
+      ? `Carousel (${result.imagePaths?.length || 4} slide)`
+      : 'Single Poster';
+
     let summaryText = '';
     if (dryRun) {
       summaryText = [
         '🔍 <b>[DRY-RUN SELESAI]</b>',
         `📰 <b>Headline:</b> ${escapeHtml(displayHeadline)}`,
+        `📱 <b>Format:</b> ${escapeHtml(formatLabel)}`,
         `🏷️ <b>Kategori:</b> #${escapeHtml(category)}`,
         `💾 <b>Database Log ID:</b> #${result.logId}`,
         '',
@@ -415,6 +430,7 @@ async function handleArticleMessage(ctx) {
       summaryText = [
         '🎨 <b>[GAMBAR SELESAI DIGENERATE]</b>',
         `📰 <b>Headline:</b> ${escapeHtml(displayHeadline)}`,
+        `📱 <b>Format:</b> ${escapeHtml(formatLabel)}`,
         `🏷️ <b>Kategori:</b> #${escapeHtml(category)}`,
         `💾 <b>Database Log ID:</b> #${result.logId}`,
         '',
@@ -426,6 +442,7 @@ async function handleArticleMessage(ctx) {
         `📌 <b>Post ID:</b> <code>${escapeHtml(result.publishResult?.postId || '-')}</code>`,
         `🔗 <b>URL:</b> ${escapeHtml(result.publishResult?.platformPostUrl || '(sedang diproses)')}`,
         `📰 <b>Headline:</b> ${escapeHtml(displayHeadline)}`,
+        `📱 <b>Format:</b> ${escapeHtml(formatLabel)}`,
         `🏷️ <b>Kategori:</b> #${escapeHtml(category)}`,
         `💾 <b>Database Log ID:</b> #${result.logId}`,
       ].join('\n');
@@ -438,6 +455,84 @@ async function handleArticleMessage(ctx) {
       `<code>${escapeHtml(err.message)}</code>`,
     ].join('\n');
     await ctx.replyWithHTML(errorMsg);
+  }
+}
+
+/**
+ * /carousel <url> command handler.
+ */
+async function handleCarouselCommand(ctx) {
+  const rawText = (ctx.message?.text || '').trim();
+  const parts = rawText.split(/\s+/);
+  const candidateUrl = parts[1];
+  const url = extractArticleUrl(ctx.message) || (candidateUrl && /^https?:\/\//i.test(candidateUrl) ? candidateUrl : null);
+
+  if (!url) {
+    return ctx.replyWithHTML(
+      '⚠️ <b>Format Perintah Salah</b>\n\n'
+      + 'Gunakan: <code>/carousel &lt;URL artikel&gt;</code>\n'
+      + 'Contoh: <code>/carousel https://invezgo.com/id/blog/ihsg-menguat</code>\n\n'
+      + '<i>Artikel akan dirangkum menjadi carousel storytelling (4 slide) dan diposting ke Instagram via Zernio.</i>',
+    );
+  }
+
+  const sender = ctx.from?.username ? `@${ctx.from.username}` : `telegram_user_${ctx.from?.id || 'anon'}`;
+  const dryRun = /(^|\s)(!dryrun|--dry-run)(\s|$)/i.test(rawText);
+  const skipPublish = /(^|\s)(!skip|--skip-publish)(\s|$)/i.test(rawText);
+
+  const statusMsg = await ctx.reply('⏳ [1/4] Mengambil artikel untuk carousel storytelling...');
+  const updateProgress = async (step, total, stepDesc) => {
+    try {
+      await ctx.telegram.editMessageText(
+        ctx.chat.id,
+        statusMsg.message_id,
+        null,
+        `⏳ [${step}/${total}] ${stepDesc}`,
+      );
+    } catch (_) {
+      // ignore
+    }
+  };
+
+  try {
+    const result = await pipelineService.runPipeline({
+      nicheCode: DEFAULT_NICHE,
+      input: { url },
+      triggeredBy: sender,
+      dryRun,
+      skipPublish,
+      postFormat: 'carousel',
+      onProgress: updateProgress,
+    });
+
+    const displayHeadline = result.extracted?.headline || result.article?.title || 'Market Update';
+    const category = result.extracted?.category || 'IDX MARKET WATCH';
+    const slideCount = result.imagePaths?.length || 4;
+
+    let summaryText = '';
+    if (dryRun) {
+      summaryText = [
+        '🔍 <b>[CAROUSEL DRY-RUN SELESAI]</b>',
+        `📰 <b>Headline:</b> ${escapeHtml(displayHeadline)}`,
+        `📱 <b>Format:</b> Carousel (${slideCount} slide)`,
+        `🏷️ <b>Kategori:</b> #${escapeHtml(category)}`,
+        `💾 <b>Database Log ID:</b> #${result.logId}`,
+      ].join('\n');
+    } else {
+      summaryText = [
+        '✅ <b>Carousel Berhasil Dipublikasikan ke Instagram!</b>',
+        `📌 <b>Post ID:</b> <code>${escapeHtml(result.publishResult?.postId || '-')}</code>`,
+        `🔗 <b>URL:</b> ${escapeHtml(result.publishResult?.platformPostUrl || '(sedang diproses)')}`,
+        `📰 <b>Headline:</b> ${escapeHtml(displayHeadline)}`,
+        `📱 <b>Format:</b> Carousel (${slideCount} slide)`,
+        `🏷️ <b>Kategori:</b> #${escapeHtml(category)}`,
+        `💾 <b>Database Log ID:</b> #${result.logId}`,
+      ].join('\n');
+    }
+
+    return ctx.replyWithHTML(summaryText);
+  } catch (err) {
+    return ctx.replyWithHTML(`❌ <b>Gagal Memproses Carousel:</b>\n<code>${escapeHtml(err.message)}</code>`);
   }
 }
 
@@ -543,8 +638,10 @@ module.exports = {
   handleSetPrompt,
   handleResetPrompt,
   handleArticleMessage,
+  handleCarouselCommand,
   handleNewsCheck,
   handleBroadcastNow,
+
   extractArticleUrl,
   cleanExtractedUrl,
 };

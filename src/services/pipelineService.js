@@ -1,9 +1,9 @@
 const { Niche, PostLog } = require('../models');
 const { resolveArticleInput } = require('./scraper');
-const { extractArticleEntities } = require('./aiExtractor');
-const { generateEditorialImage } = require('./imageGenerator');
+const aiExtractor = require('./aiExtractor');
+const imageGenerator = require('./imageGenerator');
 const promptService = require('./promptService');
-const { publishToInstagram } = require('./zernioPublisher');
+const zernioPublisher = require('./zernioPublisher');
 const { fetchStockPrices } = require('./stockPriceFetcher');
 
 /**
@@ -26,8 +26,15 @@ async function runPipeline(params = {}) {
     dryRun = false,
     skipPublish = false,
     imagePaths = null,
+    postFormat = null,
+    isCarousel: isCarouselFlag = false,
     onProgress = () => {},
   } = params;
+
+  const resolvedFormat = (postFormat || (isCarouselFlag ? 'carousel' : null) || process.env.POST_FORMAT || 'single')
+    .trim()
+    .toLowerCase();
+  const isCarousel = resolvedFormat === 'carousel';
   // 0. Locate niche
   const niche = await Niche.findOne({ where: { code: nicheCode, isActive: true } });
   if (!niche) {
@@ -60,64 +67,122 @@ async function runPipeline(params = {}) {
       status: 'extracting',
     });
 
-    // 2. Extract entities and editorial concepts
-    onProgress(2, 4, 'Menganalisis artikel & mengekstrak konsep editorial...');
-    const extracted = await extractArticleEntities(article, nicheCode);
-
-    // Fetch live stock prices for extracted tickers
-    if (extracted.stocks && extracted.stocks.length > 0) {
-      const tickerCodes = extracted.stocks.map((s) => s.ticker);
-      const priceMap = await fetchStockPrices(tickerCodes);
-      extracted.stocks = extracted.stocks.map((s) => ({
-        ...s,
-        ...(priceMap.has(s.ticker) ? priceMap.get(s.ticker) : {}),
-      }));
-    }
-
-    await postLog.update({
-      extractedData: extracted,
-      status: 'generating_image',
-    });
-
-    // 3. Visual Prompt & Image Generation
+    let extracted = null;
+    let visualPrompt = '';
     let imagePath = null;
     let resolvedImagePaths = Array.isArray(imagePaths) && imagePaths.length > 0 ? imagePaths : null;
-    let visualPrompt = '';
-    const promptRecord = await promptService.getActivePrompt(nicheCode, 'visual_image');
-    visualPrompt = promptService.buildVisualPrompt(promptRecord, extracted);
+    let finalCaption = '';
 
-    if (dryRun) {
+    if (isCarousel) {
+      // ── CAROUSEL STORYTELLING WORKFLOW ───────────────────────────────
+      onProgress(2, 4, 'Menganalisis artikel & merangkum alur cerita carousel (storytelling)...');
+      extracted = await aiExtractor.extractArticleCarouselStory(article, nicheCode);
+
+      // Live stock price enrichment
+      if (extracted.stocks && extracted.stocks.length > 0) {
+        const tickerCodes = extracted.stocks.map((s) => s.ticker);
+        const priceMap = await fetchStockPrices(tickerCodes);
+        extracted.stocks = extracted.stocks.map((s) => ({
+          ...s,
+          ...(priceMap.has(s.ticker) ? priceMap.get(s.ticker) : {}),
+        }));
+      }
+
       await postLog.update({
-        generatedPrompt: visualPrompt,
-        status: 'pending',
+        extractedData: { ...extracted, isCarousel: true },
+        status: 'generating_image',
       });
-    } else if (resolvedImagePaths) {
-      [imagePath] = resolvedImagePaths;
-      await postLog.update({
-        generatedPrompt: visualPrompt,
-        imagePath,
-        status: 'publishing',
-      });
+
+      if (dryRun) {
+        visualPrompt = extracted.slides?.[0]?.visual_scene || '';
+        await postLog.update({
+          generatedPrompt: visualPrompt,
+          status: 'pending',
+        });
+      } else if (resolvedImagePaths) {
+        [imagePath] = resolvedImagePaths;
+        visualPrompt = extracted.slides?.[0]?.visual_scene || '';
+        await postLog.update({
+          generatedPrompt: visualPrompt,
+          imagePath,
+          status: 'publishing',
+        });
+      } else {
+        const slideTotal = extracted.slides?.length || 4;
+        onProgress(3, 4, `Menghasilkan ${slideTotal} slide gambar carousel AI...`);
+        const carouselResult = await imageGenerator.generateCarouselImages(extracted, {
+          nicheCode,
+          onProgress: (cur, tot, msg) => {
+            onProgress(3, 4, `[Slide ${cur}/${tot}] ${msg}`);
+          },
+        });
+        imagePath = carouselResult.imagePath;
+        resolvedImagePaths = carouselResult.imagePaths;
+        visualPrompt = carouselResult.visualPrompt;
+
+        await postLog.update({
+          generatedPrompt: visualPrompt,
+          imagePath,
+          status: 'publishing',
+        });
+      }
+
+      finalCaption = promptService.buildCarouselCaption(extracted, article.source);
+      await postLog.update({ caption: finalCaption });
     } else {
-      onProgress(3, 4, 'Menghasilkan poster gambar AI (1080x1350)...');
-      const imageResult = await generateEditorialImage(extracted, { nicheCode });
-      imagePath = imageResult.imagePath;
-      resolvedImagePaths = Array.isArray(imageResult.imagePaths) && imageResult.imagePaths.length > 0
-        ? imageResult.imagePaths
-        : [imagePath];
+      // ── EXISTING SINGLE IMAGE WORKFLOW (100% UNCHANGED) ──────────────
+      onProgress(2, 4, 'Menganalisis artikel & mengekstrak konsep editorial...');
+      extracted = await aiExtractor.extractArticleEntities(article, nicheCode);
+
+      // Fetch live stock prices for extracted tickers
+      if (extracted.stocks && extracted.stocks.length > 0) {
+        const tickerCodes = extracted.stocks.map((s) => s.ticker);
+        const priceMap = await fetchStockPrices(tickerCodes);
+        extracted.stocks = extracted.stocks.map((s) => ({
+          ...s,
+          ...(priceMap.has(s.ticker) ? priceMap.get(s.ticker) : {}),
+        }));
+      }
 
       await postLog.update({
-        generatedPrompt: visualPrompt,
-        imagePath,
-        status: 'publishing',
+        extractedData: extracted,
+        status: 'generating_image',
       });
+
+      const promptRecord = await promptService.getActivePrompt(nicheCode, 'visual_image');
+      visualPrompt = promptService.buildVisualPrompt(promptRecord, extracted);
+
+      if (dryRun) {
+        await postLog.update({
+          generatedPrompt: visualPrompt,
+          status: 'pending',
+        });
+      } else if (resolvedImagePaths) {
+        [imagePath] = resolvedImagePaths;
+        await postLog.update({
+          generatedPrompt: visualPrompt,
+          imagePath,
+          status: 'publishing',
+        });
+      } else {
+        onProgress(3, 4, 'Menghasilkan poster gambar AI (1080x1350)...');
+        const imageResult = await imageGenerator.generateEditorialImage(extracted, { nicheCode });
+        imagePath = imageResult.imagePath;
+        resolvedImagePaths = Array.isArray(imageResult.imagePaths) && imageResult.imagePaths.length > 0
+          ? imageResult.imagePaths
+          : [imagePath];
+
+        await postLog.update({
+          generatedPrompt: visualPrompt,
+          imagePath,
+          status: 'publishing',
+        });
+      }
+
+      const captionPromptRecord = await promptService.getActivePrompt(nicheCode, 'caption_template');
+      finalCaption = promptService.buildCaption(captionPromptRecord, extracted, article.source);
+      await postLog.update({ caption: finalCaption });
     }
-    // 4. Caption building
-    const captionPromptRecord = await promptService.getActivePrompt(nicheCode, 'caption_template');
-    const finalCaption = promptService.buildCaption(captionPromptRecord, extracted, article.source);
-
-    await postLog.update({ caption: finalCaption });
-
     // 5. Instagram Publishing via Zernio
     let publishResult = null;
     if (dryRun) {
@@ -125,13 +190,13 @@ async function runPipeline(params = {}) {
     } else if (skipPublish) {
       await postLog.update({ status: 'generated' });
     } else {
-      const isCarousel = Array.isArray(resolvedImagePaths) && resolvedImagePaths.length > 1;
-      const progressLabel = isCarousel
-        ? `Mengunggah & mempublikasikan carousel (${resolvedImagePaths.length} slide) ke Instagram via Zernio...`
+      const isMultiSlide = isCarousel || (Array.isArray(resolvedImagePaths) && resolvedImagePaths.length > 1);
+      const progressLabel = isMultiSlide
+        ? `Mengunggah & mempublikasikan carousel (${resolvedImagePaths?.length || 4} slide) ke Instagram via Zernio...`
         : 'Mengunggah & mempublikasikan ke Instagram via Zernio...';
       onProgress(4, 4, progressLabel);
 
-      publishResult = await publishToInstagram({
+      publishResult = await zernioPublisher.publishToInstagram({
         imagePath,
         imagePaths: resolvedImagePaths,
         caption: finalCaption,
