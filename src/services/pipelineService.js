@@ -25,9 +25,9 @@ async function runPipeline(params = {}) {
     triggeredBy = 'cli',
     dryRun = false,
     skipPublish = false,
+    imagePaths = null,
     onProgress = () => {},
   } = params;
-
   // 0. Locate niche
   const niche = await Niche.findOne({ where: { code: nicheCode, isActive: true } });
   if (!niche) {
@@ -81,6 +81,7 @@ async function runPipeline(params = {}) {
 
     // 3. Visual Prompt & Image Generation
     let imagePath = null;
+    let resolvedImagePaths = Array.isArray(imagePaths) && imagePaths.length > 0 ? imagePaths : null;
     let visualPrompt = '';
     const promptRecord = await promptService.getActivePrompt(nicheCode, 'visual_image');
     visualPrompt = promptService.buildVisualPrompt(promptRecord, extracted);
@@ -90,10 +91,20 @@ async function runPipeline(params = {}) {
         generatedPrompt: visualPrompt,
         status: 'pending',
       });
+    } else if (resolvedImagePaths) {
+      [imagePath] = resolvedImagePaths;
+      await postLog.update({
+        generatedPrompt: visualPrompt,
+        imagePath,
+        status: 'publishing',
+      });
     } else {
       onProgress(3, 4, 'Menghasilkan poster gambar AI (1080x1350)...');
       const imageResult = await generateEditorialImage(extracted, { nicheCode });
       imagePath = imageResult.imagePath;
+      resolvedImagePaths = Array.isArray(imageResult.imagePaths) && imageResult.imagePaths.length > 0
+        ? imageResult.imagePaths
+        : [imagePath];
 
       await postLog.update({
         generatedPrompt: visualPrompt,
@@ -101,7 +112,6 @@ async function runPipeline(params = {}) {
         status: 'publishing',
       });
     }
-
     // 4. Caption building
     const captionPromptRecord = await promptService.getActivePrompt(nicheCode, 'caption_template');
     const finalCaption = promptService.buildCaption(captionPromptRecord, extracted, article.source);
@@ -115,12 +125,17 @@ async function runPipeline(params = {}) {
     } else if (skipPublish) {
       await postLog.update({ status: 'generated' });
     } else {
-      onProgress(4, 4, 'Mengunggah & mempublikasikan ke Instagram via Zernio...');
+      const isCarousel = Array.isArray(resolvedImagePaths) && resolvedImagePaths.length > 1;
+      const progressLabel = isCarousel
+        ? `Mengunggah & mempublikasikan carousel (${resolvedImagePaths.length} slide) ke Instagram via Zernio...`
+        : 'Mengunggah & mempublikasikan ke Instagram via Zernio...';
+      onProgress(4, 4, progressLabel);
+
       publishResult = await publishToInstagram({
         imagePath,
+        imagePaths: resolvedImagePaths,
         caption: finalCaption,
       });
-
       await postLog.update({
         zernioPostId: publishResult.postId,
         zernioStatus: publishResult.status,
@@ -141,6 +156,8 @@ async function runPipeline(params = {}) {
       extracted,
       visualPrompt,
       imagePath,
+      imagePaths: resolvedImagePaths || (imagePath ? [imagePath] : []),
+      isCarousel: Boolean(publishResult?.isCarousel || (resolvedImagePaths && resolvedImagePaths.length > 1)),
       caption: finalCaption,
       published: Boolean(publishResult?.success),
       publishResult,

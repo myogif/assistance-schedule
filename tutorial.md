@@ -49,7 +49,7 @@ node src/cli/seed.js
 ## 3. Menjalankan Bot
 
 ```bash
-npm start
+npm run bot
 ```
 
 Cek koneksi dan konfigurasi dari Telegram dengan mengirim `/status`.

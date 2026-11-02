@@ -86,10 +86,10 @@ async function startBot() {
   process.once('SIGTERM', () => bot.stop('SIGTERM'));
 
   console.log(`🤖 Assistance Schedule Telegram Bot is starting for niche "${DEFAULT_NICHE}"...`);
-  await bot.launch();
-  console.log('🚀 Telegram bot is actively polling for messages!');
-
   startBroadcastScheduler(bot);
+  await bot.launch(() => {
+    console.log('🚀 Telegram bot is actively polling for messages!');
+  });
 }
 
 if (require.main === module) {

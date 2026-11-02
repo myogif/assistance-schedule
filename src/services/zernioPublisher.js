@@ -85,12 +85,32 @@ async function uploadFile(uploadUrl, filePath) {
 }
 
 /**
- * Creates and publishes post on Instagram via Zernio.
- * @param {Object} params - { caption, publicUrl, accountId }
+ * Creates and publishes post on Instagram via Zernio (supports single image & carousel).
+ * @param {Object} params - { caption, publicUrl, mediaItems, accountId }
  * @returns {Promise<Object>}
  */
-async function createPost({ caption, publicUrl, accountId }) {
+async function createPost({
+  caption,
+  publicUrl,
+  mediaItems,
+  accountId,
+}) {
   validateConfig();
+
+  let finalMediaItems = [];
+  if (Array.isArray(mediaItems) && mediaItems.length > 0) {
+    finalMediaItems = mediaItems;
+  } else if (publicUrl) {
+    finalMediaItems = [
+      {
+        type: 'image',
+        url: publicUrl,
+        mimeType: 'image/png',
+      },
+    ];
+  } else {
+    throw new Error('At least one media item or publicUrl is required to create a post');
+  }
 
   const idempotencyKey = crypto.createHash('sha256').update(caption).digest('hex');
 
@@ -103,13 +123,7 @@ async function createPost({ caption, publicUrl, accountId }) {
     },
     body: JSON.stringify({
       content: caption,
-      mediaItems: [
-        {
-          type: 'image',
-          url: publicUrl,
-          mimeType: 'image/png',
-        },
-      ],
+      mediaItems: finalMediaItems,
       platforms: [
         {
           platform: 'instagram',
@@ -139,24 +153,55 @@ async function createPost({ caption, publicUrl, accountId }) {
 
 /**
  * End-to-end publish flow: presign -> upload -> create post.
- * @param {Object} params - { imagePath: string, caption: string }
- * @returns {Promise<{success: boolean, postId: string, status: string, platformPostUrl: string, response: Object}>}
+ * Supports single image (imagePath) and carousel (imagePaths).
+ *
+ * @param {Object} params
+ * @param {string} [params.imagePath] - Single image path
+ * @param {string[]} [params.imagePaths] - Multiple image paths for carousel (up to 10)
+ * @param {string} params.caption - Post caption
+ * @returns {Promise<{success: boolean, postId: string, status: string, platformPostUrl: string, isCarousel: boolean, mediaCount: number, response: Object}>}
  */
-async function publishToInstagram({ imagePath, caption }) {
+async function publishToInstagram({ imagePath, imagePaths, caption }) {
   validateConfig();
 
+  let paths = [];
+  if (Array.isArray(imagePaths) && imagePaths.length > 0) {
+    paths = imagePaths.filter(Boolean);
+  } else if (imagePath) {
+    paths = [imagePath];
+  }
+
+  if (paths.length === 0) {
+    throw new Error('No image path provided for Instagram publishing');
+  }
+
+  if (paths.length > 10) {
+    console.warn(`[zernioPublisher] Instagram carousel limit is 10 items. Slicing ${paths.length} down to 10.`);
+    paths = paths.slice(0, 10);
+  }
+
   const accountId = process.env.ZERNIO_INSTAGRAM_ACCOUNT_ID || await fetchInstagramAccountId();
-  const filename = path.basename(imagePath);
 
-  // 1. Presign upload
-  const presign = await presignUpload(filename);
-  const { uploadUrl, publicUrl } = presign;
+  // 1 & 2. Presign & upload all images
+  const mediaItems = [];
+  for (let i = 0; i < paths.length; i += 1) {
+    const currentPath = paths[i];
+    const filename = path.basename(currentPath);
+    // eslint-disable-next-line no-await-in-loop
+    const presign = await presignUpload(filename);
+    const { uploadUrl, publicUrl } = presign;
+    // eslint-disable-next-line no-await-in-loop
+    await uploadFile(uploadUrl, currentPath);
 
-  // 2. Upload file
-  await uploadFile(uploadUrl, imagePath);
+    mediaItems.push({
+      type: 'image',
+      url: publicUrl,
+      mimeType: 'image/png',
+    });
+  }
 
-  // 3. Create post
-  const result = await createPost({ caption, publicUrl, accountId });
+  // 3. Create post with mediaItems
+  const result = await createPost({ caption, mediaItems, accountId });
 
   const platform = result.post?.platforms?.[0] || {};
   const isSuccess = platform.status === 'published' || platform.status === 'processing' || platform.status === 'queued';
@@ -166,6 +211,8 @@ async function publishToInstagram({ imagePath, caption }) {
     postId: result.post?._id || '',
     status: platform.status || 'unknown',
     platformPostUrl: platform.platformPostUrl || '',
+    isCarousel: mediaItems.length > 1,
+    mediaCount: mediaItems.length,
     response: result,
   };
 }
