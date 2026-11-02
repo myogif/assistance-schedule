@@ -13,7 +13,8 @@
     "lint:fix": "eslint . --fix",
     "db:migrate": "npx sequelize-cli db:migrate",
     "db:seed": "npx sequelize-cli db:seed:all",
-    "db:reset": "npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
+    "db:reset": "npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
+    "prompt:sync": "node scripts/sync-prompts.js"
   },
   "keywords": [
     "autopost",
