@@ -76,7 +76,7 @@ Composition Details:
         ].join('\n'),
         stocks_only: [
           'Upper-Center Composition & Visual Background (Occupying the upper 55% of the canvas):',
-          '- Focal Point: Dual sleek 3D floating glassmorphic stock ticker cards for {{tickerList}} featuring bold price nominal Rp {{stockPrice}}, {{gainColor}} percentage change indicator {{gainIndicator}}, and glowing 3D candlestick curves with shallow depth of field, positioned symmetrically in the upper half.',
+          '- Focal Point: {{stockCardsDetail}}, positioned symmetrically in the upper half.',
           '- Background & Environment: Modern Indonesia Stock Exchange (IDX) trading floor backdrop with dynamic glowing market trend curves, order book depth data, and illuminated financial network nodes across the upper canvas.',
         ].join('\n'),
         macro_general: [

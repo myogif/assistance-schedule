@@ -332,7 +332,11 @@ function startBroadcastScheduler(bot) {
 
   const intervalMs = parseInt(process.env.INVEZGO_CHECK_INTERVAL_MS, 10) || DEFAULT_INTERVAL_MS;
   const nicheCode = process.env.ACTIVE_NICHE || 'finance';
-
+  const instantDelayMs = parseInt(
+    process.env.BROADCAST_INSTANT_DELAY_MS ?? (process.env.NODE_ENV === 'test' ? '0' : '5000'),
+    10,
+  );
+  const maxPerPoll = parseInt(process.env.BROADCAST_MAX_PER_POLL, 10) || 0;
   /** @type {Set<string>} URLs already sent or queued this session */
   const sentUrls = new Set();
 
@@ -348,9 +352,18 @@ function startBroadcastScheduler(bot) {
       return;
     }
     isProcessingGlobal = true;
+    let processedThisBatch = 0;
     try {
       while (queue.length > 0) {
+        if (maxPerPoll > 0 && processedThisBatch >= maxPerPoll) {
+          console.log(
+            `[broadcastScheduler] [instant] Max articles per poll limit (${maxPerPoll}) reached. ${queue.length} article(s) remain in queue.`,
+          );
+          break;
+        }
+
         const article = queue.shift();
+        processedThisBatch += 1;
         console.log(`[broadcastScheduler] [instant] Processing article: ${article.title?.slice(0, 60)}`);
         try {
           // eslint-disable-next-line no-await-in-loop
@@ -361,6 +374,16 @@ function startBroadcastScheduler(bot) {
             `[broadcastScheduler] [instant] Error processing "${article.title?.slice(0, 40)}":`,
             err.message,
           );
+        }
+
+        if (queue.length > 0 && instantDelayMs > 0 && (maxPerPoll === 0 || processedThisBatch < maxPerPoll)) {
+          console.log(
+            `[broadcastScheduler] [instant] Safety throttle: waiting ${instantDelayMs}ms before processing next article (${queue.length} remaining)...`,
+          );
+          // eslint-disable-next-line no-await-in-loop
+          await new Promise((resolve) => {
+            setTimeout(resolve, instantDelayMs);
+          });
         }
       }
     } finally {
@@ -439,6 +462,21 @@ function startBroadcastScheduler(bot) {
 
       const articles = await invezgoScraper.fetchInvezgoBlogList();
 
+      // Cold-start protection: on empty database/history, baseline-seed older articles
+      // so only the single newest article is queued on initial boot.
+      // shortcut: baseline seeding marks in-memory sentUrls without bulk writing to PostLog table, upgrade to bulk DB insert if scheduler restarts frequently with empty PostLog
+      const isCatchup = process.env.BROADCAST_CATCHUP === 'true';
+      if (isFirstPoll && sentUrls.size === 0 && !isCatchup && articles.length > 0) {
+        for (let i = 1; i < articles.length; i += 1) {
+          const u = articles[i]?.url;
+          if (u) {
+            sentUrls.add(u);
+          }
+        }
+        console.log(
+          `[broadcastScheduler] Cold-start baseline seeding: marked ${Math.max(0, articles.length - 1)} older article(s) as sent. Only newest article will be queued.`,
+        );
+      }
       const newArticles = articles.filter(
         (a) => !sentUrls.has(a.url) && !queue.find((q) => q.url === a.url),
       );

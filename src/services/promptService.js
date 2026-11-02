@@ -130,17 +130,55 @@ function buildVisualPrompt(promptRecord, extracted) {
     ? stocks.map((s) => `$${s.ticker} (${s.name || s.ticker})`).join(', ')
     : '$IHSG (Indeks Harga Saham Gabungan)';
 
-  // Live price data (injected if available, otherwise placeholder)
+  // Helper to format individual stock card
+  function formatStockCard(s, idx) {
+    const sTicker = s.ticker ? `$${s.ticker}` : '$IHSG';
+    const sName = s.name || (s.ticker ? `PT ${s.ticker} Tbk` : 'Indonesia Stock Exchange');
+    const sPrice = s.price ? `Rp ${s.price}` : null;
+    const sChange = s.change_pct || null;
+    const sDir = s.direction || 'flat';
+    let sColor = 'neutral white';
+    let sIndicator = sChange || '';
+    if (sDir === 'up') {
+      sColor = 'glowing green';
+      sIndicator = `+${sChange}`;
+    } else if (sDir === 'down') {
+      sColor = 'glowing red';
+      sIndicator = `-${sChange}`;
+    }
+
+    const priceInfo = sPrice && sChange
+      ? `featuring bold price nominal ${sPrice}, ${sColor} indicator (${sIndicator})`
+      : 'featuring clean prominent ticker badge';
+
+    return `Card ${idx + 1} for ${sTicker} (${sName}) ${priceInfo}`;
+  }
+
+  let stockCardsDetail = '';
+  if (stocks && stocks.length > 0) {
+    if (stocks.length === 1) {
+      stockCardsDetail = `Sleek 3D floating glassmorphic stock ticker card for ${formatStockCard(stocks[0], 0)}, with glowing 3D candlestick curves with shallow depth of field`;
+    } else {
+      const cardsText = stocks.map((s, idx) => formatStockCard(s, idx)).join('; ');
+      stockCardsDetail = `Dual sleek 3D floating glassmorphic stock ticker cards: ${cardsText}, each with glowing 3D candlestick curves with shallow depth of field`;
+    }
+  } else {
+    stockCardsDetail = 'Sleek 3D floating glassmorphic market index card for $IHSG (Indeks Harga Saham Gabungan) with dynamic glowing market trend curve with shallow depth of field';
+  }
+
+  // Live price data for primary stock fallback
   const stockPrice = primaryStock?.price || '—';
   const stockChangePct = primaryStock?.change_pct || '—';
   const stockDirection = primaryStock?.direction || 'flat';
-  const gainIndicator = stockDirection === 'up'
-    ? `+${stockChangePct}`
-    : stockDirection === 'down'
-    ? `-${stockChangePct}`
-    : `${stockChangePct}`;
-  const gainColor = stockDirection === 'up' ? 'glowing green' : stockDirection === 'down' ? 'glowing red' : 'neutral white';
-
+  let gainIndicator = stockChangePct;
+  let gainColor = 'neutral white';
+  if (stockDirection === 'up') {
+    gainIndicator = `+${stockChangePct}`;
+    gainColor = 'glowing green';
+  } else if (stockDirection === 'down') {
+    gainIndicator = `-${stockChangePct}`;
+    gainColor = 'glowing red';
+  }
   const personName = person?.name || 'Indonesian Business Leader';
   const personRole = person?.role ? ` (${person.role})` : '';
 
@@ -169,7 +207,7 @@ function buildVisualPrompt(promptRecord, extracted) {
     } else if (compositionMode === 'stocks_only') {
       compositionTemplate = [
         'Upper-Center Composition & Visual Background (Occupying the upper 55% of the canvas):',
-        '- Focal Point: Dual sleek 3D floating glassmorphic stock ticker cards for {{tickerList}} featuring Rp {{stockPrice}}, {{gainColor}} indicator {{gainIndicator}}, and glowing candlestick curves.',
+        '- Focal Point: {{stockCardsDetail}}, positioned symmetrically in the upper half.',
         '- Background: Modern Indonesia Stock Exchange (IDX) trading floor backdrop.',
       ].join('\n');
     } else {
@@ -180,7 +218,8 @@ function buildVisualPrompt(promptRecord, extracted) {
     }
   }
 
-  const compositionDetails = compositionTemplate
+  let compositionDetails = compositionTemplate
+    .replace(/\{\{stockCardsDetail\}\}/g, stockCardsDetail)
     .replace(/\{\{personName\}\}/g, personName)
     .replace(/\{\{personRole\}\}/g, personRole)
     .replace(/\{\{stockTicker\}\}/g, stockTicker)
@@ -189,6 +228,10 @@ function buildVisualPrompt(promptRecord, extracted) {
     .replace(/\{\{stockPrice\}\}/g, stockPrice)
     .replace(/\{\{gainIndicator\}\}/g, gainIndicator)
     .replace(/\{\{gainColor\}\}/g, gainColor);
+
+  if (stocks && stocks.length > 0) {
+    compositionDetails += '\n- Visual Data Integrity: Accurately render only the exact ticker symbols and nominals provided above. Do not invent unverified numbers or fake stock prices.';
+  }
 
   const defaultVisualTemplate = [
     'Format: Tall portrait 4:5 editorial poster (1080x1350 portrait format) for Instagram feed. The entire canvas is vertical/portrait orientation — DO NOT generate a square or landscape image.',
