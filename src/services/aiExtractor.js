@@ -165,27 +165,23 @@ async function extractArticleEntities(article, nicheCode = 'finance', openaiClie
 }
 
 const CAROUSEL_SYSTEM_PROMPT = `You are an elite Indonesian financial editor and Instagram visual storytelling strategist for sovstock.
-Transform the provided news article into an engaging, multi-slide Instagram carousel story (default 4 slides) that breaks down complex financial news into a compelling narrative arc:
+Transform the provided news article into an engaging, content-driven multi-slide Instagram carousel story (default 4 slides) focused on high-density factual news summary, realistic photojournalistic aesthetic, and clear structured information:
 
-Slide 1 (Cover / Hook):
-- "headline": Uppercase, high-impact headline in Indonesian (max 8-10 words).
-- "subtitle": Intriguing 1-sentence hook that makes readers swipe left.
-- "visual_scene": Clear visual prompt description for background (modern Indonesian financial environment, Jakarta skyline, trading floor, or executive portrait).
+Slide 1 (Cover / Headline):
+- "headline": Massive high-impact uppercase headline in Indonesian (max 8-10 words) with clear dual-tone contrast (bright orange and crisp white keywords).
+- "subtitle": Financial kicker or 1-sentence curiosity-inducing news summary (e.g. "Kas 123T, Baru 16T Diinvestasikan").
+- "visual_scene": Photojournalistic realistic montage description of the actual decision-maker / public official in sharp formal suit with natural expression, set against a backdrop of financial vaults, currency suitcases with prominent nominal amounts, or stock exchange halls with cinematic warm amber & gold lighting.
 
-Slide 2 (Context / Apa yang Terjadi?):
-- "headline": Short punchy chapter title (e.g. "LATAR BELAKANG", "KRONOLOGI PERISTIWA").
-- "subtitle": 1-2 concise sentences explaining why and how this event occurred.
-- "visual_scene": Contextual visual scene description.
-
-Slide 3 (Data / Fakta & Angka Kunci):
-- "headline": Chapter title for key metrics (e.g. "FAKTA & ANGKA UTAMA", "PERGERAKAN EMITEN").
-- "subtitle": Highlight key numeric facts, stock movements, deal values, or pivotal regulations.
-- "visual_scene": 3D glassmorphic stock ticker cards and glowing data visualization.
-
-Slide 4 (Impact / Kesimpulan & Diskusi):
-- "headline": Chapter title for future outlook (e.g. "DAMPAK BAGI INVESTOR", "LANGKAH STRATEGIS").
-- "subtitle": Strategic takeaway and a discussion-provoking question for comments.
-- "visual_scene": Architectural financial monument with subtle ambient lighting.
+Slide 2+ (Content Slides / Rangkuman Berita):
+- "chapter_title" & "headline": Specific thematic chapter headline in uppercase (e.g. "POSISI KAS & PARKIR DANA (30 APR 2026)", "RENCANA INVESTASI & AMUNISI TAMBAHAN").
+- "bullet_points": Array of structured, fact-dense news summary bullet points extracting exact numbers, percentages, and events:
+  [
+    { "label": "Posisi Kas", "detail": "Rp123,03 T per 30 Apr 2026, 88% dari total aset" },
+    { "label": "Asal Dana", "detail": "Modal Rp70 T dividen BUMN + Patriot Bonds Rp68,4 T kupon 2%" }
+  ]
+- "subtitle": 1-2 concise summary sentences synthesizing the slide's core insight.
+- "person": The relevant prominent official or executive to feature as a cutout photo in the lower corner.
+- "visual_scene": Clean dark matte charcoal (#0B0E14) editorial background, high-contrast typography, minimal visual noise, corner cutout photo of the official, and source footnote anchor.
 
 Output strict JSON:
 {
@@ -202,6 +198,9 @@ Output strict JSON:
       "chapter_title": "...",
       "headline": "...",
       "subtitle": "...",
+      "bullet_points": [
+        { "label": "...", "detail": "..." }
+      ],
       "visual_scene": "..."
     }
   ],
@@ -257,7 +256,19 @@ async function extractArticleCarouselStory(article, nicheCode = 'finance', opena
 
   // Fallback if parsing failed or invalid
   if (!parsed || !Array.isArray(parsed.slides) || parsed.slides.length < 2) {
-    const singleData = await extractArticleEntities(article, nicheCode, openai);
+    let singleData = null;
+    try {
+      singleData = await extractArticleEntities(article, nicheCode, openai);
+    } catch (fallbackErr) {
+      singleData = {
+        category: 'IDX MARKET WATCH',
+        headline: (article.title || 'MARKET UPDATE').toUpperCase(),
+        subtitle: article.title || '',
+        person: null,
+        stocks: [],
+        draftCaption: null,
+      };
+    }
     return {
       category: singleData.category,
       headline: singleData.headline,
@@ -272,7 +283,8 @@ async function extractArticleCarouselStory(article, nicheCode = 'finance', opena
           chapter_title: singleData.category,
           headline: singleData.headline,
           subtitle: singleData.subtitle,
-          visual_scene: 'Modern Indonesian capital market backdrop with dramatic lighting.',
+          bullet_points: [],
+          visual_scene: 'Natural photojournalistic Indonesian financial decision-maker portrait in dark charcoal and warm amber lighting.',
         },
         {
           slide_number: 2,
@@ -280,7 +292,10 @@ async function extractArticleCarouselStory(article, nicheCode = 'finance', opena
           chapter_title: 'RINGKASAN BERITA',
           headline: 'POKOK PERISTIWA',
           subtitle: singleData.subtitle || article.title || '',
-          visual_scene: 'Futuristic glassmorphic financial network nodes and charts.',
+          bullet_points: [
+            { label: 'Pokok Berita', detail: singleData.subtitle || article.title || '' },
+          ],
+          visual_scene: 'Clean dark matte charcoal background with high-contrast text and warm accent lighting.',
         },
       ],
       draftCaption: singleData.draftCaption,
@@ -324,6 +339,14 @@ async function extractArticleCarouselStory(article, nicheCode = 'finance', opena
     chapter_title: s.chapter_title || `CHAPTER 0${idx + 1}`,
     headline: String(s.headline || headline).trim().toUpperCase(),
     subtitle: String(s.subtitle || subtitle).trim(),
+    bullet_points: Array.isArray(s.bullet_points)
+      ? s.bullet_points
+          .map((bp) => ({
+            label: String(bp?.label || '').trim(),
+            detail: String(bp?.detail || '').trim(),
+          }))
+          .filter((bp) => bp.label || bp.detail)
+      : [],
     visual_scene: String(s.visual_scene || 'Editorial Bloomberg style Jakarta market atmosphere').trim(),
   }));
 

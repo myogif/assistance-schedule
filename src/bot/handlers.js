@@ -1,3 +1,4 @@
+const fs = require('fs');
 const { Niche, Prompt, sequelize } = require('../models');
 const promptService = require('../services/promptService');
 const pipelineService = require('../services/pipelineService');
@@ -83,14 +84,18 @@ async function handleStart(ctx) {
     '1. Kirim URL berita langsung (contoh: <code>https://invezgo.com/id/blog/...</code>)',
     '2. Atau teruskan (forward) pesan siaran berita berformat Invezgo yang memuat link artikel',
     '3. Tambahkan <code>!carousel</code> untuk format carousel (multi-slide storytelling)',
-    '4. Tambahkan <code>!dryrun</code> untuk simulasi tanpa posting ke Instagram',
-    '',
+    '4. Tambahkan <code>!generate</code> atau <code>!gen</code> untuk generate poster + caption ke Telegram',
+    '5. Tambahkan <code>!gencarousel</code> untuk generate slide carousel + caption ke Telegram',
+    '6. Tambahkan <code>!dryrun</code> untuk simulasi tanpa posting ke Instagram',
     '👥 <b>Cara Pakai di Grup:</b>',
     '1. Tambahkan bot ke grup Telegram',
     '2. Kirim atau teruskan link/pesan siaran artikel Invezgo di grup',
     '3. Bot akan memproses otomatis dan mengirimkan notifikasi publikasi ke grup',
     '',
-    '⚙️ <b>Perintah Manajemen Prompt:</b>',
+    '⚙️ <b>Perintah Bot:</b>',
+    '/generate &lt;url&gt; — Generate poster single + caption siap upload ke Telegram',
+    '/gencarousel &lt;url&gt; — Generate carousel slide + caption siap upload ke Telegram',
+    '/carousel &lt;url&gt; — Rangkum & posting carousel storytelling ke Instagram',
     '/status — Cek status sistem & koneksi database',
     '/prompts — Daftar prompt aktif dan versinya',
     '/getprompt &lt;type&gt; — Tampilkan teks prompt tertentu',
@@ -98,7 +103,6 @@ async function handleStart(ctx) {
     '/resetprompt &lt;type&gt; — Kembalikan prompt ke versi default',
     '/newscheck — Cek artikel terbaru Invezgo',
     '/broadcastnow — Broadcast & posting Instagram artikel terbaru',
-    '/carousel &lt;url&gt; — Rangkum & posting carousel storytelling ke Instagram',
   ].join('\n');
 
   return ctx.replyWithHTML(message);
@@ -330,11 +334,13 @@ async function handleArticleMessage(ctx) {
     return;
   }
 
-  // 1. Ekstrak modifier: !dryrun, !skip, !carousel, !single
+  // 1. Ekstrak modifier: !dryrun, !skip, !carousel, !single, !generate/!gen, !gencarousel
+  const wantsGenerate = /(^|\s)(!generate|!gen)(\s|$)/i.test(rawText);
+  const wantsGenCarousel = /(^|\s)(!gencarousel)(\s|$)/i.test(rawText);
   const dryRun = /(^|\s)(!dryrun|--dry-run)(\s|$)/i.test(rawText);
-  const skipPublish = /(^|\s)(!skip|--skip-publish)(\s|$)/i.test(rawText);
-  const wantsCarousel = /(^|\s)(!carousel|--carousel)(\s|$)/i.test(rawText);
-  const wantsSingle = /(^|\s)(!single|--single)(\s|$)/i.test(rawText);
+  const skipPublish = wantsGenerate || wantsGenCarousel || /(^|\s)(!skip|--skip-publish)(\s|$)/i.test(rawText);
+  const wantsCarousel = wantsGenCarousel || /(^|\s)(!carousel|--carousel)(\s|$)/i.test(rawText);
+  const wantsSingle = wantsGenerate || /(^|\s)(!single|--single)(\s|$)/i.test(rawText);
   let postFormat = null;
   if (wantsSingle) {
     postFormat = 'single';
@@ -434,8 +440,11 @@ async function handleArticleMessage(ctx) {
         `🏷️ <b>Kategori:</b> #${escapeHtml(category)}`,
         `💾 <b>Database Log ID:</b> #${result.logId}`,
         '',
-        '<i>Publikasi ke Instagram dilewati.</i>',
+        '<i>Publikasi ke Instagram dilewati. File dan caption dikirim di bawah.</i>',
       ].join('\n');
+      await ctx.replyWithHTML(summaryText);
+      await sendTelegramGeneratedMedia(ctx, result);
+      return;
     } else {
       summaryText = [
         '✅ <b>Berhasil Dipublikasikan ke Instagram!</b>',
@@ -518,6 +527,16 @@ async function handleCarouselCommand(ctx) {
         `🏷️ <b>Kategori:</b> #${escapeHtml(category)}`,
         `💾 <b>Database Log ID:</b> #${result.logId}`,
       ].join('\n');
+    } else if (skipPublish) {
+      summaryText = [
+        '🎨 <b>[CAROUSEL SELESAI DIGENERATE]</b>',
+        `📰 <b>Headline:</b> ${escapeHtml(displayHeadline)}`,
+        `📱 <b>Format:</b> Carousel (${slideCount} slide)`,
+        `🏷️ <b>Kategori:</b> #${escapeHtml(category)}`,
+        `💾 <b>Database Log ID:</b> #${result.logId}`,
+      ].join('\n');
+      await ctx.replyWithHTML(summaryText);
+      return sendTelegramGeneratedMedia(ctx, result);
     } else {
       summaryText = [
         '✅ <b>Carousel Berhasil Dipublikasikan ke Instagram!</b>',
@@ -528,11 +547,185 @@ async function handleCarouselCommand(ctx) {
         `🏷️ <b>Kategori:</b> #${escapeHtml(category)}`,
         `💾 <b>Database Log ID:</b> #${result.logId}`,
       ].join('\n');
+      return ctx.replyWithHTML(summaryText);
     }
-
-    return ctx.replyWithHTML(summaryText);
   } catch (err) {
     return ctx.replyWithHTML(`❌ <b>Gagal Memproses Carousel:</b>\n<code>${escapeHtml(err.message)}</code>`);
+  }
+}
+
+/**
+ * Sends generated image(s) and Instagram caption to Telegram chat.
+ * @param {object} ctx - Telegraf context
+ * @param {object} result - pipelineService.runPipeline result
+ */
+async function sendTelegramGeneratedMedia(ctx, result) {
+  const displayHeadline = result.extracted?.headline || result.article?.title || 'Market Update';
+  const category = result.extracted?.category || 'IDX MARKET WATCH';
+  const isCarousel = Boolean(result.isCarousel || (result.imagePaths && result.imagePaths.length > 1));
+
+  try {
+    if (isCarousel) {
+      const validPaths = (result.imagePaths || []).filter((p) => p && fs.existsSync(p));
+      if (validPaths.length > 0) {
+        const mediaList = validPaths.slice(0, 10).map((filePath, idx) => ({
+          type: 'photo',
+          media: { source: filePath },
+          caption: idx === 0 ? `🎨 <b>${escapeHtml(displayHeadline)}</b> (Slide 1/${validPaths.length})` : undefined,
+          parse_mode: idx === 0 ? 'HTML' : undefined,
+        }));
+        await ctx.replyWithMediaGroup(mediaList);
+      }
+    } else if (result.imagePath && fs.existsSync(result.imagePath)) {
+      await ctx.replyWithPhoto(
+        { source: result.imagePath },
+        {
+          caption: `🎨 <b>${escapeHtml(displayHeadline)}</b>\n🏷️ #${escapeHtml(category)}`,
+          parse_mode: 'HTML',
+        },
+      );
+    }
+
+    if (result.caption) {
+      const safeCaption = result.caption.length > 3900 ? `${result.caption.slice(0, 3900)}...` : result.caption;
+      await ctx.replyWithHTML(
+        '📋 <b>Caption Instagram (Tap untuk Copy):</b>\n'
+        + `<pre>${escapeHtml(safeCaption)}</pre>`,
+      );
+    }
+  } catch (err) {
+    console.error('[bot] Failed to send media or caption to Telegram:', err.message);
+  }
+}
+
+/**
+ * /generate <url> (alias: /genimage) command handler.
+ * Generates single poster image + caption sent to Telegram (without Zernio publish).
+ */
+async function handleGenerateCommand(ctx) {
+  const rawText = (ctx.message?.text || '').trim();
+  const parts = rawText.split(/\s+/);
+  const candidateUrl = parts[1];
+  const url = extractArticleUrl(ctx.message) || (candidateUrl && /^https?:\/\//i.test(candidateUrl) ? candidateUrl : null);
+
+  if (!url) {
+    return ctx.replyWithHTML(
+      '⚠️ <b>Format Perintah Salah</b>\n\n'
+      + 'Gunakan: <code>/generate &lt;URL artikel&gt;</code>\n'
+      + 'Contoh: <code>/generate https://invezgo.com/id/blog/ihsg-menguat</code>\n\n'
+      + '<i>Bot akan men-generate gambar single poster dan caption Instagram siap upload langsung ke chat ini.</i>',
+    );
+  }
+
+  const sender = ctx.from?.username ? `@${ctx.from.username}` : `telegram_user_${ctx.from?.id || 'anon'}`;
+  const statusMsg = await ctx.reply('⏳ [1/4] Mengambil & memproses artikel...');
+  const updateProgress = async (step, total, stepDesc) => {
+    try {
+      await ctx.telegram.editMessageText(
+        ctx.chat.id,
+        statusMsg.message_id,
+        null,
+        `⏳ [${step}/${total}] ${stepDesc}`,
+      );
+    } catch (_) {
+      // ignore
+    }
+  };
+
+  try {
+    const result = await pipelineService.runPipeline({
+      nicheCode: DEFAULT_NICHE,
+      input: { url },
+      triggeredBy: sender,
+      dryRun: false,
+      skipPublish: true,
+      postFormat: 'single',
+      onProgress: updateProgress,
+    });
+
+    const displayHeadline = result.extracted?.headline || result.article?.title || 'Market Update';
+    const category = result.extracted?.category || 'IDX MARKET WATCH';
+
+    const summaryText = [
+      '🎨 <b>[POSTER SELESAI DIGENERATE]</b>',
+      `📰 <b>Headline:</b> ${escapeHtml(displayHeadline)}`,
+      `📱 <b>Format:</b> Single Poster`,
+      `🏷️ <b>Kategori:</b> #${escapeHtml(category)}`,
+      `💾 <b>Database Log ID:</b> #${result.logId}`,
+      '',
+      '<i>Gambar dan caption Instagram siap upload dikirim di bawah.</i>',
+    ].join('\n');
+
+    await ctx.replyWithHTML(summaryText);
+    await sendTelegramGeneratedMedia(ctx, result);
+  } catch (err) {
+    return ctx.replyWithHTML(`❌ <b>Gagal Generate Gambar:</b>\n<code>${escapeHtml(err.message)}</code>`);
+  }
+}
+
+/**
+ * /gencarousel <url> (alias: /generatecarousel) command handler.
+ * Generates multi-slide carousel images + caption sent to Telegram (without Zernio publish).
+ */
+async function handleGenerateCarouselCommand(ctx) {
+  const rawText = (ctx.message?.text || '').trim();
+  const parts = rawText.split(/\s+/);
+  const candidateUrl = parts[1];
+  const url = extractArticleUrl(ctx.message) || (candidateUrl && /^https?:\/\//i.test(candidateUrl) ? candidateUrl : null);
+
+  if (!url) {
+    return ctx.replyWithHTML(
+      '⚠️ <b>Format Perintah Salah</b>\n\n'
+      + 'Gunakan: <code>/gencarousel &lt;URL artikel&gt;</code>\n'
+      + 'Contoh: <code>/gencarousel https://invezgo.com/id/blog/ihsg-menguat</code>\n\n'
+      + '<i>Bot akan men-generate seluruh slide carousel dan caption siap upload langsung ke chat ini.</i>',
+    );
+  }
+
+  const sender = ctx.from?.username ? `@${ctx.from.username}` : `telegram_user_${ctx.from?.id || 'anon'}`;
+  const statusMsg = await ctx.reply('⏳ [1/4] Mengambil & memproses artikel untuk carousel...');
+  const updateProgress = async (step, total, stepDesc) => {
+    try {
+      await ctx.telegram.editMessageText(
+        ctx.chat.id,
+        statusMsg.message_id,
+        null,
+        `⏳ [${step}/${total}] ${stepDesc}`,
+      );
+    } catch (_) {
+      // ignore
+    }
+  };
+
+  try {
+    const result = await pipelineService.runPipeline({
+      nicheCode: DEFAULT_NICHE,
+      input: { url },
+      triggeredBy: sender,
+      dryRun: false,
+      skipPublish: true,
+      postFormat: 'carousel',
+      onProgress: updateProgress,
+    });
+
+    const displayHeadline = result.extracted?.headline || result.article?.title || 'Market Update';
+    const category = result.extracted?.category || 'IDX MARKET WATCH';
+    const slideCount = result.imagePaths?.length || 4;
+
+    const summaryText = [
+      '🎨 <b>[CAROUSEL SELESAI DIGENERATE]</b>',
+      `📰 <b>Headline:</b> ${escapeHtml(displayHeadline)}`,
+      `📱 <b>Format:</b> Carousel (${slideCount} slide)`,
+      `🏷️ <b>Kategori:</b> #${escapeHtml(category)}`,
+      `💾 <b>Database Log ID:</b> #${result.logId}`,
+      '',
+      '<i>Slide carousel dan caption siap upload dikirim di bawah.</i>',
+    ].join('\n');
+
+    await ctx.replyWithHTML(summaryText);
+    await sendTelegramGeneratedMedia(ctx, result);
+  } catch (err) {
+    return ctx.replyWithHTML(`❌ <b>Gagal Generate Carousel:</b>\n<code>${escapeHtml(err.message)}</code>`);
   }
 }
 
@@ -639,6 +832,9 @@ module.exports = {
   handleResetPrompt,
   handleArticleMessage,
   handleCarouselCommand,
+  handleGenerateCommand,
+  handleGenerateCarouselCommand,
+  sendTelegramGeneratedMedia,
   handleNewsCheck,
   handleBroadcastNow,
 

@@ -36,6 +36,14 @@ test.before(async () => {
     version: 1,
     isActive: true,
   });
+  await Prompt.create({
+    nicheId: 1,
+    type: 'entity_extraction',
+    name: 'Entity Extraction Prompt',
+    systemPrompt: 'Extract financial entities from the following text.',
+    version: 1,
+    isActive: true,
+  });
 });
 
 test('extractArticleCarouselStory extracts structured 4-slide narrative from article', async () => {
@@ -142,6 +150,10 @@ test('buildCarouselSlidePrompt properly anchors slide number and visual data int
   assert.match(coverPrompt, /— PERBANKAN —/);
   assert.match(coverPrompt, /Slide 1 of 4/);
   assert.match(coverPrompt, /Visual Data Integrity/);
+  assert.match(coverPrompt, /photojournalistic editorial cover aesthetic/i);
+  assert.match(coverPrompt, /warm golden amber/i);
+  assert.match(coverPrompt, /#FF7A00/);
+  assert.match(coverPrompt, /#FFFFFF/);
 
   const dataSlide = {
     slide_number: 3,
@@ -155,8 +167,30 @@ test('buildCarouselSlidePrompt properly anchors slide number and visual data int
   const dataPrompt = promptService.buildCarouselSlidePrompt(dataSlide, carouselData, { totalSlides: 4 });
   assert.match(dataPrompt, /SLIDE 3\/4 • DATA EMITEN/);
   assert.match(dataPrompt, /\$BBCA \(Bank Central Asia\) Rp 5\.025/);
-});
+  assert.match(dataPrompt, /#0B0E14/);
+  assert.match(dataPrompt, /#FF7A00/);
 
+  const contentSlideWithBullets = {
+    slide_number: 2,
+    slide_type: 'context',
+    chapter_title: 'POSISI KAS & PARKIR DANA',
+    headline: 'POSISI KAS & PARKIR DANA (30 APR 2026)',
+    subtitle: 'Dana ditempatkan di instrumen likuid.',
+    bullet_points: [
+      { label: 'Posisi Kas', detail: 'Rp123,03 T per 30 Apr 2026, 88% dari total aset' },
+      { label: 'Asal Dana', detail: 'Modal Rp70 T dividen BUMN + Patriot Bonds Rp68,4 T' },
+    ],
+  };
+  const bulletPrompt = promptService.buildCarouselSlidePrompt(contentSlideWithBullets, {
+    ...carouselData,
+    source: 'Invezgo',
+    person: { name: 'Jahja Setiaatmadja' },
+  }, { totalSlides: 4 });
+  assert.match(bulletPrompt, /• \[Posisi Kas\]: Rp123,03 T per 30 Apr 2026/);
+  assert.match(bulletPrompt, /• \[Asal Dana\]: Modal Rp70 T dividen BUMN/);
+  assert.match(bulletPrompt, /Sumber: Invezgo/);
+  assert.match(bulletPrompt, /Jahja Setiaatmadja/);
+});
 test('buildCarouselCaption formats multi-slide swipe instruction and recap', () => {
   const carouselData = {
     headline: 'THE FED TAHAN SUKU BUNGA',
@@ -174,8 +208,52 @@ test('buildCarouselCaption formats multi-slide swipe instruction and recap', () 
   assert.match(caption, /\[Slide 2\] ALASAN THE FED/);
   assert.match(caption, /\[Slide 3\] DAMPAK PASAR/);
   assert.match(caption, /Disclaimer:/);
+
+  const carouselDataWithBullets = {
+    headline: 'POSISI KAS DAN PARKIR DANA',
+    category: 'MAKRO',
+    slides: [
+      { slide_number: 1, headline: 'COVER', subtitle: 'Kas 123T' },
+      {
+        slide_number: 2,
+        headline: 'POSISI KAS',
+        subtitle: 'Kas melimpah.',
+        bullet_points: [
+          { label: 'Posisi Kas', detail: 'Rp123,03 T' },
+        ],
+      },
+    ],
+  };
+  const bulletCaption = promptService.buildCarouselCaption(carouselDataWithBullets, 'Invezgo');
+  assert.match(bulletCaption, /• Posisi Kas: Rp123,03 T/);
 });
 
+test('extractArticleCarouselStory fallback properly initializes structured bullet_points', async () => {
+  const brokenMockOpenAI = {
+    chat: {
+      completions: {
+        create: async () => {
+          throw new Error('OpenAI API rate limit or network fail');
+        },
+      },
+    },
+  };
+
+  const sampleArticle = {
+    title: 'Bank Mandiri Bukukan Laba Bersih Rekor',
+    text: 'PT Bank Mandiri Tbk mencatat kenaikan laba bersih yang signifikan.',
+    source: 'Invezgo',
+    url: 'https://invezgo.com/id/blog/bank-mandiri-laba',
+  };
+
+  const result = await aiExtractor.extractArticleCarouselStory(sampleArticle, 'finance', brokenMockOpenAI);
+  assert.ok(Array.isArray(result.slides));
+  assert.equal(result.slides.length, 2);
+  assert.ok(Array.isArray(result.slides[0].bullet_points));
+  assert.ok(Array.isArray(result.slides[1].bullet_points));
+  assert.ok(result.slides[1].bullet_points.length > 0);
+  assert.equal(result.slides[1].bullet_points[0].label, 'Pokok Berita');
+});
 test('runPipeline in carousel mode executes multi-image publishing flow', async () => {
   const originalGenerateCarouselImages = imageGenerator.generateCarouselImages;
   const originalPublishToInstagram = zernioPublisher.publishToInstagram;

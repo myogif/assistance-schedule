@@ -157,13 +157,13 @@ function buildVisualPrompt(promptRecord, extracted) {
   let stockCardsDetail = '';
   if (stocks && stocks.length > 0) {
     if (stocks.length === 1) {
-      stockCardsDetail = `Sleek 3D floating glassmorphic stock ticker card for ${formatStockCard(stocks[0], 0)}, with glowing 3D candlestick curves with shallow depth of field`;
+      stockCardsDetail = `Sleek editorial stock data card for ${formatStockCard(stocks[0], 0)}, with sharp candlestick curves with shallow depth of field`;
     } else {
       const cardsText = stocks.map((s, idx) => formatStockCard(s, idx)).join('; ');
-      stockCardsDetail = `Dual sleek 3D floating glassmorphic stock ticker cards: ${cardsText}, each with glowing 3D candlestick curves with shallow depth of field`;
+      stockCardsDetail = `Dual sleek editorial stock data cards: ${cardsText}, each with sharp candlestick curves with shallow depth of field`;
     }
   } else {
-    stockCardsDetail = 'Sleek 3D floating glassmorphic market index card for $IHSG (Indeks Harga Saham Gabungan) with dynamic glowing market trend curve with shallow depth of field';
+    stockCardsDetail = 'Sleek editorial market index card for $IHSG (Indeks Harga Saham Gabungan) with dynamic market trend curve with shallow depth of field';
   }
 
   // Live price data for primary stock fallback
@@ -194,26 +194,26 @@ function buildVisualPrompt(promptRecord, extracted) {
     if (compositionMode === 'both') {
       compositionTemplate = [
         'Upper-Center Composition & Visual Background (Occupying the upper 60% of the canvas):',
-        '- Focal Point: A highly realistic, authoritative editorial portrait photo of {{personName}}{{personRole}}, positioned prominently.',
-        '- Left Flanking: Floating 3D glassmorphic market card for stock {{stockTicker}} ({{stockName}}) with Rp {{stockPrice}} {{gainColor}} {{gainIndicator}} and glowing multi-bar candlestick chart.',
-        '- Right Flanking: 3D glassmorphic corporate emblem card for {{stockName}} and Jakarta skyline.',
+        '- Focal Point: A highly realistic, authoritative editorial portrait photo of {{personName}}{{personRole}} in a formal business suit with natural expression and cinematic warm amber & gold lighting, positioned prominently.',
+        '- Left Flanking: Clean editorial market card for stock {{stockTicker}} ({{stockName}}) with Rp {{stockPrice}} {{gainColor}} {{gainIndicator}} and sharp candlestick chart.',
+        '- Right Flanking: Jakarta financial district skyscrapers with warm dusk illumination, and corporate emblem card for {{stockName}}.',
       ].join('\n');
     } else if (compositionMode === 'person_only') {
       compositionTemplate = [
         'Upper-Center Composition & Visual Background (Occupying the upper 60% of the canvas):',
-        '- Focal Point: Executive editorial portrait of {{personName}}{{personRole}} with cinematic rim lighting.',
-        '- Background: Modern monumental Indonesian financial architecture.',
+        '- Focal Point: Authentic photojournalistic executive portrait of {{personName}}{{personRole}} with cinematic warm amber & gold lighting.',
+        '- Background: Modern Indonesian financial architecture or executive boardroom with warm ambient lighting.',
       ].join('\n');
     } else if (compositionMode === 'stocks_only') {
       compositionTemplate = [
         'Upper-Center Composition & Visual Background (Occupying the upper 55% of the canvas):',
         '- Focal Point: {{stockCardsDetail}}, positioned symmetrically in the upper half.',
-        '- Background: Modern Indonesia Stock Exchange (IDX) trading floor backdrop.',
+        '- Background: Modern Indonesia Stock Exchange (IDX) trading floor backdrop with warm ambient lighting.',
       ].join('\n');
     } else {
       compositionTemplate = [
         'Upper-Center Composition & Visual Background (Occupying the upper 55% of the canvas):',
-        '- Focal Point: Monumental Indonesian financial architecture integrated with holographic market data streams.',
+        '- Focal Point: Monumental Indonesian financial architecture bathed in cinematic warm amber and dusk golden light.',
       ].join('\n');
     }
   }
@@ -235,15 +235,15 @@ function buildVisualPrompt(promptRecord, extracted) {
 
   const defaultVisualTemplate = [
     'Format: Tall portrait 4:5 editorial poster (1080x1350 portrait format) for Instagram feed. The entire canvas is vertical/portrait orientation — DO NOT generate a square or landscape image.',
-    'Style & Aesthetic: Ultra-sharp Bloomberg Markets & Financial Times Weekend magazine cover aesthetic, high contrast, clean centered typography integration, dark navy blue (#060B14) background, electric cyan blue (#00D2FF) data accents, pristine editorial lighting, 8k resolution.',
+    'Style & Aesthetic: Ultra-sharp realistic photojournalistic editorial cover aesthetic, cinematic warm golden amber & dark charcoal (#0B0E14) lighting, high contrast, clean centered typography integration, vibrant bright orange (#FF7A00) and crisp white (#FFFFFF) dual-tone typography, 8k resolution. Natural real-world executive portraits and authentic financial atmosphere, zero floating sci-fi neon or abstract 3D gimmicks.',
     '',
     '{{composition_details}}',
     '',
     'Bottom-Center Typography & Information Structure (Strictly Anchored at Lower-Center / Bottom 45%):',
     "1. Category Tag / Micro-Typography Bar: Centered category badge '— {{category}} —' in clean tracked uppercase sans-serif with subtle flanking labels ('INDONESIA CAPITAL MARKETS' on left, 'MARKETS & INSIGHTS' on right), positioned directly above the headline at lower-center.",
-    '2. Centered Dual-Tone Headline Typography: All headline lines are strictly center-aligned across the poster width, located at the bottom-center of the poster. Massive bold condensed uppercase typography reading "{{headline}}". Action and transaction keywords (such as \'BELI SAHAM\', \'TAHAN BUNGA\', \'CATAT LABA\', \'AKUISISI\', \'LEPAS\', \'TURUN\', \'NAIK\') are styled in luminous electric cyan blue (#00D2FF), while entity and person names are in crisp bold white (#FFFFFF).',
+    '2. Centered Dual-Tone Headline Typography: All headline lines are strictly center-aligned across the poster width, located at the bottom-center of the poster. Massive bold condensed uppercase typography reading "{{headline}}". Action keywords and prominent financial numbers are styled in vibrant bright orange (#FF7A00), while entity and person names are in crisp bold white (#FFFFFF).',
     '3. Centered Subtitle: Set directly below the headline, perfectly center-aligned across the horizontal axis: "{{subtitle}}".',
-    '4. Visual Hierarchy Invariant: The entire text block (category badge, massive headline, and subtitle) is strictly anchored at the lower-center / bottom 45% of the poster, serving as the visual anchor and foundation, leaving the upper 55% clean, open, and dramatic for the visual subject, portrait, and architectural lighting atmosphere.',
+    '4. Visual Hierarchy Invariant: The entire text block (category badge, massive headline, and subtitle) is strictly anchored at the lower-center / bottom 45% of the poster, serving as the visual anchor and foundation, leaving the upper 55% clean, open, and dramatic for the authentic visual subject, portrait, and warm lighting atmosphere.',
     '',
     'Footer & Branding Elements (Anchored at the very bottom edge):',
     '- Bottom Metrics Bar: Three horizontal icon columns: [Chart icon] STRATEGIC INVESTMENTS | [Leaf icon] SUSTAINABLE GROWTH | [People icon] A STRONGER INDONESIA.',
@@ -352,30 +352,63 @@ function buildCarouselSlidePrompt(slide, carouselData, options = {}) {
       const changeText = s.change_pct ? `(${s.direction === 'down' ? '-' : '+'}${s.change_pct})` : '';
       return `Card ${idx + 1}: ${ticker} (${name}) ${priceText} ${changeText}`.trim();
     }).join('; ');
-    stockVisualDetail = `\n- Market Data Cards: 3D floating glassmorphic cards displaying ${cardsText} with glowing candlestick accents.`;
+    stockVisualDetail = `\n- Market Data Cards: Clean editorial data cards displaying ${cardsText} with sharp financial typography.`;
   }
 
-  const visualPrompt = [
+  if (isCover) {
+    return [
+      'Format: Tall portrait 4:5 editorial poster (1080x1350 portrait format) for Instagram feed carousel slide. The entire canvas is strictly vertical/portrait orientation — DO NOT generate a square or landscape image.',
+      'Style & Aesthetic: Ultra-sharp realistic photojournalistic editorial cover aesthetic, cinematic warm golden amber & dark charcoal (#0B0E14) lighting, high contrast, clean centered typography integration, 8k resolution. Natural real-world executive portraits and authentic financial atmosphere, zero floating sci-fi neon or abstract 3D gimmicks.',
+      '',
+      `Upper-Center Composition & Visual Scene (Slide 1 of ${totalSlides}):`,
+      `- Scene & Atmosphere: ${slide.visual_scene || 'Photojournalistic realistic montage of prominent decision-maker in formal business suit, natural facial expression, set against Indonesian financial district or vault room with warm amber & gold lighting.'}${stockVisualDetail}`,
+      '',
+      'Bottom-Center Typography & Information Structure (Strictly Anchored at Lower-Center / Bottom 40-45%):',
+      `1. Category Tag / Micro-Typography Bar: Centered badge '${chapterBadge}' in clean tracked uppercase sans-serif positioned directly above the headline.`,
+      `2. Centered Dual-Tone Headline Typography: Centered bold condensed uppercase typography reading "${slide.headline}". Key action words and numbers styled in vibrant bright orange (#FF7A00), entity names in crisp white (#FFFFFF).`,
+      `3. Centered Subtitle & Kicker: Set directly below headline, financial kicker or 1-sentence intrigue hook: "${slide.subtitle}".`,
+      '4. Visual Hierarchy Invariant: The text block is strictly anchored at the lower-center / bottom 40-45% of the poster, leaving the upper 55-60% clean and dramatic for the authentic photojournalistic subject and warm lighting.',
+      '',
+      'Footer & Branding Elements (Anchored at very bottom edge):',
+      `- Carousel Indicator: ${footerAction}`,
+      "- Official Footer Branding: Centered elegant dark navy shield emblem logo with gold crown and gold letter 'S' watermark, bold branding text 'SOVSTOCK', and tagline 'MARKET INSIGHTS FOR A BRIGHTER TOMORROW' placed at the bottom edge beneath the text block.",
+      '',
+      '- Visual Data Integrity: Accurately render only the exact text and numbers provided above. Do not invent unverified numbers, fake ticker symbols, or random text.',
+    ].join('\n');
+  }
+
+  // Slide 2+ (Content Slides / Rangkuman Berita)
+  let bulletSection = '';
+  if (Array.isArray(slide.bullet_points) && slide.bullet_points.length > 0) {
+    const points = slide.bullet_points.map((bp) => `• [${bp.label}]: ${bp.detail}`).join('\n  ');
+    bulletSection = `- Structured Factual Points (Orange bullets '•', bold orange labels, crisp white factual text with exact numbers):\n  ${points}`;
+  } else {
+    bulletSection = `- Structured Factual Summary: Crisp white text highlighting exact figures, percentages, and events from the article.`;
+  }
+
+  return [
     'Format: Tall portrait 4:5 editorial poster (1080x1350 portrait format) for Instagram feed carousel slide. The entire canvas is strictly vertical/portrait orientation — DO NOT generate a square or landscape image.',
-    'Style & Aesthetic: Ultra-sharp Bloomberg Markets & Financial Times Weekend magazine cover aesthetic, high contrast, clean centered typography integration, dark navy blue (#060B14) background, electric cyan blue (#00D2FF) data accents, pristine editorial lighting, 8k resolution.',
+    'Style & Aesthetic: Clean dark matte charcoal (#0B0E14) editorial news summary layout, 100% focus on readability and structured factual content. High contrast crisp white and vibrant orange (#FF7A00) typography. Strict visual rule: NO floating neon 3D elements, NO futuristic hologram shapes, NO abstract visual clutter obscuring text.',
     '',
-    `Upper-Center Composition & Visual Scene (Slide ${slideNumber} of ${totalSlides}):`,
-    `- Scene & Atmosphere: ${slide.visual_scene || 'Modern Indonesian financial market environment with glowing data streams and cinematic cyan rim lighting.'}${stockVisualDetail}`,
+    `Top Header Bar (Slide ${slideNumber} of ${totalSlides}):`,
+    `- Section Badge: Centered badge '${chapterBadge}' in bold vibrant orange (#FF7A00).`,
+    `- Chapter Title: Bold condensed uppercase chapter headline "${slide.headline}".`,
     '',
-    'Bottom-Center Typography & Information Structure (Strictly Anchored at Lower-Center / Bottom 45%):',
-    `1. Category Tag / Micro-Typography Bar: Centered badge '${chapterBadge}' in clean tracked uppercase sans-serif positioned directly above the headline.`,
-    `2. Centered Dual-Tone Headline Typography: Centered bold condensed uppercase typography reading "${slide.headline}". Key action words styled in electric cyan blue (#00D2FF), entity names in crisp white (#FFFFFF).`,
-    `3. Centered Subtitle & Narrative: Set directly below headline, perfectly center-aligned: "${slide.subtitle}".`,
-    '4. Visual Hierarchy Invariant: The text block is strictly anchored at the lower-center / bottom 45% of the poster, leaving the upper 55% clean and dramatic for the scene visualization.',
+    'Body & Structured Content (Anchored across central canvas for maximum readability):',
+    bulletSection,
+    `- Narrative Summary: "${slide.subtitle}"`,
+    '',
+    'Lower Accent & Footnote:',
+    `- Corner Accent: Authentic cutout portrait of relevant executive / official (${carouselData.person?.name || 'decision-maker'}) with natural lighting anchored in the lower corner.`,
+    `- Background & Atmosphere: ${slide.visual_scene || 'Clean dark matte charcoal (#0B0E14) textured editorial background with subtle warm ambient glow.'}${stockVisualDetail}`,
+    `- Footnote & Source: 'Sumber: ${carouselData.source || 'Editorial'}' anchored at the bottom margin.`,
     '',
     'Footer & Branding Elements (Anchored at very bottom edge):',
     `- Carousel Indicator: ${footerAction}`,
-    "- Official Footer Branding: Centered elegant dark navy shield emblem logo with gold crown and gold letter 'S' watermark, bold branding text 'SOVSTOCK', and tagline 'MARKET INSIGHTS FOR A BRIGHTER TOMORROW' placed at the bottom edge beneath the text block.",
+    "- Official Footer Branding: Subtle 'SOVSTOCK' editorial watermark at bottom margin.",
     '',
     '- Visual Data Integrity: Accurately render only the exact text and numbers provided above. Do not invent unverified numbers, fake ticker symbols, or random text.',
   ].join('\n');
-
-  return visualPrompt;
 }
 
 /**
@@ -410,6 +443,11 @@ function buildCarouselCaption(carouselData, source = 'Invezgo') {
 
   slides.slice(1).forEach((slide, idx) => {
     lines.push(`📌 [Slide ${idx + 2}] ${slide.headline}: ${slide.subtitle}`);
+    if (Array.isArray(slide.bullet_points) && slide.bullet_points.length > 0) {
+      slide.bullet_points.forEach((bp) => {
+        lines.push(`   • ${bp.label}: ${bp.detail}`);
+      });
+    }
   });
 
   lines.push('');
