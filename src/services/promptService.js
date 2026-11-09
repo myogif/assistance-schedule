@@ -1,5 +1,12 @@
 const { Niche, Prompt } = require('../models');
 
+// Color scheme constants for visual prompts
+const COLOR_SCHEME = {
+  NAVY_PRIMARY: '#001F3F',
+  ORANGE_ACCENT: '#FF7A00',
+  WHITE: '#FFFFFF',
+};
+
 // In-memory cache for active prompts: key = `${nicheCode}:${type}`
 const promptCache = new Map();
 
@@ -235,7 +242,7 @@ function buildVisualPrompt(promptRecord, extracted) {
 
   const defaultVisualTemplate = [
     'Format: Tall portrait 4:5 editorial poster (1080x1350 portrait format) for Instagram feed. The entire canvas is vertical/portrait orientation — DO NOT generate a square or landscape image.',
-    'Style & Aesthetic: Ultra-sharp realistic photojournalistic editorial cover aesthetic, cinematic warm golden amber & dark charcoal (#0B0E14) lighting, high contrast, clean centered typography integration, vibrant bright orange (#FF7A00) and crisp white (#FFFFFF) dual-tone typography, 8k resolution. Natural real-world executive portraits and authentic financial atmosphere, zero floating sci-fi neon or abstract 3D gimmicks.',
+    'Style & Aesthetic: Ultra-sharp realistic photojournalistic editorial cover aesthetic, cinematic warm golden amber & navy (#001F3F) lighting, high contrast, clean centered typography integration, vibrant bright orange (#FF7A00) and crisp white (#FFFFFF) dual-tone typography, 8k resolution. Natural real-world executive portraits and authentic financial atmosphere, zero floating sci-fi neon or abstract 3D gimmicks.',
     '',
     '{{composition_details}}',
     '',
@@ -358,7 +365,7 @@ function buildCarouselSlidePrompt(slide, carouselData, options = {}) {
   if (isCover) {
     return [
       'Format: Tall portrait 4:5 editorial poster (1080x1350 portrait format) for Instagram feed carousel slide. The entire canvas is strictly vertical/portrait orientation — DO NOT generate a square or landscape image.',
-      'Style & Aesthetic: Ultra-sharp realistic photojournalistic editorial cover aesthetic, cinematic warm golden amber & dark charcoal (#0B0E14) lighting, high contrast, clean centered typography integration, 8k resolution. Natural real-world executive portraits and authentic financial atmosphere, zero floating sci-fi neon or abstract 3D gimmicks.',
+      'Style & Aesthetic: Ultra-sharp realistic photojournalistic editorial cover aesthetic, cinematic warm golden amber & navy (#001F3F) lighting, high contrast, clean centered typography integration, 8k resolution. Natural real-world executive portraits and authentic financial atmosphere, zero floating sci-fi neon or abstract 3D gimmicks.',
       '',
       `Upper-Center Composition & Visual Scene (Slide 1 of ${totalSlides}):`,
       `- Scene & Atmosphere: ${slide.visual_scene || 'Photojournalistic realistic montage of prominent decision-maker in formal business suit, natural facial expression, set against Indonesian financial district or vault room with warm amber & gold lighting.'}${stockVisualDetail}`,
@@ -388,7 +395,7 @@ function buildCarouselSlidePrompt(slide, carouselData, options = {}) {
 
   return [
     'Format: Tall portrait 4:5 editorial poster (1080x1350 portrait format) for Instagram feed carousel slide. The entire canvas is strictly vertical/portrait orientation — DO NOT generate a square or landscape image.',
-    'Style & Aesthetic: Clean dark matte charcoal (#0B0E14) editorial news summary layout, 100% focus on readability and structured factual content. High contrast crisp white and vibrant orange (#FF7A00) typography. Strict visual rule: NO floating neon 3D elements, NO futuristic hologram shapes, NO abstract visual clutter obscuring text.',
+    'Style & Aesthetic: Clean dark matte navy (#001F3F) editorial news summary layout, 100% focus on readability and structured factual content. High contrast crisp white and vibrant orange (#FF7A00) typography. Strict visual rule: NO floating neon 3D elements, NO futuristic hologram shapes, NO abstract visual clutter obscuring text.',
     '',
     `Top Header Bar (Slide ${slideNumber} of ${totalSlides}):`,
     `- Section Badge: Centered badge '${chapterBadge}' in bold vibrant orange (#FF7A00).`,
@@ -400,7 +407,7 @@ function buildCarouselSlidePrompt(slide, carouselData, options = {}) {
     '',
     'Lower Accent & Footnote:',
     `- Corner Accent: Authentic cutout portrait of relevant executive / official (${carouselData.person?.name || 'decision-maker'}) with natural lighting anchored in the lower corner.`,
-    `- Background & Atmosphere: ${slide.visual_scene || 'Clean dark matte charcoal (#0B0E14) textured editorial background with subtle warm ambient glow.'}${stockVisualDetail}`,
+    `- Background & Atmosphere: ${slide.visual_scene || 'Clean dark matte navy (#001F3F) textured editorial background with subtle warm ambient glow.'}${stockVisualDetail}`,
     `- Footnote & Source: 'Sumber: ${carouselData.source || 'Editorial'}' anchored at the bottom margin.`,
     '',
     'Footer & Branding Elements (Anchored at very bottom edge):',
@@ -463,6 +470,7 @@ function buildCarouselCaption(carouselData, source = 'Invezgo') {
 }
 
 module.exports = {
+  COLOR_SCHEME,
   getActivePrompt,
   listPrompts,
   updatePrompt,

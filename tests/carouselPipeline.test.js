@@ -167,7 +167,7 @@ test('buildCarouselSlidePrompt properly anchors slide number and visual data int
   const dataPrompt = promptService.buildCarouselSlidePrompt(dataSlide, carouselData, { totalSlides: 4 });
   assert.match(dataPrompt, /SLIDE 3\/4 • DATA EMITEN/);
   assert.match(dataPrompt, /\$BBCA \(Bank Central Asia\) Rp 5\.025/);
-  assert.match(dataPrompt, /#0B0E14/);
+  assert.match(dataPrompt, /#001F3F/);
   assert.match(dataPrompt, /#FF7A00/);
 
   const contentSlideWithBullets = {
