@@ -88,11 +88,12 @@ ALUR CERITA CAROUSEL (4 SLIDE):
 - Slide 3 (Data & Fakta Kunci): Fakta data terpenting, angka nominal, persentase saham, atau kutipan inti.
 - Slide 4 (Dampak & Call-to-Action): Implikasi bagi investor/pasar serta pertanyaan pemantik diskusi untuk kolom komentar.
 
-PANDUAN VISUAL SLIDE (Estetika Bloomberg / Financial Times):
+PANDUAN VISUAL SLIDE (Mengikuti Referensi SOVSTOCK):
 - Format portrait 4:5 vertikal (1080x1350).
-- Latar belakang navy #001F3F dengan typography dan elemen visual white #FFFFFF; gunakan navy dan white saja untuk seluruh desain carousel.
-- Setiap slide memuat nomor slide (contoh: '— SLIDE 2/4 • LATAR BELAKANG —') dan tombol swipe indicator di bagian bawah ('[Swipe icon] GESER KE KIRI >>' untuk slide 1-3, dan '[Discussion icon] TULIS PENDAPAT DI KOMENTAR >>' untuk slide 4).
-- Branding resmi 'SOVSTOCK' di tepi bawah setiap slide.
+- Gunakan desain yang sama dengan referensi: latar kota finansial malam/blue hour bernuansa midnight navy, subjek utama realistis di tengah, panel kaca transparan bergaya glassmorphic, garis tepi bercahaya electric cyan, typography putih/cyan besar, dan metrics bar di bagian bawah.
+- Pertahankan isi setiap slide persis seperti data berita. Jangan menulis ulang, menghilangkan, menambah, atau mengarang teks, angka, ticker, logo, maupun data.
+- Setiap slide memuat nomor slide dan tombol swipe indicator di bagian bawah ('[Swipe icon] GESER KE KIRI >>' untuk slide 1-3, dan '[Discussion icon] TULIS PENDAPAT DI KOMENTAR >>' untuk slide 4).
+- Branding resmi 'SOVSTOCK' di tepi bawah setiap slide dengan shield/crown mark.
 - Aturan Integritas Data: Dilarang mengarang angka atau data grafik fiktif.
 
 FORMAT OUTPUT WAJIB:
@@ -100,51 +101,55 @@ FORMAT OUTPUT WAJIB:
 ### 1. PROMPT GAMBAR PER SLIDE (Siap Copy ke DALL-E 3 / Midjourney)
 
 #### PROMPT SLIDE 1 (COVER):
-Format: Tall portrait 4:5 editorial poster (1080x1350) for Instagram carousel cover slide. Strictly vertical/portrait.
-Style & Aesthetic: Ultra-sharp Bloomberg Markets & Financial Times magazine cover aesthetic, navy #001F3F background, white #FFFFFF typography and graphic elements, pristine editorial lighting, 8k resolution.
-Upper-Center Visual: [Deskripsi scene visual pembuka yang dramatis dengan treatment navy #001F3F dan white #FFFFFF]
+Format: Tall portrait 4:5 editorial poster (1080x1350) for Instagram carousel cover slide. Match the supplied reference composition exactly; strictly vertical/portrait.
+Style & Aesthetic: Cinematic SOVSTOCK financial editorial cover, midnight navy #001F3F city-at-night backdrop, realistic high-detail central executive portrait, translucent glassmorphic panels with electric cyan #00D2FF edge light, crisp white #FFFFFF typography, premium 8k magazine finish.
+Upper-Center Visual: [Deskripsi scene visual pembuka yang dramatis: subjek utama di tengah, skyline finansial Jakarta, dan panel kaca transparan]
+Glass Panels: Upper-left quote/summary panel, lower-left market data card, and right corporate/market identity panel. Render only the exact supplied content.
 Bottom-Center Typography:
-- Category Badge: '— [KATEGORI] —' in white #FFFFFF
-- Headline: Bold uppercase masif "[HEADLINE UTAMA]" in white #FFFFFF
-- Subtitle: "[KALIMAT HOOK PEMBUKA]" in white #FFFFFF
-Footer: [Swipe icon] GESER KE KIRI (SLIDE 2/4) | Centered official branding 'SOVSTOCK' in white #FFFFFF on navy #001F3F.
-Strict palette: Use navy #001F3F and white #FFFFFF only for every typography and visual element.
+- Category Badge: '— [KATEGORI] —' in a cyan-glowing outlined badge
+- Headline: Bold condensed uppercase oversized "[HEADLINE UTAMA]" using white/cyan emphasis blocks
+- Subtitle: "[KALIMAT HOOK PEMBUKA]" exactly as supplied
+- Metrics Bar: STRATEGIC INVESTMENTS | SUSTAINABLE GROWTH | A STRONGER INDONESIA
+Footer: [Swipe icon] GESER KE KIRI (SLIDE 2/4) | Centered official branding 'SOVSTOCK'.
+Content lock: Do not rewrite, omit, or invent any supplied text, number, ticker, logo, or data.
 Strict visual data constraint: Do not invent unverified numbers or fake statistics.
 
 #### PROMPT SLIDE 2 (LATAR BELAKANG / KRONOLOGI):
-Format: Tall portrait 4:5 editorial poster (1080x1350) for Instagram carousel slide 2. Strictly vertical/portrait.
-Style & Aesthetic: Ultra-sharp Bloomberg Markets editorial aesthetic, navy #001F3F background, white #FFFFFF typography and graphic elements, pristine editorial lighting, 8k resolution.
-Upper-Center Visual: [Deskripsi visual latar belakang peristiwa / corporate analytics card dengan treatment navy #001F3F dan white #FFFFFF]
+Format: Tall portrait 4:5 editorial poster (1080x1350) for Instagram carousel slide 2. Match the supplied reference composition exactly; strictly vertical/portrait.
+Style & Aesthetic: Cinematic SOVSTOCK financial editorial layout, midnight navy #001F3F city-at-night backdrop, translucent glassmorphic context panels with electric cyan #00D2FF edge light, crisp white #FFFFFF typography, premium 8k magazine finish.
+Upper-Center Visual: [Deskripsi visual latar belakang peristiwa / corporate analytics card dengan skyline finansial dan panel kaca]
 Bottom-Center Typography:
-- Slide Badge: '— SLIDE 2/4 • LATAR BELAKANG —' in white #FFFFFF
-- Headline: Bold uppercase "[JUDUL BAB 2]" in white #FFFFFF
-- Subtitle: "[RINGKASAN KONTEKS PERISTIWA]" in white #FFFFFF
-Footer: [Swipe icon] GESER KE KIRI (SLIDE 3/4) | Centered official branding 'SOVSTOCK' in white #FFFFFF on navy #001F3F.
-Strict palette: Use navy #001F3F and white #FFFFFF only for every typography and visual element.
+- Slide Badge: '— SLIDE 2/4 • LATAR BELAKANG —'
+- Headline: Bold condensed uppercase oversized "[JUDUL BAB 2]" using white/cyan emphasis blocks
+- Subtitle: "[RINGKASAN KONTEKS PERISTIWA]" exactly as supplied inside the glass information system
+- Metrics Bar: STRATEGIC INVESTMENTS | SUSTAINABLE GROWTH | A STRONGER INDONESIA
+Footer: [Swipe icon] GESER KE KIRI (SLIDE 3/4) | Centered official branding 'SOVSTOCK'.
+Content lock: Do not rewrite, omit, or invent any supplied text, number, ticker, logo, or data.
 Strict visual data constraint: Do not invent unverified numbers or fake statistics.
 
 #### PROMPT SLIDE 3 (DATA & FAKTA KUNCI):
-Format: Tall portrait 4:5 editorial poster (1080x1350) for Instagram carousel slide 3. Strictly vertical/portrait.
-Style & Aesthetic: Ultra-sharp Bloomberg Markets editorial aesthetic, navy #001F3F background, white #FFFFFF typography and graphic elements, pristine editorial lighting, 8k resolution.
-Upper-Center Visual: White #FFFFFF line-based data cards on navy #001F3F displaying [SEBUTKAN TICKER / ANGKA NOMINAL RESMI DARI BERITA].
+Format: Tall portrait 4:5 editorial poster (1080x1350) for Instagram carousel slide 3. Match the supplied reference composition exactly; strictly vertical/portrait.
+Style & Aesthetic: Cinematic SOVSTOCK financial editorial layout, midnight navy #001F3F city-at-night backdrop, translucent glassmorphic data panels with electric cyan #00D2FF edge light, crisp white #FFFFFF typography, premium 8k magazine finish.
+Upper-Center Visual: Translucent glass data cards displaying only [SEBUTKAN TICKER / ANGKA NOMINAL RESMI DARI BERITA], with restrained chart lines based only on supplied data.
 Bottom-Center Typography:
-- Slide Badge: '— SLIDE 3/4 • DATA & FAKTA —' in white #FFFFFF
-- Headline: Bold uppercase "[JUDUL BAB 3]" in white #FFFFFF
-- Subtitle: "[ANGKA & FAKTA KUNCI DARI BERITA]" in white #FFFFFF
-Footer: [Swipe icon] GESER KE KIRI (SLIDE 4/4) | Centered official branding 'SOVSTOCK' in white #FFFFFF on navy #001F3F.
-Strict palette: Use navy #001F3F and white #FFFFFF only for every typography and visual element.
-Strict visual data constraint: Accurately render only the exact ticker symbols and numbers provided. Do not hallucinate fake numbers.
+- Slide Badge: '— SLIDE 3/4 • DATA & FAKTA —'
+- Headline: Bold condensed uppercase oversized "[JUDUL BAB 3]" using white/cyan emphasis blocks
+- Subtitle: "[ANGKA & FAKTA KUNCI DARI BERITA]" exactly as supplied
+- Metrics Bar: STRATEGIC INVESTMENTS | SUSTAINABLE GROWTH | A STRONGER INDONESIA
+Footer: [Swipe icon] GESER KE KIRI (SLIDE 4/4) | Centered official branding 'SOVSTOCK'.
+Content lock: Accurately render only the exact ticker symbols and numbers provided. Do not hallucinate fake numbers.
 
 #### PROMPT SLIDE 4 (KESIMPULAN & DISKUSI):
-Format: Tall portrait 4:5 editorial poster (1080x1350) for Instagram carousel slide 4 (final slide). Strictly vertical/portrait.
-Style & Aesthetic: Ultra-sharp Bloomberg Markets editorial aesthetic, navy #001F3F background, white #FFFFFF typography and graphic elements, pristine editorial lighting, 8k resolution.
-Upper-Center Visual: Modern architectural financial monument with navy #001F3F structure, white #FFFFFF network nodes, and discussion icon accents.
+Format: Tall portrait 4:5 editorial poster (1080x1350) for Instagram carousel slide 4 (final slide). Match the supplied reference composition exactly; strictly vertical/portrait.
+Style & Aesthetic: Cinematic SOVSTOCK financial editorial layout, midnight navy #001F3F city-at-night backdrop, translucent glassmorphic conclusion panels with electric cyan #00D2FF edge light, crisp white #FFFFFF typography, premium 8k magazine finish.
+Upper-Center Visual: Modern architectural financial monument or supplied subject scene with cinematic city lighting, glass panels, and discussion icon accents.
 Bottom-Center Typography:
-- Slide Badge: '— SLIDE 4/4 • KESIMPULAN —' in white #FFFFFF
-- Headline: Bold uppercase "[JUDUL BAB 4 / PERTANYAAN DISKUSI]" in white #FFFFFF
-- Subtitle: "[IMPLIKASI INVESTOR & PERTANYAAN DISKUSI]" in white #FFFFFF
-Footer: [Discussion icon] TULIS PENDAPAT DI KOMENTAR | Centered official branding 'SOVSTOCK' in white #FFFFFF on navy #001F3F.
-Strict palette: Use navy #001F3F and white #FFFFFF only for every typography and visual element.
+- Slide Badge: '— SLIDE 4/4 • KESIMPULAN —'
+- Headline: Bold condensed uppercase oversized "[JUDUL BAB 4 / PERTANYAAN DISKUSI]" using white/cyan emphasis blocks
+- Subtitle: "[IMPLIKASI INVESTOR & PERTANYAAN DISKUSI]" exactly as supplied
+- Metrics Bar: STRATEGIC INVESTMENTS | SUSTAINABLE GROWTH | A STRONGER INDONESIA
+Footer: [Discussion icon] TULIS PENDAPAT DI KOMENTAR | Centered official branding 'SOVSTOCK'.
+Content lock: Do not rewrite, omit, or invent any supplied text, number, ticker, logo, or data.
 Strict visual data constraint: Do not invent unverified numbers or fake statistics.
 
 ---

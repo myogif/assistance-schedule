@@ -168,9 +168,9 @@ const CAROUSEL_SYSTEM_PROMPT = `You are an elite Indonesian financial editor and
 Transform the provided news article into an engaging, content-driven multi-slide Instagram carousel story (default 4 slides) focused on high-density factual news summary, realistic photojournalistic aesthetic, and clear structured information:
 
 Slide 1 (Cover / Headline):
-- "headline": Massive high-impact uppercase headline in Indonesian (max 8-10 words) with clear navy #001F3F and white #FFFFFF contrast.
-- "subtitle": Financial kicker or 1-sentence curiosity-inducing news summary (e.g. "Kas 123T, Baru 16T Diinvestasikan").
-- "visual_scene": Photojournalistic realistic montage description of the actual decision-maker / public official in sharp formal suit with natural expression, set against a navy #001F3F editorial background with white #FFFFFF typography and graphic elements.
+- "headline": Massive high-impact uppercase headline in Indonesian (max 8-10 words), preserving the exact story meaning and using a bold white/cyan editorial hierarchy.
+- "subtitle": Financial kicker or 1-sentence curiosity-inducing news summary (e.g. "Kas 123T, Baru 16T Diinvestasikan"), preserved as supplied content for the upper-left glass summary panel.
+- "visual_scene": Photojournalistic realistic montage of the actual decision-maker / public official in a sharp formal suit, centered against a Jakarta financial skyline at blue hour, with cinematic rim light, translucent glassmorphic panels, electric cyan edge light, and a deep navy editorial background.
 
 Slide 2+ (Content Slides / Rangkuman Berita):
 - "chapter_title" & "headline": Specific thematic chapter headline in uppercase (e.g. "POSISI KAS & PARKIR DANA (30 APR 2026)", "RENCANA INVESTASI & AMUNISI TAMBAHAN").
@@ -179,9 +179,9 @@ Slide 2+ (Content Slides / Rangkuman Berita):
     { "label": "Posisi Kas", "detail": "Rp123,03 T per 30 Apr 2026, 88% dari total aset" },
     { "label": "Asal Dana", "detail": "Modal Rp70 T dividen BUMN + Patriot Bonds Rp68,4 T kupon 2%" }
   ]
-- "subtitle": 1-2 concise summary sentences synthesizing the slide's core insight.
+- "subtitle": 1-2 concise summary sentences synthesizing the slide's core insight, preserved exactly for the glass information system.
 - "person": The relevant prominent official or executive to feature as a cutout photo in the lower corner.
-- "visual_scene": Clean editorial navy #001F3F background with white #FFFFFF typography and graphic elements, minimal visual noise, corner cutout photo of the official, and source footnote anchor.
+- "visual_scene": Cinematic Indonesian capital-markets scene with realistic subject or corporate architecture, translucent glass quote/data panels, electric cyan edge light, crisp white typography, and a deep navy editorial background.
 
 Output strict JSON:
 {
@@ -284,7 +284,7 @@ async function extractArticleCarouselStory(article, nicheCode = 'finance', opena
           headline: singleData.headline,
           subtitle: singleData.subtitle,
           bullet_points: [],
-          visual_scene: 'Natural photojournalistic Indonesian financial decision-maker portrait against a navy #001F3F background with white #FFFFFF lighting and typography.',
+          visual_scene: 'Natural photojournalistic Indonesian financial decision-maker portrait centered against a Jakarta skyline at blue hour, with translucent glassmorphic panels, electric cyan #00D2FF edge light, crisp white #FFFFFF typography, and a deep navy #001F3F background.',
         },
         {
           slide_number: 2,
@@ -295,7 +295,7 @@ async function extractArticleCarouselStory(article, nicheCode = 'finance', opena
           bullet_points: [
             { label: 'Pokok Berita', detail: singleData.subtitle || article.title || '' },
           ],
-          visual_scene: 'Clean editorial navy #001F3F background with white #FFFFFF typography and graphic elements.',
+          visual_scene: 'Cinematic deep navy #001F3F editorial scene with translucent glassmorphic summary panels, electric cyan #00D2FF edge light, and crisp white #FFFFFF typography.',
         },
       ],
       draftCaption: singleData.draftCaption,
@@ -347,7 +347,7 @@ async function extractArticleCarouselStory(article, nicheCode = 'finance', opena
           }))
           .filter((bp) => bp.label || bp.detail)
       : [],
-    visual_scene: String(s.visual_scene || 'Editorial navy #001F3F background with white #FFFFFF typography and Jakarta market atmosphere').trim(),
+    visual_scene: String(s.visual_scene || 'Cinematic Jakarta capital-markets scene at blue hour with translucent glassmorphic panels, electric cyan #00D2FF edge light, white #FFFFFF typography, and navy #001F3F background').trim(),
   }));
 
   return {

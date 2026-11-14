@@ -6,7 +6,7 @@ const COLOR_SCHEME = {
   ORANGE_ACCENT: '#FF7A00',
   WHITE: '#FFFFFF',
 };
-const STRICT_CAROUSEL_PALETTE_RULE = 'Strict palette: use navy #001F3F and white #FFFFFF only; do not use orange, cyan, yellow, gold, golden, amber, or any other color for text or visual elements.';
+const CAROUSEL_REFERENCE_STYLE_RULE = 'Reference design lock: match the supplied SOVSTOCK editorial cover language with a midnight navy city backdrop, realistic central subject, translucent glass panels with electric cyan edge light, oversized stacked white/cyan typography, and a bottom metrics bar. Preserve every supplied slide string exactly; never rewrite, omit, or invent text, numbers, tickers, logos, or data.';
 
 
 // In-memory cache for active prompts: key = `${nicheCode}:${type}`
@@ -368,29 +368,32 @@ function buildCarouselSlidePrompt(slide, carouselData, options = {}) {
       const changeText = s.change_pct ? `(${s.direction === 'down' ? '-' : '+'}${s.change_pct})` : '';
       return `Card ${idx + 1}: ${ticker} (${name}) ${priceText} ${changeText}`.trim();
     }).join('; ');
-    stockVisualDetail = `\n- Market Data Cards: Clean editorial data cards displaying ${cardsText} with sharp financial typography.`;
+    stockVisualDetail = `\n- Market Data Cards: Translucent glassmorphic data cards with electric cyan edge light displaying ${cardsText} exactly, with a restrained chart using only supplied market movement data.`;
   }
 
   if (isCover) {
     return [
-      'Format: Tall portrait 4:5 editorial poster (1080x1350 portrait format) for Instagram feed carousel slide. The entire canvas is strictly vertical/portrait orientation — DO NOT generate a square or landscape image.',
-      'Style & Aesthetic: Ultra-sharp realistic photojournalistic editorial cover aesthetic, cinematic navy #001F3F background with white #FFFFFF typography and graphic elements, high contrast, clean centered typography integration, 8k resolution. Natural real-world executive portraits and authentic financial atmosphere, zero floating sci-fi neon or abstract 3D gimmicks.',
+      'Format: Tall portrait 4:5 editorial poster (1080x1350 portrait format) for Instagram carousel slide. Match the supplied reference image composition; the entire canvas is strictly vertical/portrait — DO NOT generate a square or landscape image.',
+      'Style & Aesthetic: Cinematic SOVSTOCK financial editorial cover, midnight navy #001F3F city-at-night backdrop, realistic high-detail central executive portrait, translucent glassmorphic panels with electric cyan #00D2FF edge light, crisp white #FFFFFF typography, premium 8k magazine finish.',
       '',
-      `Upper-Center Composition & Visual Scene (Slide 1 of ${totalSlides}):`,
-      `- Scene & Atmosphere: ${slide.visual_scene || 'Photojournalistic realistic montage of prominent decision-maker in formal business suit, natural facial expression, set against an editorial navy #001F3F background with white #FFFFFF typography and graphic elements.'}${stockVisualDetail}`,
+      `Reference Composition (Slide 1 of ${totalSlides}):`,
+      `- Hero Scene: ${slide.visual_scene || 'Realistic Indonesian capital-markets executive in a formal dark suit, centered and dominant against a Jakarta financial skyline at blue hour, with cinematic rim light.'}${stockVisualDetail}`,
+      '- Upper-Left Panel: Large translucent glass quote/summary panel with cyan glowing border; render the supplied subtitle exactly, with no invented quote or attribution.',
+      `- Lower-Left Panel: Translucent glass market card for only the supplied tickers and figures; use a restrained chart and show stock movement colors only when the supplied data includes them.`,
+      `- Right Panel: Translucent glass corporate/market identity panel using only supplied company, person, ticker, and source information; never invent a logo or statistic.`,
       '',
-      'Bottom-Center Typography & Information Structure (Strictly Anchored at Lower-Center / Bottom 40-45%):',
-      `1. Category Tag / Micro-Typography Bar: Centered badge '${chapterBadge}' in clean tracked uppercase sans-serif positioned directly above the headline, using white #FFFFFF on navy #001F3F.`,
-      `2. Headline Typography: Centered bold condensed uppercase typography reading "${slide.headline}", using white #FFFFFF text and navy #001F3F graphic elements only.`,
-      `3. Centered Subtitle & Kicker: Set directly below headline, financial kicker or 1-sentence intrigue hook: "${slide.subtitle}", in white #FFFFFF.`,
-      '4. Visual Hierarchy Invariant: The text block is strictly anchored at the lower-center / bottom 40-45% of the poster, leaving the upper 55-60% clean and dramatic for the authentic photojournalistic subject and navy-white editorial treatment.',
+      'Bottom Typography & Information Structure (Strictly Anchored at Lower 40%):',
+      `1. Category Badge: Centered cyan-glowing outlined badge '${chapterBadge}' above the headline.`,
+      `2. Oversized Stacked Headline: Render the exact headline "${slide.headline}" as bold condensed uppercase typography; use large white #FFFFFF and electric cyan #00D2FF emphasis blocks without changing any words.`,
+      `3. Subtitle: Render the exact text "${slide.subtitle}" below the headline in white #FFFFFF.`,
+      '4. Bottom Metrics Bar: Thin cyan-glowing divider with the fixed SOVSTOCK editorial labels STRATEGIC INVESTMENTS | SUSTAINABLE GROWTH | A STRONGER INDONESIA.',
       '',
-      'Footer & Branding Elements (Anchored at very bottom edge):',
+      'Footer & Branding Elements:',
       `- Carousel Indicator: ${footerAction}`,
-      "- Official Footer Branding: Centered elegant navy #001F3F shield emblem with white crown and white letter 'S' watermark, bold branding text 'SOVSTOCK', and tagline 'MARKET INSIGHTS FOR A BRIGHTER TOMORROW' placed at the bottom edge beneath the text block.",
+      "- Official Footer Branding: Centered SOVSTOCK shield/crown mark with restrained gold emblem detail, white brand text, and the tagline 'MARKET INSIGHTS FOR A BRIGHTER TOMORROW' at the bottom edge.",
       '',
-      '- Visual Data Integrity: Accurately render only the exact text and numbers provided above. Do not invent unverified numbers, fake ticker symbols, or random text.',
-      `- ${STRICT_CAROUSEL_PALETTE_RULE}`,
+      '- Visual Data Integrity: Accurately render only the exact text, names, tickers, and numbers supplied above. Do not invent unverified numbers, fake ticker symbols, logos, or random text.',
+      `- ${CAROUSEL_REFERENCE_STYLE_RULE}`,
     ].join('\n');
   }
 
@@ -398,34 +401,38 @@ function buildCarouselSlidePrompt(slide, carouselData, options = {}) {
   let bulletSection = '';
   if (Array.isArray(slide.bullet_points) && slide.bullet_points.length > 0) {
     const points = slide.bullet_points.map((bp) => `• [${bp.label}]: ${bp.detail}`).join('\n  ');
-    bulletSection = `- Structured Factual Points (white #FFFFFF bullets '•', bold white #FFFFFF labels, white #FFFFFF factual text with exact numbers):\n  ${points}`;
+    bulletSection = `- Structured Factual Points: white #FFFFFF text in a translucent glass panel with cyan #00D2FF bullets and labels; render every supplied label and detail exactly.\n  ${points}`;
   } else {
-    bulletSection = `- Structured Factual Summary: White #FFFFFF text highlighting exact figures, percentages, and events from the article.`;
+    bulletSection = `- Structured Factual Summary: white #FFFFFF text in a translucent glass panel with cyan #00D2FF separators; render exact supplied figures, percentages, and events.`;
   }
 
   return [
-    'Format: Tall portrait 4:5 editorial poster (1080x1350 portrait format) for Instagram feed carousel slide. The entire canvas is strictly vertical/portrait orientation — DO NOT generate a square or landscape image.',
-    'Style & Aesthetic: Clean navy #001F3F editorial news summary layout, 100% focus on readability and structured factual content. High contrast white #FFFFFF typography and graphic elements. Strict visual rule: NO floating neon 3D elements, NO futuristic hologram shapes, NO abstract visual clutter obscuring text.',
+    'Format: Tall portrait 4:5 editorial poster (1080x1350 portrait format) for Instagram carousel slide. Match the supplied reference image composition; the entire canvas is strictly vertical/portrait — DO NOT generate a square or landscape image.',
+    'Style & Aesthetic: Cinematic SOVSTOCK financial editorial layout, midnight navy #001F3F city-at-night backdrop, realistic high-detail subject, translucent glassmorphic panels with electric cyan #00D2FF edge light, crisp white #FFFFFF typography, premium 8k magazine finish.',
     '',
-    `Top Header Bar (Slide ${slideNumber} of ${totalSlides}):`,
-    `- Section Badge: Centered badge '${chapterBadge}' in bold white #FFFFFF on navy #001F3F.`,
-    `- Chapter Title: Bold condensed uppercase chapter headline "${slide.headline}" in white #FFFFFF.`,
+    `Reference Composition (Slide ${slideNumber} of ${totalSlides}):`,
+    `- Hero Scene: ${slide.visual_scene || 'Realistic Indonesian capital-markets scene at blue hour with a prominent subject or corporate architecture, cinematic rim light, and a deep navy city background.'}${stockVisualDetail}`,
+    '- Glass Panel System: Use layered translucent glass panels with thin cyan glowing borders for the quote, context, data, and source information. Keep the upper visual field cinematic and uncluttered.',
     '',
-    'Body & Structured Content (Anchored across central canvas for maximum readability):',
+    'Top Header & Typography:',
+    `- Section Badge: Centered cyan-glowing outlined badge '${chapterBadge}' above the main text.`,
+    `- Chapter Headline: Render the exact headline "${slide.headline}" as oversized bold condensed uppercase typography, with white #FFFFFF and electric cyan #00D2FF emphasis blocks.`,
+    '',
+    'Body & Structured Content:',
     bulletSection,
-    `- Narrative Summary: "${slide.subtitle}" in white #FFFFFF.`,
+    `- Narrative Summary: Render the exact subtitle "${slide.subtitle}" in white #FFFFFF inside the glass information system.`,
     '',
     'Lower Accent & Footnote:',
-    `- Corner Accent: Authentic cutout portrait of relevant executive / official (${carouselData.person?.name || 'decision-maker'}) with navy #001F3F and white #FFFFFF treatment anchored in the lower corner.`,
-    `- Background & Atmosphere: ${slide.visual_scene || 'Clean navy #001F3F textured editorial background with white #FFFFFF graphic accents.'}${stockVisualDetail}`,
-    `- Footnote & Source: 'Sumber: ${carouselData.source || 'Editorial'}' in white #FFFFFF anchored at the bottom margin.`,
+    `- Subject Panel: Authentic cutout portrait or corporate visual for ${carouselData.person?.name || 'the supplied subject'}, integrated into the lower corner with cyan rim light; do not invent identity details.`,
+    `- Source Panel: 'Sumber: ${carouselData.source || 'Editorial'}' in white #FFFFFF on a translucent glass footer panel.`,
     '',
-    'Footer & Branding Elements (Anchored at very bottom edge):',
+    'Bottom Typography & Branding:',
+    '- Bottom Metrics Bar: Thin cyan-glowing divider with the fixed labels STRATEGIC INVESTMENTS | SUSTAINABLE GROWTH | A STRONGER INDONESIA.',
     `- Carousel Indicator: ${footerAction}`,
-    "- Official Footer Branding: Subtle white #FFFFFF 'SOVSTOCK' editorial watermark on the navy #001F3F bottom margin.",
+    "- Official Footer Branding: Centered SOVSTOCK shield/crown mark with restrained gold emblem detail, white brand text, and the tagline 'MARKET INSIGHTS FOR A BRIGHTER TOMORROW' at the bottom edge.",
     '',
-    '- Visual Data Integrity: Accurately render only the exact text and numbers provided above. Do not invent unverified numbers, fake ticker symbols, or random text.',
-    `- ${STRICT_CAROUSEL_PALETTE_RULE}`,
+    '- Visual Data Integrity: Accurately render only the exact text, names, tickers, and numbers supplied above. Do not invent unverified numbers, fake ticker symbols, logos, or random text.',
+    `- ${CAROUSEL_REFERENCE_STYLE_RULE}`,
   ].join('\n');
 }
 

@@ -33,22 +33,22 @@ test.before(async () => {
   });
 });
 function assertCarouselPalette(prompt, label) {
-  assert.match(prompt, /#001F3F/, `${label} should use navy`);
-  assert.match(prompt, /#FFFFFF/, `${label} should use white`);
-  assert.doesNotMatch(prompt, /#FF7A00|#00D2FF|#0B0E14/, `${label} should not use legacy colors`);
+  assert.match(prompt, /#001F3F/, `${label} should use midnight navy`);
+  assert.match(prompt, /#00D2FF/, `${label} should use electric cyan`);
+  assert.match(prompt, /#FFFFFF/, `${label} should use white typography`);
+  assert.doesNotMatch(prompt, /#FF7A00|#0B0E14/, `${label} should not use stale palette colors`);
+  assert.match(prompt, /glassmorphic|translucent glass panels/i, `${label} should use the reference glass-panel treatment`);
+  assert.match(prompt, /stacked|condensed|oversized|hero/i, `${label} should use the reference typography or hero treatment`);
 
-  const strictRule = 'Strict palette: use navy #001F3F and white #FFFFFF only; do not use orange, cyan, yellow, gold, golden, amber, or any other color for text or visual elements.';
-  assert.ok(prompt.includes(strictRule), `${label} should include the strict palette rule`);
-
-  const promptBeforeStrictRule = prompt.slice(0, prompt.indexOf(strictRule));
-  assert.doesNotMatch(
-    promptBeforeStrictRule,
-    /\b(?:orange|cyan|yellow|gold|golden|amber)\b/i,
-    `${label} should not contain legacy color instructions before the strict palette rule`,
-  );
+  const referenceRule = 'Reference design lock: match the supplied SOVSTOCK editorial cover language with a midnight navy city backdrop, realistic central subject, translucent glass panels with electric cyan edge light, oversized stacked white/cyan typography, and a bottom metrics bar. Preserve every supplied slide string exactly; never rewrite, omit, or invent text, numbers, tickers, logos, or data.';
+  assert.ok(prompt.includes(referenceRule), `${label} should include the reference design and content lock`);
 
   const hexColors = [...new Set(prompt.match(/#[0-9A-F]{6}/gi) || [])].sort();
-  assert.deepEqual(hexColors, ['#001F3F', '#FFFFFF'].sort(), `${label} should use only navy and white hex colors`);
+  assert.deepEqual(
+    hexColors,
+    ['#001F3F', '#00D2FF', '#FFFFFF'].sort(),
+    `${label} should use the reference palette hex colors`,
+  );
 }
 
 
@@ -169,7 +169,7 @@ test('buildVisualPrompt template interpolation works with new colors', () => {
   assert.ok(!result.includes('{{'), 'Should not contain unresolved template placeholders');
 });
 
-test('buildCarouselSlidePrompt cover slide uses strict navy-white palette', () => {
+test('buildCarouselSlidePrompt cover matches reference editorial design', () => {
   const slide = {
     slide_number: 1,
     slide_type: 'cover',
@@ -192,7 +192,7 @@ test('buildCarouselSlidePrompt cover slide uses strict navy-white palette', () =
   assert.ok(result.includes('navy'), 'Cover slide should mention navy aesthetic');
 });
 
-test('buildCarouselSlidePrompt content slides use strict navy-white palette', () => {
+test('buildCarouselSlidePrompt content slides match reference editorial design', () => {
   const slides = [
     {
       slide_number: 1,
@@ -229,7 +229,7 @@ test('buildCarouselSlidePrompt content slides use strict navy-white palette', ()
   assertCarouselPalette(result, 'Content slide');
 });
 
-test('buildCarouselSlidePrompt enforces one palette across content slides', () => {
+test('buildCarouselSlidePrompt preserves reference design across content slides', () => {
   const slide = {
     slide_number: 2,
     slide_type: 'content',
@@ -331,7 +331,7 @@ test('buildVisualPrompt handles multiple stocks correctly with navy colors', () 
   assert.ok(result.includes('#FF7A00'), 'Should preserve orange color');
 });
 
-test('buildCarouselSlidePrompt renders last slide with strict palette', () => {
+test('buildCarouselSlidePrompt renders last slide with reference design', () => {
   const totalSlides = 3;
   const lastSlide = {
     slide_number: totalSlides,

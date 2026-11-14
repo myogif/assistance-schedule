@@ -46,18 +46,15 @@ test.before(async () => {
   });
 });
 function assertCarouselPalette(prompt, label) {
-  assert.match(prompt, /#001F3F/, `${label} should use navy`);
-  assert.match(prompt, /#FFFFFF/, `${label} should use white`);
-  assert.doesNotMatch(prompt, /#FF7A00|#00D2FF|#0B0E14/, `${label} should not use legacy colors`);
+  assert.match(prompt, /#001F3F/, `${label} should use midnight navy`);
+  assert.match(prompt, /#00D2FF/, `${label} should use electric cyan`);
+  assert.match(prompt, /#FFFFFF/, `${label} should use white typography`);
+  assert.doesNotMatch(prompt, /#FF7A00|#0B0E14/, `${label} should not use stale palette colors`);
+  assert.match(prompt, /glassmorphic|translucent glass panels/i, `${label} should use the reference glass-panel treatment`);
+  assert.match(prompt, /stacked|condensed|oversized|hero/i, `${label} should use the reference typography or hero treatment`);
 
-  const strictRule = 'Strict palette: use navy #001F3F and white #FFFFFF only; do not use orange, cyan, yellow, gold, golden, amber, or any other color for text or visual elements.';
-  assert.ok(prompt.includes(strictRule), `${label} should include the strict palette rule`);
-  const promptBeforeStrictRule = prompt.slice(0, prompt.indexOf(strictRule));
-  assert.doesNotMatch(
-    promptBeforeStrictRule,
-    /\b(?:orange|cyan|yellow|gold|golden|amber)\b/i,
-    `${label} should not contain legacy color instructions before the strict palette rule`,
-  );
+  const referenceRule = 'Reference design lock: match the supplied SOVSTOCK editorial cover language with a midnight navy city backdrop, realistic central subject, translucent glass panels with electric cyan edge light, oversized stacked white/cyan typography, and a bottom metrics bar. Preserve every supplied slide string exactly; never rewrite, omit, or invent text, numbers, tickers, logos, or data.';
+  assert.ok(prompt.includes(referenceRule), `${label} should include the reference design and content lock`);
 }
 
 
@@ -165,7 +162,7 @@ test('buildCarouselSlidePrompt properly anchors slide number and visual data int
   assert.match(coverPrompt, /— PERBANKAN —/);
   assert.match(coverPrompt, /Slide 1 of 4/);
   assert.match(coverPrompt, /Visual Data Integrity/);
-  assert.match(coverPrompt, /photojournalistic editorial cover aesthetic/i);
+  assert.match(coverPrompt, /Cinematic SOVSTOCK financial editorial cover/i);
   assertCarouselPalette(coverPrompt, 'Cover slide');
 
 
@@ -269,13 +266,10 @@ test('extractArticleCarouselStory fallback properly initializes structured bulle
   assert.ok(result.slides[1].bullet_points.length > 0);
   assert.equal(result.slides[1].bullet_points[0].label, 'Pokok Berita');
   result.slides.forEach((slide, index) => {
-    assert.match(slide.visual_scene, /#001F3F/, `Fallback slide ${index + 1} should use navy`);
-    assert.match(slide.visual_scene, /#FFFFFF/, `Fallback slide ${index + 1} should use white`);
-    assert.doesNotMatch(
-      slide.visual_scene,
-      /dark charcoal|orange|cyan|yellow|gold|golden|amber/i,
-      `Fallback slide ${index + 1} should not use legacy color language`,
-    );
+    assert.match(slide.visual_scene, /#00D2FF/, `Fallback slide ${index + 1} should use electric cyan`);
+    assert.match(slide.visual_scene, /glassmorphic/i, `Fallback slide ${index + 1} should use glass panels`);
+    assert.match(slide.visual_scene, /#001F3F/, `Fallback slide ${index + 1} should use midnight navy`);
+    assert.match(slide.visual_scene, /#FFFFFF/, `Fallback slide ${index + 1} should use white typography`);
   });
 });
 test('runPipeline in carousel mode executes multi-image publishing flow', async () => {
