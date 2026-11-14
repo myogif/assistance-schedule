@@ -72,6 +72,26 @@ test('buildVisualPrompt uses navy color (#001F3F) instead of dark charcoal', () 
   assert.ok(!result.includes('dark charcoal'), 'Should not mention dark charcoal');
 });
 
+test('buildVisualPrompt forbids invented or stale IHSG index levels', () => {
+  const promptRecord = {
+    systemPrompt: null,
+    config: {},
+  };
+
+  const result = promptService.buildVisualPrompt(promptRecord, {
+    category: 'IDX MARKET WATCH',
+    headline: 'IHSG MARKET UPDATE',
+    subtitle: 'Pergerakan indeks hari ini',
+    stocks: [],
+    composition_mode: 'macro_general',
+  });
+
+  assert.match(result, /Never invent, estimate, recall, or reuse a market index level/i);
+  assert.match(result, /render a numeric level only when an explicit current value is supplied/i);
+  assert.match(result, /If no current IHSG value is supplied, show only "IHSG"/i);
+  assert.match(result, /Do not use historical numbers from the headline\/article as current data/i);
+});
+
 test('buildVisualPrompt preserves orange and white color references', () => {
   const promptRecord = {
     systemPrompt: null,

@@ -114,6 +114,13 @@ async function updatePrompt(nicheCode, type, updateData = {}) {
   return currentPrompt;
 }
 
+const IHSG_DATA_INTEGRITY_INSTRUCTION = [
+  'Market Data Integrity (MANDATORY): Never invent, estimate, recall, or reuse a market index level.',
+  'For IHSG, render a numeric level only when an explicit current value is supplied in the input data (for example, $IHSG price).',
+  'If no current IHSG value is supplied, show only "IHSG" or "Indeks Harga Saham Gabungan" and no numeric level.',
+  'Do not use historical numbers from the headline/article as current data.',
+].join(' ');
+
 /**
  * Builds the visual prompt from the visual_image prompt template and extracted entities.
  * @param {Prompt} promptRecord
@@ -264,7 +271,7 @@ function buildVisualPrompt(promptRecord, extracted) {
     .replace(/\{\{headline\}\}/g, headline)
     .replace(/\{\{subtitle\}\}/g, subtitle);
 
-  return visualPrompt;
+  return `${visualPrompt}\n\n${IHSG_DATA_INTEGRITY_INSTRUCTION}`;
 }
 
 /**

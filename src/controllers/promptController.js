@@ -36,6 +36,8 @@ Style & Aesthetic: Ultra-sharp Bloomberg Markets & Financial Times Weekend magaz
 
 {{composition_details}}
 
+Market Data Integrity (MANDATORY): Never invent, estimate, recall, or reuse an IHSG market index level. Render a numeric IHSG level only when an explicit current value is supplied in the input data. If no current IHSG value is supplied, show only IHSG or Indeks Harga Saham Gabungan without any numeric level. Do not treat historical numbers from the headline or article as current data.
+
 Bottom-Center Typography & Information Structure (Strictly Anchored at Lower-Center / Bottom 45%):
 1. Category Tag / Micro-Typography Bar: Centered category badge '— {{category}} —' in clean tracked uppercase sans-serif with subtle flanking labels ('INDONESIA CAPITAL MARKETS' on left, 'MARKETS & INSIGHTS' on right), positioned directly above the headline at lower-center.
 2. Centered Dual-Tone Headline Typography: All headline lines are strictly center-aligned across the poster width, located at the bottom-center of the poster. Massive bold condensed uppercase typography reading "{{headline}}". Action and transaction keywords (such as 'BELI SAHAM', 'TAHAN BUNGA', 'CATAT LABA', 'AKUISISI', 'LEPAS', 'TURUN', 'NAIK') are styled in luminous electric cyan blue (#00D2FF), while entity and person names are in crisp bold white (#FFFFFF).
@@ -51,7 +53,9 @@ Subtitle: {{subtitle}}
 Person: {{person}}
 Stocks: {{stocks}}
 Composition Details:
-{{composition_details}}`,
+{{composition_details}}
+
+Market Data Integrity (MANDATORY): Never invent, estimate, recall, or reuse an IHSG market index level. Render a numeric IHSG level only when an explicit current value is supplied in the input data. If no current IHSG value is supplied, show only IHSG or Indeks Harga Saham Gabungan without any numeric level. Do not treat historical numbers from the headline or article as current data.`,
     config: {
       aspect_ratio: '4:5',
       size: '1088x1360',
