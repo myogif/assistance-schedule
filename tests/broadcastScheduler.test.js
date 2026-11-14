@@ -124,8 +124,10 @@ test('processArticleWithFeedback successfully broadcasts and updates Instagram p
     sourceName: 'Kontan',
     eventCategory: 'LAPORAN KEUANGAN',
     stockTickers: ['BMRI'],
+    recommendedFormat: 'carousel',
   };
 
+  try {
   const result = await processArticleWithFeedback(
     mockBot,
     '-1001234567890',
@@ -148,6 +150,7 @@ test('processArticleWithFeedback successfully broadcasts and updates Instagram p
   assert.equal(pipelineCalledWith.input.url, article.url);
   assert.equal(pipelineCalledWith.nicheCode, 'finance');
   assert.equal(pipelineCalledWith.triggeredBy, 'test_runner');
+  assert.equal(pipelineCalledWith.postFormat, 'single');
 
   // 4. Progress was updated sequentially
   assert.ok(editedMessages.length >= 4);
@@ -164,9 +167,11 @@ test('processArticleWithFeedback successfully broadcasts and updates Instagram p
   assert.equal(result.published, true);
   assert.equal(result.logId, 1234);
 
-  // Restore mock
-  pipelineService.runPipeline = originalRunPipeline;
+  } finally {
+    pipelineService.runPipeline = originalRunPipeline;
+  }
 });
+
 
 test('processArticleWithFeedback edits message to error when pipeline fails', async () => {
   const sentMessages = [];

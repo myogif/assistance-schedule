@@ -179,3 +179,39 @@ test('handleArticleMessage with !generate and !gencarousel routes correctly and 
     if (fs.existsSync(tmpImg)) fs.unlinkSync(tmpImg);
   }
 });
+test('handleArticleMessage defaults plain article messages to single poster', async () => {
+  const originalRunPipeline = pipelineService.runPipeline;
+  let pipelineArgs = null;
+  const htmlReplies = [];
+
+  pipelineService.runPipeline = async (args) => {
+    pipelineArgs = args;
+    return {
+      logId: 404,
+      isCarousel: false,
+      extracted: { headline: 'Plain article', category: 'MARKET' },
+      publishResult: {
+        postId: 'post-1',
+        platformPostUrl: 'https://instagram.com/p/post-1',
+      },
+    };
+  };
+
+  const mockCtx = {
+    message: { text: 'https://invezgo.com/id/blog/plain-article' },
+    from: { username: 'investor_pro' },
+    chat: { id: 12345 },
+    reply: async () => ({ message_id: 77 }),
+    telegram: { editMessageText: async () => {} },
+    replyWithHTML: async (msg) => { htmlReplies.push(msg); },
+  };
+
+  try {
+    await handlers.handleArticleMessage(mockCtx);
+    assert.ok(pipelineArgs);
+    assert.equal(pipelineArgs.postFormat, 'single');
+    assert.ok(htmlReplies.some((m) => m.includes('Plain article')));
+  } finally {
+    pipelineService.runPipeline = originalRunPipeline;
+  }
+});

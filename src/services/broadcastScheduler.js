@@ -159,14 +159,13 @@ async function processArticleWithFeedback(
 
   try {
     // 4. Run full pipeline
-    const postFormat = options.postFormat || article.recommendedFormat || process.env.BROADCAST_POST_FORMAT || process.env.POST_FORMAT || 'single';
     const result = await pipelineService.runPipeline({
       input: { url: article.url },
       nicheCode: nicheCode || 'finance',
       triggeredBy: options.triggeredBy || 'broadcast_scheduler',
       dryRun: Boolean(options.dryRun),
       skipPublish: Boolean(options.skipPublish),
-      postFormat,
+      postFormat: 'single',
       onProgress: updateProgress,
     });
 

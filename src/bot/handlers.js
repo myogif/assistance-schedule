@@ -383,7 +383,7 @@ async function handleArticleMessage(ctx) {
   const skipPublish = wantsGenerate || wantsGenCarousel || /(^|\s)(!skip|--skip-publish)(\s|$)/i.test(rawText);
   const wantsCarousel = wantsGenCarousel || /(^|\s)(!carousel|--carousel)(\s|$)/i.test(rawText);
   const wantsSingle = wantsGenerate || /(^|\s)(!single|--single)(\s|$)/i.test(rawText);
-  let postFormat = null;
+  let postFormat = 'single';
   if (wantsSingle) {
     postFormat = 'single';
   } else if (wantsCarousel) {
