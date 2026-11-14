@@ -33,6 +33,10 @@ const swaggerSpec = {
       name: 'Bot Configuration',
       description: 'Telegram bot tokens and allowed user registries',
     },
+    {
+      name: 'News Engine',
+      description: 'Multi-source dynamic news ingestion, parsing, entity extraction, deduplication, and async queue',
+    },
   ],
   paths: {
     '/api/v1/system/status': {
@@ -1047,6 +1051,106 @@ const swaggerSpec = {
               },
             },
           },
+        },
+      },
+    },
+    '/api/v1/news/ingest': {
+      post: {
+        tags: ['News Engine'],
+        summary: 'Ingest single or batch URLs into 9-stage asynchronous processing queue',
+        operationId: 'ingestNews',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  url: { type: 'string', example: 'https://kontan.co.id/news/sample-news' },
+                  urls: { type: 'array', items: { type: 'string' } },
+                  force: { type: 'boolean', example: false },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          202: { description: 'Articles accepted into processing queue' },
+          400: { description: 'Missing url or urls' },
+        },
+      },
+    },
+    '/api/v1/news/parse': {
+      post: {
+        tags: ['News Engine'],
+        summary: 'Synchronously extract and normalize article into Universal Article Schema',
+        operationId: 'parseNews',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  url: { type: 'string', example: 'https://www.cnbcindonesia.com/market/sample' },
+                  html: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          200: { description: 'Article parsed into UniversalArticleSchema' },
+          400: { description: 'Invalid input' },
+        },
+      },
+    },
+    '/api/v1/news/jobs/{id}': {
+      get: {
+        tags: ['News Engine'],
+        summary: 'Get news ingestion job status, current stage, and execution logs',
+        operationId: 'getNewsJob',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'string' },
+          },
+        ],
+        responses: {
+          200: { description: 'Job status retrieved' },
+          404: { description: 'Job not found' },
+        },
+      },
+    },
+    '/api/v1/news/clusters': {
+      get: {
+        tags: ['News Engine'],
+        summary: 'List active event clusters across media outlets',
+        operationId: 'getNewsClusters',
+        responses: {
+          200: { description: 'Active clusters retrieved' },
+        },
+      },
+    },
+    '/api/v1/news/sources': {
+      get: {
+        tags: ['News Engine'],
+        summary: 'Get registered news sources and reliability tiers',
+        operationId: 'getNewsSources',
+        responses: {
+          200: { description: 'Registered sources and tiers retrieved' },
+        },
+      },
+    },
+    '/api/v1/news/status': {
+      get: {
+        tags: ['News Engine'],
+        summary: 'Get processing queue status and active workers',
+        operationId: 'getNewsQueueStatus',
+        responses: {
+          200: { description: 'Queue telemetry retrieved' },
         },
       },
     },

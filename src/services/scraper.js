@@ -167,10 +167,6 @@ async function resolveArticleInput(input = {}) {
     source,
   } = input;
 
-  if (url && /^https?:\/\//i.test(url.trim())) {
-    return scrapeArticle(url.trim());
-  }
-
   if (text && text.trim().length > 0) {
     const trimmed = text.trim();
     const firstLine = trimmed.split('\n')[0].trim();
@@ -184,6 +180,10 @@ async function resolveArticleInput(input = {}) {
       text: trimmed,
       ogImage: null,
     };
+  }
+
+  if (url && /^https?:\/\//i.test(url.trim())) {
+    return scrapeArticle(url.trim());
   }
 
   throw new Error('No valid article URL or text provided');

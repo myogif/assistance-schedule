@@ -1,0 +1,5096 @@
+[
+  {
+    "ticker": "AADI",
+    "name": "Adaro Andalan Indonesia Tbk",
+    "sector": "Energi",
+    "aliases": [
+      "adaro andalan"
+    ]
+  },
+  {
+    "ticker": "AALI",
+    "name": "Astra Agro Lestari Tbk",
+    "sector": "Bahan Baku",
+    "aliases": [
+      "astra agro"
+    ]
+  },
+  {
+    "ticker": "ABBA",
+    "name": "PT ABBA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ABDA",
+    "name": "PT ABDA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ABMM",
+    "name": "PT ABMM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ACES",
+    "name": "Aspirasi Hidup Indonesia Tbk",
+    "sector": "Konsumer",
+    "aliases": [
+      "ace hardware",
+      "aspirasi hidup indonesia"
+    ]
+  },
+  {
+    "ticker": "ACST",
+    "name": "PT ACST Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ADES",
+    "name": "PT ADES Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ADHI",
+    "name": "PT ADHI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ADMF",
+    "name": "PT ADMF Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ADMG",
+    "name": "PT ADMG Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ADMR",
+    "name": "Adaro Minerals Indonesia Tbk",
+    "sector": "Energi",
+    "aliases": [
+      "adaro minerals"
+    ]
+  },
+  {
+    "ticker": "ADRO",
+    "name": "Alamtri Resources Indonesia Tbk",
+    "sector": "Energi",
+    "aliases": [
+      "adaro",
+      "adaro energy",
+      "alamtri resources"
+    ]
+  },
+  {
+    "ticker": "AGAR",
+    "name": "PT AGAR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "AGII",
+    "name": "PT AGII Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "AGRO",
+    "name": "PT AGRO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "AGRS",
+    "name": "PT AGRS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "AHAP",
+    "name": "PT AHAP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "AIMS",
+    "name": "PT AIMS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "AISA",
+    "name": "PT AISA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "AKKU",
+    "name": "PT AKKU Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "AKPI",
+    "name": "PT AKPI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "AKRA",
+    "name": "PT AKRA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ALDO",
+    "name": "PT ALDO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ALII",
+    "name": "PT ALII Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ALKA",
+    "name": "PT ALKA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ALMI",
+    "name": "PT ALMI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "AMAR",
+    "name": "Bank Amar Indonesia Tbk",
+    "sector": "Perbankan",
+    "aliases": [
+      "bank amar",
+      "tunaiku"
+    ]
+  },
+  {
+    "ticker": "AMFG",
+    "name": "PT AMFG Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "AMIN",
+    "name": "PT AMIN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "AMMN",
+    "name": "Amman Mineral Internasional Tbk",
+    "sector": "Bahan Baku",
+    "aliases": [
+      "amman mineral",
+      "amman"
+    ]
+  },
+  {
+    "ticker": "AMOR",
+    "name": "PT AMOR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ANDI",
+    "name": "PT ANDI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ANJT",
+    "name": "PT ANJT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ANTM",
+    "name": "Aneka Tambang Tbk",
+    "sector": "Bahan Baku",
+    "aliases": [
+      "antam",
+      "aneka tambang"
+    ]
+  },
+  {
+    "ticker": "APEX",
+    "name": "PT APEX Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "APIC",
+    "name": "PT APIC Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "APII",
+    "name": "PT APII Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "APLI",
+    "name": "PT APLI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "APLN",
+    "name": "PT APLN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ARCI",
+    "name": "PT ARCI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ARGO",
+    "name": "PT ARGO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ARII",
+    "name": "PT ARII Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ARKA",
+    "name": "PT ARKA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ARKO",
+    "name": "PT ARKO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ARNA",
+    "name": "PT ARNA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ARTA",
+    "name": "PT ARTA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ARTI",
+    "name": "PT ARTI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ARTO",
+    "name": "Bank Jago Tbk",
+    "sector": "Perbankan",
+    "aliases": [
+      "bank jago",
+      "jago"
+    ]
+  },
+  {
+    "ticker": "ASBI",
+    "name": "PT ASBI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ASDF",
+    "name": "PT ASDF Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ASGR",
+    "name": "PT ASGR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ASIA",
+    "name": "PT ASIA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ASII",
+    "name": "Astra International Tbk",
+    "sector": "Konsumer",
+    "aliases": [
+      "astra",
+      "astra international"
+    ]
+  },
+  {
+    "ticker": "ASJT",
+    "name": "PT ASJT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ASMI",
+    "name": "PT ASMI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ASPI",
+    "name": "PT ASPI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ASRI",
+    "name": "Alam Sutera Realty Tbk",
+    "sector": "Properti",
+    "aliases": [
+      "alam sutera"
+    ]
+  },
+  {
+    "ticker": "ASRM",
+    "name": "PT ASRM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ATIC",
+    "name": "PT ATIC Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "AUTO",
+    "name": "Astra Otoparts Tbk",
+    "sector": "Konsumer",
+    "aliases": [
+      "astra otoparts"
+    ]
+  },
+  {
+    "ticker": "AVIA",
+    "name": "PT AVIA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "AWAN",
+    "name": "PT AWAN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "AYLS",
+    "name": "PT AYLS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BABP",
+    "name": "PT BABP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BACA",
+    "name": "PT BACA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BAJA",
+    "name": "PT BAJA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BALI",
+    "name": "PT BALI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BAPA",
+    "name": "PT BAPA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BAPI",
+    "name": "PT BAPI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BATA",
+    "name": "PT BATA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BATR",
+    "name": "PT BATR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BAUT",
+    "name": "PT BAUT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BAYU",
+    "name": "PT BAYU Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BBCA",
+    "name": "Bank Central Asia Tbk",
+    "sector": "Perbankan",
+    "aliases": [
+      "bca",
+      "bank bca",
+      "bank central asia"
+    ]
+  },
+  {
+    "ticker": "BBHI",
+    "name": "Allo Bank Indonesia Tbk",
+    "sector": "Perbankan",
+    "aliases": [
+      "allo bank",
+      "allo"
+    ]
+  },
+  {
+    "ticker": "BBKP",
+    "name": "PT BBKP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BBLD",
+    "name": "PT BBLD Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BBMD",
+    "name": "PT BBMD Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BBNI",
+    "name": "Bank Negara Indonesia (Persero) Tbk",
+    "sector": "Perbankan",
+    "aliases": [
+      "bni",
+      "bank bni",
+      "bank negara indonesia"
+    ]
+  },
+  {
+    "ticker": "BBRI",
+    "name": "Bank Rakyat Indonesia (Persero) Tbk",
+    "sector": "Perbankan",
+    "aliases": [
+      "bri",
+      "bank bri",
+      "bank rakyat indonesia"
+    ]
+  },
+  {
+    "ticker": "BBRM",
+    "name": "PT BBRM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BBSI",
+    "name": "PT BBSI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BBSS",
+    "name": "PT BBSS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BBTN",
+    "name": "Bank Tabungan Negara (Persero) Tbk",
+    "sector": "Perbankan",
+    "aliases": [
+      "btn",
+      "bank btn",
+      "bank tabungan negara"
+    ]
+  },
+  {
+    "ticker": "BBYB",
+    "name": "PT BBYB Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BCAP",
+    "name": "PT BCAP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BCIC",
+    "name": "PT BCIC Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BCIP",
+    "name": "PT BCIP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BDAI",
+    "name": "PT BDAI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BDMN",
+    "name": "Bank Danamon Indonesia Tbk",
+    "sector": "Perbankan",
+    "aliases": [
+      "danamon",
+      "bank danamon"
+    ]
+  },
+  {
+    "ticker": "BEBS",
+    "name": "PT BEBS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BEEF",
+    "name": "PT BEEF Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BEKS",
+    "name": "PT BEKS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BELL",
+    "name": "PT BELL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BESS",
+    "name": "PT BESS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BEST",
+    "name": "PT BEST Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BFIN",
+    "name": "PT BFIN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BFIT",
+    "name": "PT BFIT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BGTG",
+    "name": "PT BGTG Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BHAT",
+    "name": "PT BHAT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BHIT",
+    "name": "PT BHIT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BIKA",
+    "name": "PT BIKA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BINA",
+    "name": "PT BINA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BINO",
+    "name": "PT BINO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BIPI",
+    "name": "PT BIPI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BIPP",
+    "name": "PT BIPP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BIRD",
+    "name": "PT BIRD Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BISI",
+    "name": "PT BISI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BJBR",
+    "name": "PT BJBR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BJTM",
+    "name": "PT BJTM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BKDP",
+    "name": "PT BKDP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BKSL",
+    "name": "PT BKSL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BKSW",
+    "name": "PT BKSW Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BLAW",
+    "name": "PT BLAW Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BLTA",
+    "name": "PT BLTA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BLTZ",
+    "name": "PT BLTZ Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BLUE",
+    "name": "PT BLUE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BMAS",
+    "name": "PT BMAS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BMBL",
+    "name": "PT BMBL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BMHS",
+    "name": "PT BMHS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BMRI",
+    "name": "Bank Mandiri (Persero) Tbk",
+    "sector": "Perbankan",
+    "aliases": [
+      "mandiri",
+      "bank mandiri"
+    ]
+  },
+  {
+    "ticker": "BMSR",
+    "name": "PT BMSR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BMTR",
+    "name": "PT BMTR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BNBA",
+    "name": "PT BNBA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BNBR",
+    "name": "PT BNBR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BNGA",
+    "name": "Bank CIMB Niaga Tbk",
+    "sector": "Perbankan",
+    "aliases": [
+      "cimb",
+      "cimb niaga",
+      "bank cimb niaga"
+    ]
+  },
+  {
+    "ticker": "BNII",
+    "name": "PT BNII Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BNLI",
+    "name": "PT BNLI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BOBA",
+    "name": "PT BOBA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BOGA",
+    "name": "PT BOGA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BOLA",
+    "name": "PT BOLA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BOLT",
+    "name": "PT BOLT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BOSS",
+    "name": "PT BOSS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BPFI",
+    "name": "PT BPFI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BPII",
+    "name": "PT BPII Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BPTR",
+    "name": "PT BPTR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BRAM",
+    "name": "PT BRAM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BREN",
+    "name": "Barito Renewables Energy Tbk",
+    "sector": "Energi",
+    "aliases": [
+      "barito renewables",
+      "bren"
+    ]
+  },
+  {
+    "ticker": "BRIS",
+    "name": "Bank Syariah Indonesia Tbk",
+    "sector": "Perbankan",
+    "aliases": [
+      "bsi",
+      "bank syariah indonesia"
+    ]
+  },
+  {
+    "ticker": "BRMS",
+    "name": "Bumi Resources Minerals Tbk",
+    "sector": "Bahan Baku",
+    "aliases": [
+      "bumi minerals"
+    ]
+  },
+  {
+    "ticker": "BRNA",
+    "name": "PT BRNA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BRPT",
+    "name": "Barito Pacific Tbk",
+    "sector": "Bahan Baku",
+    "aliases": [
+      "barito pacific"
+    ]
+  },
+  {
+    "ticker": "BSDE",
+    "name": "Bumi Serpong Damai Tbk",
+    "sector": "Properti",
+    "aliases": [
+      "bsd",
+      "bsd city",
+      "bumi serpong damai"
+    ]
+  },
+  {
+    "ticker": "BSIM",
+    "name": "PT BSIM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BSML",
+    "name": "PT BSML Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BSSR",
+    "name": "PT BSSR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BSUD",
+    "name": "PT BSUD Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BTEK",
+    "name": "PT BTEK Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BTEL",
+    "name": "PT BTEL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BTON",
+    "name": "PT BTON Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BTPN",
+    "name": "Bank SMBC Indonesia Tbk",
+    "sector": "Perbankan",
+    "aliases": [
+      "btpn",
+      "smbc indonesia"
+    ]
+  },
+  {
+    "ticker": "BTPS",
+    "name": "Bank BTPN Syariah Tbk",
+    "sector": "Perbankan",
+    "aliases": [
+      "btpn syariah"
+    ]
+  },
+  {
+    "ticker": "BUKA",
+    "name": "Bukalapak.com Tbk",
+    "sector": "Teknologi",
+    "aliases": [
+      "bukalapak"
+    ]
+  },
+  {
+    "ticker": "BUKK",
+    "name": "PT BUKK Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BULL",
+    "name": "PT BULL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BUMI",
+    "name": "Bumi Resources Tbk",
+    "sector": "Energi",
+    "aliases": [
+      "bumi resources"
+    ]
+  },
+  {
+    "ticker": "BUVA",
+    "name": "PT BUVA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BVIC",
+    "name": "PT BVIC Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BWPT",
+    "name": "PT BWPT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "BYAN",
+    "name": "Bayan Resources Tbk",
+    "sector": "Energi",
+    "aliases": [
+      "bayan resources",
+      "bayan"
+    ]
+  },
+  {
+    "ticker": "CAKK",
+    "name": "PT CAKK Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CAMP",
+    "name": "PT CAMP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CAPI",
+    "name": "PT CAPI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CARS",
+    "name": "PT CARS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CASA",
+    "name": "PT CASA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CASH",
+    "name": "PT CASH Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CASS",
+    "name": "PT CASS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CBPE",
+    "name": "PT CBPE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CBRE",
+    "name": "PT CBRE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CBUT",
+    "name": "PT CBUT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CCSI",
+    "name": "PT CCSI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CEKA",
+    "name": "PT CEKA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CENT",
+    "name": "PT CENT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CFIN",
+    "name": "PT CFIN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CINT",
+    "name": "PT CINT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CITA",
+    "name": "PT CITA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CITY",
+    "name": "PT CITY Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CLAY",
+    "name": "PT CLAY Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CLEO",
+    "name": "PT CLEO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CLPI",
+    "name": "PT CLPI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CMNT",
+    "name": "PT CMNT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CMPP",
+    "name": "PT CMPP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CMRY",
+    "name": "Cisarua Mountain Dairy Tbk",
+    "sector": "Konsumer",
+    "aliases": [
+      "cimory"
+    ]
+  },
+  {
+    "ticker": "CNKO",
+    "name": "PT CNKO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CNMA",
+    "name": "Nusantara Sejahtera Raya Tbk",
+    "sector": "Konsumer",
+    "aliases": [
+      "cinema xxi",
+      "cinema 21"
+    ]
+  },
+  {
+    "ticker": "CNTX",
+    "name": "PT CNTX Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "COAL",
+    "name": "PT COAL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "COCO",
+    "name": "PT COCO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CPIN",
+    "name": "Charoen Pokphand Indonesia Tbk",
+    "sector": "Konsumer",
+    "aliases": [
+      "charoen pokphand",
+      "pokphand"
+    ]
+  },
+  {
+    "ticker": "CPRO",
+    "name": "PT CPRO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CSAP",
+    "name": "PT CSAP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CSIS",
+    "name": "PT CSIS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CSMI",
+    "name": "PT CSMI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CSRA",
+    "name": "PT CSRA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CTBN",
+    "name": "PT CTBN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CTRA",
+    "name": "Ciputra Development Tbk",
+    "sector": "Properti",
+    "aliases": [
+      "ciputra",
+      "ciputra development"
+    ]
+  },
+  {
+    "ticker": "CTTH",
+    "name": "PT CTTH Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "CUAN",
+    "name": "Petrindo Jaya Kreasi Tbk",
+    "sector": "Energi",
+    "aliases": [
+      "petrindo"
+    ]
+  },
+  {
+    "ticker": "DAAT",
+    "name": "PT DAAT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DAAZ",
+    "name": "PT DAAZ Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DADA",
+    "name": "PT DADA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DART",
+    "name": "PT DART Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DAYA",
+    "name": "PT DAYA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DCII",
+    "name": "PT DCII Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DEAL",
+    "name": "PT DEAL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DEFI",
+    "name": "PT DEFI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DEPO",
+    "name": "PT DEPO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DEWA",
+    "name": "PT DEWA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DFAM",
+    "name": "PT DFAM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DGIK",
+    "name": "PT DGIK Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DGNS",
+    "name": "PT DGNS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DIGI",
+    "name": "PT DIGI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DILD",
+    "name": "PT DILD Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DIVA",
+    "name": "PT DIVA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DKFT",
+    "name": "PT DKFT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DLTA",
+    "name": "PT DLTA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DMAS",
+    "name": "PT DMAS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DMMX",
+    "name": "PT DMMX Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DMND",
+    "name": "PT DMND Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DNAR",
+    "name": "PT DNAR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DNET",
+    "name": "PT DNET Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DOID",
+    "name": "PT DOID Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DOSS",
+    "name": "PT DOSS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DPNS",
+    "name": "PT DPNS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DPUM",
+    "name": "PT DPUM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DRMA",
+    "name": "PT DRMA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DSFI",
+    "name": "PT DSFI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DSNG",
+    "name": "PT DSNG Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DSSA",
+    "name": "PT DSSA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DUTI",
+    "name": "PT DUTI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DVLA",
+    "name": "PT DVLA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DWGL",
+    "name": "PT DWGL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "DYAN",
+    "name": "PT DYAN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "EAST",
+    "name": "PT EAST Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ECII",
+    "name": "PT ECII Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "EDII",
+    "name": "PT EDII Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "EKAD",
+    "name": "PT EKAD Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ELIT",
+    "name": "PT ELIT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ELPI",
+    "name": "PT ELPI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ELSA",
+    "name": "PT ELSA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ELTY",
+    "name": "PT ELTY Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "EMDE",
+    "name": "PT EMDE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "EMMS",
+    "name": "PT EMMS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "EMTK",
+    "name": "Elang Mahkota Teknologi Tbk",
+    "sector": "Teknologi",
+    "aliases": [
+      "emtek"
+    ]
+  },
+  {
+    "ticker": "ENRG",
+    "name": "Energi Mega Persada Tbk",
+    "sector": "Energi",
+    "aliases": [
+      "energi mega persada",
+      "emp"
+    ]
+  },
+  {
+    "ticker": "ENVY",
+    "name": "PT ENVY Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ENZO",
+    "name": "PT ENZO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "EPAC",
+    "name": "PT EPAC Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "EPRT",
+    "name": "PT EPRT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ERAA",
+    "name": "Erajaya Swasembada Tbk",
+    "sector": "Konsumer",
+    "aliases": [
+      "erajaya",
+      "eraspace"
+    ]
+  },
+  {
+    "ticker": "ERAL",
+    "name": "PT ERAL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ERTX",
+    "name": "PT ERTX Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ESIP",
+    "name": "PT ESIP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ESSA",
+    "name": "PT ESSA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ESTA",
+    "name": "PT ESTA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ESTI",
+    "name": "PT ESTI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ETWA",
+    "name": "PT ETWA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "EURO",
+    "name": "PT EURO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "EXCL",
+    "name": "XL Axiata Tbk",
+    "sector": "Teknologi",
+    "aliases": [
+      "xl",
+      "xl axiata"
+    ]
+  },
+  {
+    "ticker": "FAPA",
+    "name": "PT FAPA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "FASW",
+    "name": "PT FASW Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "FILM",
+    "name": "PT FILM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "FIMP",
+    "name": "PT FIMP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "FIRE",
+    "name": "PT FIRE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "FISH",
+    "name": "PT FISH Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "FITT",
+    "name": "PT FITT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "FMII",
+    "name": "PT FMII Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "FOOD",
+    "name": "PT FOOD Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "FORU",
+    "name": "PT FORU Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "FPII",
+    "name": "PT FPII Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "FPNI",
+    "name": "PT FPNI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "FSAT",
+    "name": "PT FSAT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "FUTR",
+    "name": "PT FUTR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "FWCT",
+    "name": "PT FWCT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "GAMA",
+    "name": "PT GAMA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "GDST",
+    "name": "PT GDST Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "GDYR",
+    "name": "PT GDYR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "GEMA",
+    "name": "PT GEMA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "GEMS",
+    "name": "Golden Energy Mines Tbk",
+    "sector": "Energi",
+    "aliases": [
+      "golden energy mines"
+    ]
+  },
+  {
+    "ticker": "GGRM",
+    "name": "Gudang Garam Tbk",
+    "sector": "Konsumer",
+    "aliases": [
+      "gudang garam"
+    ]
+  },
+  {
+    "ticker": "GIAA",
+    "name": "PT GIAA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "GJTL",
+    "name": "PT GJTL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "GLOB",
+    "name": "PT GLOB Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "GLVA",
+    "name": "PT GLVA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "GMFI",
+    "name": "PT GMFI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "GMTD",
+    "name": "PT GMTD Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "GOLD",
+    "name": "PT GOLD Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "GOLF",
+    "name": "PT GOLF Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "GOLL",
+    "name": "PT GOLL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "GOOD",
+    "name": "PT GOOD Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "GOTO",
+    "name": "GoTo Gojek Tokopedia Tbk",
+    "sector": "Teknologi",
+    "aliases": [
+      "goto",
+      "gojek",
+      "tokopedia"
+    ]
+  },
+  {
+    "ticker": "GPRA",
+    "name": "PT GPRA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "GPSO",
+    "name": "PT GPSO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "GRIA",
+    "name": "PT GRIA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "GRPH",
+    "name": "PT GRPH Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "GSMF",
+    "name": "PT GSMF Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "GTBO",
+    "name": "PT GTBO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "GTSI",
+    "name": "PT GTSI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "GZCO",
+    "name": "PT GZCO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "HAIS",
+    "name": "PT HAIS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "HATM",
+    "name": "PT HATM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "HBAT",
+    "name": "PT HBAT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "HDFA",
+    "name": "PT HDFA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "HDIT",
+    "name": "PT HDIT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "HDTX",
+    "name": "PT HDTX Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "HEAL",
+    "name": "Medikaloka Hermina Tbk",
+    "sector": "Kesehatan",
+    "aliases": [
+      "hermina",
+      "rs hermina"
+    ]
+  },
+  {
+    "ticker": "HELI",
+    "name": "PT HELI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "HERO",
+    "name": "PT HERO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "HEXA",
+    "name": "PT HEXA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "HFEI",
+    "name": "PT HFEI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "HITS",
+    "name": "PT HITS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "HKMU",
+    "name": "PT HKMU Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "HLST",
+    "name": "PT HLST Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "HMSP",
+    "name": "Hanjaya Mandala Sampoerna Tbk",
+    "sector": "Konsumer",
+    "aliases": [
+      "sampoerna",
+      "hm sampoerna"
+    ]
+  },
+  {
+    "ticker": "HOKI",
+    "name": "PT HOKI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "HOME",
+    "name": "PT HOME Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "HOPE",
+    "name": "PT HOPE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "HORI",
+    "name": "PT HORI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "HOTL",
+    "name": "PT HOTL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "HRTA",
+    "name": "PT HRTA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "HRUM",
+    "name": "Harum Energy Tbk",
+    "sector": "Energi",
+    "aliases": [
+      "harum energy"
+    ]
+  },
+  {
+    "ticker": "HUMI",
+    "name": "PT HUMI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "HYGN",
+    "name": "PT HYGN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "IATA",
+    "name": "PT IATA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "IBFN",
+    "name": "PT IBFN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "IBOS",
+    "name": "PT IBOS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "IBST",
+    "name": "PT IBST Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ICBP",
+    "name": "Indofood CBP Sukses Makmur Tbk",
+    "sector": "Konsumer",
+    "aliases": [
+      "indofood cbp",
+      "icbp"
+    ]
+  },
+  {
+    "ticker": "ICON",
+    "name": "PT ICON Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "IDPR",
+    "name": "PT IDPR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "IFII",
+    "name": "PT IFII Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "IFSH",
+    "name": "PT IFSH Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "IGAR",
+    "name": "PT IGAR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "IIKP",
+    "name": "PT IIKP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "IKAI",
+    "name": "PT IKAI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "IKAN",
+    "name": "PT IKAN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "IKBI",
+    "name": "PT IKBI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "IMAS",
+    "name": "PT IMAS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "IMJS",
+    "name": "PT IMJS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "IMPC",
+    "name": "PT IMPC Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "INAF",
+    "name": "PT INAF Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "INCF",
+    "name": "PT INCF Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "INCI",
+    "name": "PT INCI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "INCO",
+    "name": "Vale Indonesia Tbk",
+    "sector": "Bahan Baku",
+    "aliases": [
+      "vale",
+      "vale indonesia"
+    ]
+  },
+  {
+    "ticker": "INDF",
+    "name": "Indofood Sukses Makmur Tbk",
+    "sector": "Konsumer",
+    "aliases": [
+      "indofood"
+    ]
+  },
+  {
+    "ticker": "INDO",
+    "name": "PT INDO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "INDR",
+    "name": "PT INDR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "INDS",
+    "name": "PT INDS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "INDY",
+    "name": "Indika Energy Tbk",
+    "sector": "Energi",
+    "aliases": [
+      "indika",
+      "indika energy"
+    ]
+  },
+  {
+    "ticker": "INET",
+    "name": "PT INET Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "INFY",
+    "name": "PT INFY Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "INKP",
+    "name": "PT INKP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "INOV",
+    "name": "PT INOV Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "INPC",
+    "name": "PT INPC Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "INPP",
+    "name": "PT INPP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "INPS",
+    "name": "PT INPS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "INRU",
+    "name": "PT INRU Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "INTD",
+    "name": "PT INTD Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "INTF",
+    "name": "PT INTF Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "INTP",
+    "name": "Indocement Tunggal Prakarsa Tbk",
+    "sector": "Bahan Baku",
+    "aliases": [
+      "indocement",
+      "semen tiga roda"
+    ]
+  },
+  {
+    "ticker": "IPCC",
+    "name": "PT IPCC Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "IPCM",
+    "name": "PT IPCM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "IPPE",
+    "name": "PT IPPE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "IPPI",
+    "name": "PT IPPI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "IPST",
+    "name": "PT IPST Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "IPTV",
+    "name": "PT IPTV Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "IRRA",
+    "name": "PT IRRA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ISAP",
+    "name": "PT ISAP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ISAT",
+    "name": "Indosat Ooredoo Hutchison Tbk",
+    "sector": "Teknologi",
+    "aliases": [
+      "indosat",
+      "ioh",
+      "indosat ooredoo"
+    ]
+  },
+  {
+    "ticker": "ITIC",
+    "name": "PT ITIC Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ITMA",
+    "name": "PT ITMA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ITMG",
+    "name": "Indo Tambangraya Megah Tbk",
+    "sector": "Energi",
+    "aliases": [
+      "indo tambangraya",
+      "itmg"
+    ]
+  },
+  {
+    "ticker": "JARR",
+    "name": "PT JARR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "JAST",
+    "name": "PT JAST Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "JATI",
+    "name": "PT JATI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "JAYA",
+    "name": "PT JAYA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "JECC",
+    "name": "PT JECC Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "JGLE",
+    "name": "PT JGLE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "JMAS",
+    "name": "PT JMAS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "JPFA",
+    "name": "Japfa Comfeed Indonesia Tbk",
+    "sector": "Konsumer",
+    "aliases": [
+      "japfa"
+    ]
+  },
+  {
+    "ticker": "JRPT",
+    "name": "PT JRPT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "JSPT",
+    "name": "PT JSPT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "JTPE",
+    "name": "PT JTPE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KAEF",
+    "name": "PT KAEF Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KARW",
+    "name": "PT KARW Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KAYU",
+    "name": "PT KAYU Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KBAG",
+    "name": "PT KBAG Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KBLI",
+    "name": "PT KBLI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KBLM",
+    "name": "PT KBLM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KBLV",
+    "name": "PT KBLV Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KDSI",
+    "name": "PT KDSI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KDTN",
+    "name": "PT KDTN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KEEN",
+    "name": "PT KEEN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KEJU",
+    "name": "PT KEJU Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KIAS",
+    "name": "PT KIAS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KICI",
+    "name": "PT KICI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KIOS",
+    "name": "PT KIOS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KJEN",
+    "name": "PT KJEN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KKGI",
+    "name": "PT KKGI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KLAS",
+    "name": "PT KLAS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KLBF",
+    "name": "Kalbe Farma Tbk",
+    "sector": "Kesehatan",
+    "aliases": [
+      "kalbe",
+      "kalbe farma"
+    ]
+  },
+  {
+    "ticker": "KMDS",
+    "name": "PT KMDS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KMTR",
+    "name": "PT KMTR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KOBX",
+    "name": "PT KOBX Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KOCI",
+    "name": "PT KOCI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KOIN",
+    "name": "PT KOIN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KOKA",
+    "name": "PT KOKA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KOMI",
+    "name": "PT KOMI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KOTA",
+    "name": "PT KOTA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KPAL",
+    "name": "PT KPAL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KPAS",
+    "name": "PT KPAS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KPIG",
+    "name": "PT KPIG Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KRAS",
+    "name": "PT KRAS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KREN",
+    "name": "PT KREN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KRYA",
+    "name": "PT KRYA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KTIC",
+    "name": "PT KTIC Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "KUAS",
+    "name": "PT KUAS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "LABA",
+    "name": "PT LABA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "LAND",
+    "name": "PT LAND Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "LAPD",
+    "name": "PT LAPD Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "LCGP",
+    "name": "PT LCGP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "LCKM",
+    "name": "PT LCKM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "LEAP",
+    "name": "PT LEAP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "LEDO",
+    "name": "PT LEDO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "LINK",
+    "name": "PT LINK Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "LION",
+    "name": "PT LION Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "LIVE",
+    "name": "PT LIVE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "LPCK",
+    "name": "PT LPCK Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "LPGI",
+    "name": "PT LPGI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "LPIN",
+    "name": "PT LPIN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "LPKR",
+    "name": "PT LPKR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "LPLI",
+    "name": "PT LPLI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "LPPS",
+    "name": "PT LPPS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "LRNA",
+    "name": "PT LRNA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "LSIP",
+    "name": "PT LSIP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "LTLS",
+    "name": "PT LTLS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "LUCK",
+    "name": "PT LUCK Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "LUMI",
+    "name": "PT LUMI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MABA",
+    "name": "PT MABA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MAHA",
+    "name": "PT MAHA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MAIN",
+    "name": "PT MAIN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MANG",
+    "name": "PT MANG Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MAPA",
+    "name": "MAP Aktif Adiperkasa Tbk",
+    "sector": "Konsumer",
+    "aliases": [
+      "map aktif"
+    ]
+  },
+  {
+    "ticker": "MAPB",
+    "name": "PT MAPB Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MAPI",
+    "name": "Mitra Adiperkasa Tbk",
+    "sector": "Konsumer",
+    "aliases": [
+      "mitra adiperkasa",
+      "map"
+    ]
+  },
+  {
+    "ticker": "MARI",
+    "name": "PT MARI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MARK",
+    "name": "PT MARK Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MASB",
+    "name": "PT MASB Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MAXI",
+    "name": "PT MAXI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MAYA",
+    "name": "PT MAYA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MBAP",
+    "name": "PT MBAP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MBMA",
+    "name": "Merdeka Battery Materials Tbk",
+    "sector": "Bahan Baku",
+    "aliases": [
+      "merdeka battery"
+    ]
+  },
+  {
+    "ticker": "MBSS",
+    "name": "PT MBSS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MBTO",
+    "name": "PT MBTO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MCAS",
+    "name": "PT MCAS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MCOL",
+    "name": "PT MCOL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MCOR",
+    "name": "PT MCOR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MDIA",
+    "name": "PT MDIA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MDKA",
+    "name": "Merdeka Copper Gold Tbk",
+    "sector": "Bahan Baku",
+    "aliases": [
+      "merdeka copper",
+      "merdeka copper gold"
+    ]
+  },
+  {
+    "ticker": "MDKI",
+    "name": "PT MDKI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MDLN",
+    "name": "PT MDLN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MDRN",
+    "name": "PT MDRN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MEDC",
+    "name": "Medco Energi Internasional Tbk",
+    "sector": "Energi",
+    "aliases": [
+      "medco",
+      "medco energi"
+    ]
+  },
+  {
+    "ticker": "MEGA",
+    "name": "Bank Mega Tbk",
+    "sector": "Perbankan",
+    "aliases": [
+      "bank mega"
+    ]
+  },
+  {
+    "ticker": "META",
+    "name": "PT META Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MFCO",
+    "name": "PT MFCO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MFII",
+    "name": "PT MFII Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MFMI",
+    "name": "PT MFMI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MGLV",
+    "name": "PT MGLV Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MGNA",
+    "name": "PT MGNA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MGRO",
+    "name": "PT MGRO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MICE",
+    "name": "PT MICE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MIDI",
+    "name": "Midi Utama Indonesia Tbk",
+    "sector": "Konsumer",
+    "aliases": [
+      "alfamidi"
+    ]
+  },
+  {
+    "ticker": "MIKA",
+    "name": "Mitra Keluarga Karyasehat Tbk",
+    "sector": "Kesehatan",
+    "aliases": [
+      "mitra keluarga",
+      "rs mitra keluarga"
+    ]
+  },
+  {
+    "ticker": "MINA",
+    "name": "PT MINA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MIRA",
+    "name": "PT MIRA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MITI",
+    "name": "PT MITI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MKAP",
+    "name": "PT MKAP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MKNT",
+    "name": "PT MKNT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MKPI",
+    "name": "PT MKPI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MKTR",
+    "name": "PT MKTR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MLBI",
+    "name": "PT MLBI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MLIA",
+    "name": "PT MLIA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MLPL",
+    "name": "PT MLPL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MLPT",
+    "name": "PT MLPT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MMET",
+    "name": "PT MMET Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MMNA",
+    "name": "PT MMNA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MMXX",
+    "name": "PT MMXX Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MNCN",
+    "name": "PT MNCN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MOLI",
+    "name": "PT MOLI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MORA",
+    "name": "PT MORA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MPMX",
+    "name": "PT MPMX Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MPOW",
+    "name": "PT MPOW Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MPPA",
+    "name": "PT MPPA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MPXL",
+    "name": "PT MPXL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MSIN",
+    "name": "PT MSIN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MSJA",
+    "name": "PT MSJA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MSKY",
+    "name": "PT MSKY Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MTDL",
+    "name": "PT MTDL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MTEL",
+    "name": "Dayamitra Telekomunikasi Tbk",
+    "sector": "Infrastruktur",
+    "aliases": [
+      "mitratel"
+    ]
+  },
+  {
+    "ticker": "MTFN",
+    "name": "PT MTFN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MTLA",
+    "name": "PT MTLA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MTPS",
+    "name": "PT MTPS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MTWI",
+    "name": "PT MTWI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MUTU",
+    "name": "PT MUTU Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MVKN",
+    "name": "PT MVKN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MYOH",
+    "name": "PT MYOH Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MYOR",
+    "name": "Mayora Indah Tbk",
+    "sector": "Konsumer",
+    "aliases": [
+      "mayora",
+      "mayora indah"
+    ]
+  },
+  {
+    "ticker": "MYRX",
+    "name": "PT MYRX Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "MYTX",
+    "name": "PT MYTX Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NAIK",
+    "name": "PT NAIK Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NANO",
+    "name": "PT NANO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NASA",
+    "name": "PT NASA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NASI",
+    "name": "PT NASI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NATO",
+    "name": "PT NATO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NAYZ",
+    "name": "PT NAYZ Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NCAS",
+    "name": "PT NCAS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NCKL",
+    "name": "Trimegah Bangun Persada Tbk",
+    "sector": "Bahan Baku",
+    "aliases": [
+      "harita nickel",
+      "trimegah bangun persada"
+    ]
+  },
+  {
+    "ticker": "NDIA",
+    "name": "PT NDIA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NELI",
+    "name": "PT NELI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NELY",
+    "name": "PT NELY Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NEST",
+    "name": "PT NEST Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NETV",
+    "name": "PT NETV Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NEXX",
+    "name": "PT NEXX Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NICK",
+    "name": "PT NICK Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NICL",
+    "name": "PT NICL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NIKL",
+    "name": "PT NIKL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NINE",
+    "name": "PT NINE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NISP",
+    "name": "PT NISP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NOBU",
+    "name": "PT NOBU Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NPGF",
+    "name": "PT NPGF Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NRCA",
+    "name": "PT NRCA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NSSS",
+    "name": "PT NSSS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NTBK",
+    "name": "PT NTBK Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NTRX",
+    "name": "PT NTRX Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NUSA",
+    "name": "PT NUSA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "NZIA",
+    "name": "PT NZIA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "OASA",
+    "name": "PT OASA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "OBMD",
+    "name": "PT OBMD Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "OCBC",
+    "name": "PT OCBC Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PACK",
+    "name": "PT PACK Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PADI",
+    "name": "PT PADI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PALM",
+    "name": "PT PALM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PAMG",
+    "name": "PT PAMG Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PANI",
+    "name": "PT PANI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PANR",
+    "name": "PT PANR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PANS",
+    "name": "PT PANS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PART",
+    "name": "PT PART Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PBID",
+    "name": "PT PBID Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PBRX",
+    "name": "PT PBRX Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PCAR",
+    "name": "PT PCAR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PCCX",
+    "name": "PT PCCX Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PDES",
+    "name": "PT PDES Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PEGE",
+    "name": "PT PEGE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PEHA",
+    "name": "PT PEHA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PEVE",
+    "name": "PT PEVE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PGAS",
+    "name": "Perusahaan Gas Negara Tbk",
+    "sector": "Energi",
+    "aliases": [
+      "pgn",
+      "perusahaan gas negara"
+    ]
+  },
+  {
+    "ticker": "PGEO",
+    "name": "Pertamina Geothermal Energy Tbk",
+    "sector": "Energi",
+    "aliases": [
+      "pertamina geothermal",
+      "pgeo"
+    ]
+  },
+  {
+    "ticker": "PGLI",
+    "name": "PT PGLI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PGUN",
+    "name": "PT PGUN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PHAP",
+    "name": "PT PHAP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PICO",
+    "name": "PT PICO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PJAA",
+    "name": "PT PJAA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PKPK",
+    "name": "PT PKPK Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PLIN",
+    "name": "PT PLIN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PLPE",
+    "name": "PT PLPE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PNBN",
+    "name": "PT PNBN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PNBS",
+    "name": "PT PNBS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PNIN",
+    "name": "PT PNIN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PNSE",
+    "name": "PT PNSE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "POLA",
+    "name": "PT POLA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "POLI",
+    "name": "PT POLI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "POLL",
+    "name": "PT POLL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "POLU",
+    "name": "PT POLU Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "POLY",
+    "name": "PT POLY Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "POOL",
+    "name": "PT POOL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PORT",
+    "name": "PT PORT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "POWR",
+    "name": "PT POWR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PPGL",
+    "name": "PT PPGL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PPRE",
+    "name": "PT PPRE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PPRO",
+    "name": "PT PPRO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PRAS",
+    "name": "PT PRAS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PRDA",
+    "name": "PT PRDA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PRIM",
+    "name": "PT PRIM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PRNA",
+    "name": "PT PRNA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PSSI",
+    "name": "PT PSSI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PTBA",
+    "name": "Bukit Asam Tbk",
+    "sector": "Energi",
+    "aliases": [
+      "bukit asam"
+    ]
+  },
+  {
+    "ticker": "PTDU",
+    "name": "PT PTDU Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PTIS",
+    "name": "PT PTIS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PTMP",
+    "name": "PT PTMP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PTMX",
+    "name": "PT PTMX Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PTNR",
+    "name": "PT PTNR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PTPA",
+    "name": "PT PTPA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PTPW",
+    "name": "PT PTPW Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PTRO",
+    "name": "Petrosea Tbk",
+    "sector": "Infrastruktur",
+    "aliases": [
+      "petrosea"
+    ]
+  },
+  {
+    "ticker": "PTSN",
+    "name": "PT PTSN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PTSP",
+    "name": "PT PTSP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PUDP",
+    "name": "PT PUDP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PUKO",
+    "name": "PT PUKO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PURE",
+    "name": "PT PURE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PURI",
+    "name": "PT PURI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PWON",
+    "name": "Pakuwon Jati Tbk",
+    "sector": "Properti",
+    "aliases": [
+      "pakuwon",
+      "pakuwon jati"
+    ]
+  },
+  {
+    "ticker": "PYFA",
+    "name": "PT PYFA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "PZZA",
+    "name": "PT PZZA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "RAAM",
+    "name": "PT RAAM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "RAFI",
+    "name": "PT RAFI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "RAJA",
+    "name": "Rukun Raharja Tbk",
+    "sector": "Energi",
+    "aliases": [
+      "rukun raharja"
+    ]
+  },
+  {
+    "ticker": "RALS",
+    "name": "PT RALS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "RANC",
+    "name": "PT RANC Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "RBMS",
+    "name": "PT RBMS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "RCCC",
+    "name": "PT RCCC Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "RDTX",
+    "name": "PT RDTX Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "REAL",
+    "name": "PT REAL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "RELI",
+    "name": "PT RELI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "REPO",
+    "name": "PT REPO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "RGAS",
+    "name": "PT RGAS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "RIGS",
+    "name": "PT RIGS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "RIMO",
+    "name": "PT RIMO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "RISE",
+    "name": "PT RISE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "RMKE",
+    "name": "PT RMKE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "RMKO",
+    "name": "PT RMKO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ROCK",
+    "name": "PT ROCK Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "RODA",
+    "name": "PT RODA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "RONI",
+    "name": "PT RONI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ROOP",
+    "name": "PT ROOP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "RORX",
+    "name": "PT RORX Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ROTI",
+    "name": "PT ROTI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "RSCH",
+    "name": "PT RSCH Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "RUIS",
+    "name": "PT RUIS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "RUNS",
+    "name": "PT RUNS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SAGE",
+    "name": "PT SAGE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SAIP",
+    "name": "PT SAIP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SAME",
+    "name": "PT SAME Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SAMF",
+    "name": "PT SAMF Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SAPX",
+    "name": "PT SAPX Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SATU",
+    "name": "PT SATU Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SBAT",
+    "name": "PT SBAT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SBMA",
+    "name": "PT SBMA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SCCO",
+    "name": "PT SCCO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SCMA",
+    "name": "Surya Citra Media Tbk",
+    "sector": "Konsumer",
+    "aliases": [
+      "sctv",
+      "indosiar",
+      "surya citra media"
+    ]
+  },
+  {
+    "ticker": "SCNP",
+    "name": "PT SCNP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SCRC",
+    "name": "PT SCRC Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SDMU",
+    "name": "PT SDMU Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SDPC",
+    "name": "PT SDPC Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SDRR",
+    "name": "PT SDRR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SEAT",
+    "name": "PT SEAT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SEIS",
+    "name": "PT SEIS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SGER",
+    "name": "PT SGER Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SGRO",
+    "name": "PT SGRO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SHID",
+    "name": "PT SHID Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SHIP",
+    "name": "PT SHIP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SICO",
+    "name": "PT SICO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SIDO",
+    "name": "Industri Jamu dan Farmasi Sido Muncul Tbk",
+    "sector": "Kesehatan",
+    "aliases": [
+      "sido muncul",
+      "sidomuncul"
+    ]
+  },
+  {
+    "ticker": "SILO",
+    "name": "Siloam International Hospitals Tbk",
+    "sector": "Kesehatan",
+    "aliases": [
+      "siloam",
+      "rs siloam"
+    ]
+  },
+  {
+    "ticker": "SIMA",
+    "name": "PT SIMA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SIMP",
+    "name": "PT SIMP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SINI",
+    "name": "PT SINI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SIPD",
+    "name": "PT SIPD Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SKBM",
+    "name": "PT SKBM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SKLT",
+    "name": "PT SKLT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SKRN",
+    "name": "PT SKRN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SLIS",
+    "name": "PT SLIS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SMAR",
+    "name": "PT SMAR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SMDM",
+    "name": "PT SMDM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SMDR",
+    "name": "PT SMDR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SMGA",
+    "name": "PT SMGA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SMGR",
+    "name": "Semen Indonesia (Persero) Tbk",
+    "sector": "Bahan Baku",
+    "aliases": [
+      "semen indonesia",
+      "semen gresik",
+      "sig"
+    ]
+  },
+  {
+    "ticker": "SMIL",
+    "name": "PT SMIL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SMKL",
+    "name": "PT SMKL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SMMA",
+    "name": "PT SMMA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SMMT",
+    "name": "PT SMMT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SMRA",
+    "name": "Summarecon Agung Tbk",
+    "sector": "Properti",
+    "aliases": [
+      "summarecon",
+      "summarecon agung"
+    ]
+  },
+  {
+    "ticker": "SMRT",
+    "name": "PT SMRT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SMSM",
+    "name": "PT SMSM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SNLK",
+    "name": "PT SNLK Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SOHO",
+    "name": "PT SOHO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SOLA",
+    "name": "PT SOLA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SONA",
+    "name": "PT SONA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SOSS",
+    "name": "PT SOSS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SOTS",
+    "name": "PT SOTS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SOUP",
+    "name": "PT SOUP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SPMA",
+    "name": "PT SPMA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SPOT",
+    "name": "PT SPOT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SPTO",
+    "name": "PT SPTO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SQMI",
+    "name": "PT SQMI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SRAJ",
+    "name": "PT SRAJ Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SRIC",
+    "name": "PT SRIC Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SRIL",
+    "name": "PT SRIL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SRSN",
+    "name": "PT SRSN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SRTG",
+    "name": "PT SRTG Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SSIA",
+    "name": "PT SSIA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SSMS",
+    "name": "PT SSMS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SSTM",
+    "name": "PT SSTM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "STAA",
+    "name": "PT STAA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "STAR",
+    "name": "PT STAR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "STTP",
+    "name": "PT STTP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SUBA",
+    "name": "PT SUBA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SUCOR",
+    "name": "PT SUCOR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SULI",
+    "name": "PT SULI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SUMI",
+    "name": "PT SUMI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SUNR",
+    "name": "PT SUNR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SUPR",
+    "name": "PT SUPR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SURI",
+    "name": "PT SURI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SWAT",
+    "name": "PT SWAT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SWID",
+    "name": "PT SWID Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "SYNX",
+    "name": "PT SYNX Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TALF",
+    "name": "PT TALF Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TAMA",
+    "name": "PT TAMA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TAMU",
+    "name": "PT TAMU Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TAPG",
+    "name": "PT TAPG Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TARA",
+    "name": "PT TARA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TAYS",
+    "name": "PT TAYS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TBIG",
+    "name": "Tower Bersama Infrastructure Tbk",
+    "sector": "Infrastruktur",
+    "aliases": [
+      "tower bersama"
+    ]
+  },
+  {
+    "ticker": "TBLA",
+    "name": "PT TBLA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TBMS",
+    "name": "PT TBMS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TCID",
+    "name": "PT TCID Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TCPI",
+    "name": "PT TCPI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TDPM",
+    "name": "PT TDPM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TEBE",
+    "name": "PT TEBE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TECH",
+    "name": "PT TECH Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TELE",
+    "name": "PT TELE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TFAS",
+    "name": "PT TFAS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TFCO",
+    "name": "PT TFCO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TGKA",
+    "name": "PT TGKA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TGRA",
+    "name": "PT TGRA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TGUK",
+    "name": "PT TGUK Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TIFA",
+    "name": "PT TIFA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TINS",
+    "name": "Timah Tbk",
+    "sector": "Bahan Baku",
+    "aliases": [
+      "pt timah",
+      "timah"
+    ]
+  },
+  {
+    "ticker": "TIRA",
+    "name": "PT TIRA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TIRT",
+    "name": "PT TIRT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TKIM",
+    "name": "PT TKIM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TLDN",
+    "name": "PT TLDN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TLKM",
+    "name": "Telkom Indonesia (Persero) Tbk",
+    "sector": "Teknologi",
+    "aliases": [
+      "telkom",
+      "telkom indonesia",
+      "telkomsel"
+    ]
+  },
+  {
+    "ticker": "TMAS",
+    "name": "PT TMAS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TMPO",
+    "name": "PT TMPO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TNCA",
+    "name": "PT TNCA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TOBA",
+    "name": "PT TOBA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TOOL",
+    "name": "PT TOOL Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TOPS",
+    "name": "PT TOPS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TOTI",
+    "name": "PT TOTI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TOTO",
+    "name": "PT TOTO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TOWR",
+    "name": "Sarana Menara Nusantara Tbk",
+    "sector": "Infrastruktur",
+    "aliases": [
+      "sarana menara",
+      "protelindo"
+    ]
+  },
+  {
+    "ticker": "TOYS",
+    "name": "PT TOYS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TPIA",
+    "name": "Chandra Asri Pacific Tbk",
+    "sector": "Bahan Baku",
+    "aliases": [
+      "chandra asri"
+    ]
+  },
+  {
+    "ticker": "TPMA",
+    "name": "PT TPMA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TRAM",
+    "name": "PT TRAM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TRGU",
+    "name": "PT TRGU Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TRIM",
+    "name": "PT TRIM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TRIN",
+    "name": "PT TRIN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TRIS",
+    "name": "PT TRIS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TRJA",
+    "name": "PT TRJA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TRON",
+    "name": "PT TRON Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TRST",
+    "name": "PT TRST Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TRUE",
+    "name": "PT TRUE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TRUK",
+    "name": "PT TRUK Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TRUR",
+    "name": "PT TRUR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TRUS",
+    "name": "PT TRUS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TRYA",
+    "name": "PT TRYA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TSPC",
+    "name": "PT TSPC Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TUGU",
+    "name": "PT TUGU Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "TYRE",
+    "name": "PT TYRE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "UANG",
+    "name": "PT UANG Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "UCID",
+    "name": "PT UCID Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "UDNG",
+    "name": "PT UDNG Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "UFOR",
+    "name": "PT UFOR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ULTJ",
+    "name": "PT ULTJ Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "UNIC",
+    "name": "PT UNIC Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "UNIQ",
+    "name": "PT UNIQ Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "UNTD",
+    "name": "PT UNTD Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "UNTR",
+    "name": "United Tractors Tbk",
+    "sector": "Infrastruktur",
+    "aliases": [
+      "united tractors"
+    ]
+  },
+  {
+    "ticker": "UNVR",
+    "name": "Unilever Indonesia Tbk",
+    "sector": "Konsumer",
+    "aliases": [
+      "unilever",
+      "unilever indonesia"
+    ]
+  },
+  {
+    "ticker": "URBN",
+    "name": "PT URBN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "UVCR",
+    "name": "PT UVCR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "VAST",
+    "name": "PT VAST Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "VERN",
+    "name": "PT VERN Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "VICI",
+    "name": "PT VICI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "VICO",
+    "name": "PT VICO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "VINS",
+    "name": "PT VINS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "VIPT",
+    "name": "PT VIPT Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "VISI",
+    "name": "PT VISI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "VIVA",
+    "name": "PT VIVA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "VKTR",
+    "name": "VKTR Teknologi Mobilitas Tbk",
+    "sector": "Konsumer",
+    "aliases": [
+      "vktr"
+    ]
+  },
+  {
+    "ticker": "VOKS",
+    "name": "PT VOKS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "VRNA",
+    "name": "PT VRNA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "WAPO",
+    "name": "PT WAPO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "WEGE",
+    "name": "PT WEGE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "WEHA",
+    "name": "PT WEHA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "WGSH",
+    "name": "PT WGSH Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "WICO",
+    "name": "PT WICO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "WIDI",
+    "name": "PT WIDI Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "WIEK",
+    "name": "PT WIEK Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "WIFE",
+    "name": "PT WIFE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "WIIM",
+    "name": "PT WIIM Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "WIKA",
+    "name": "PT WIKA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "WINE",
+    "name": "PT WINE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "WINR",
+    "name": "PT WINR Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "WINS",
+    "name": "PT WINS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "WIRG",
+    "name": "PT WIRG Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "WMPP",
+    "name": "PT WMPP Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "WOOD",
+    "name": "PT WOOD Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "WOWS",
+    "name": "PT WOWS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "WTON",
+    "name": "PT WTON Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "YELO",
+    "name": "PT YELO Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "YPAS",
+    "name": "PT YPAS Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "YULE",
+    "name": "PT YULE Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ZATA",
+    "name": "PT ZATA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ZBRA",
+    "name": "PT ZBRA Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ZINC",
+    "name": "PT ZINC Tbk",
+    "sector": "Umum",
+    "aliases": []
+  },
+  {
+    "ticker": "ZYRX",
+    "name": "PT ZYRX Tbk",
+    "sector": "Umum",
+    "aliases": []
+  }
+]

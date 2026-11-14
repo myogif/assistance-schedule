@@ -4,6 +4,8 @@ const promptService = require('../services/promptService');
 const pipelineService = require('../services/pipelineService');
 const invezgoScraper = require('../services/invezgoScraper');
 const broadcastScheduler = require('../services/broadcastScheduler');
+const processingQueue = require('../newsEngine/queue/ProcessingQueue');
+const eventClusterer = require('../newsEngine/clustering/EventClusterer');
 /**
  * Escapes characters that Telegram's HTML parse_mode treats as markup.
  * Telegram HTML supports only: <b>, <i>, <u>, <s>, <code>, <pre>, <a>, <tg-spoiler>.
@@ -103,6 +105,8 @@ async function handleStart(ctx) {
     '/resetprompt &lt;type&gt; — Kembalikan prompt ke versi default',
     '/newscheck — Cek artikel terbaru Invezgo',
     '/broadcastnow — Broadcast & posting Instagram artikel terbaru',
+    '/ingest &lt;url1&gt; [url2...] — Masukkan satu atau banyak URL ke multi-source news engine',
+    '/newsstatus — Cek status antrean news engine & klaster event aktif',
   ].join('\n');
 
   return ctx.replyWithHTML(message);
@@ -325,6 +329,43 @@ function extractArticleUrl(message) {
 }
 
 /**
+ * Extracts all unique URLs from a Telegram message.
+ * @param {Object} message
+ * @returns {string[]}
+ */
+function extractAllArticleUrls(message) {
+  if (!message) return [];
+  const msgObj = typeof message === 'string' ? { text: message } : message;
+  const text = msgObj.text || msgObj.caption || '';
+  const urls = new Set();
+  let entities = [];
+  if (Array.isArray(msgObj.entities)) {
+    entities = msgObj.entities;
+  } else if (Array.isArray(msgObj.caption_entities)) {
+    entities = msgObj.caption_entities;
+  }
+
+  entities.forEach((e) => {
+    if (e.type === 'text_link' && e.url) {
+      const clean = cleanExtractedUrl(e.url);
+      if (clean) urls.add(clean);
+    } else if (e.type === 'url' && typeof e.offset === 'number' && typeof e.length === 'number') {
+      const raw = text.slice(e.offset, e.offset + e.length);
+      const clean = cleanExtractedUrl(raw);
+      if (clean) urls.add(clean);
+    }
+  });
+
+  const matches = text.match(/https?:\/\/[^\s<>"'`]+/gi) || [];
+  matches.forEach((m) => {
+    const clean = cleanExtractedUrl(m);
+    if (clean) urls.add(clean);
+  });
+
+  return Array.from(urls);
+}
+
+/**
  * Article submission handler for raw text or URL messages.
  */
 async function handleArticleMessage(ctx) {
@@ -348,8 +389,19 @@ async function handleArticleMessage(ctx) {
     postFormat = 'carousel';
   }
   // 2. Ekstrak URL via smart extraction
-  const url = extractArticleUrl(message);
-
+  const allUrls = extractAllArticleUrls(message);
+  if (allUrls.length > 1) {
+    const jobs = await processingQueue.addBatch(allUrls);
+    return ctx.replyWithHTML([
+      `📥 <b>Terdeteksi ${allUrls.length} URL Berita!</b>`,
+      '',
+      'Semua URL telah dimasukkan ke dalam antrean pemrosesan otomatis multi-source engine:',
+      ...jobs.map((j, i) => `${i + 1}. <code>${escapeHtml(j.jobId)}</code> (${escapeHtml(j.url)})`),
+      '',
+      '<i>Cek progres antrean dengan <code>/newsstatus</code></i>',
+    ].join('\n'), { disable_web_page_preview: true });
+  }
+  const url = allUrls[0] || extractArticleUrl(message);
   // 3. Jika URL tidak ditemukan
   if (!url) {
     const chatType = ctx.chat?.type;
@@ -822,6 +874,62 @@ async function handleBroadcastNow(ctx) {
     return ctx.replyWithHTML(errorText);
   }
 }
+
+/**
+ * /ingest command handler: queues single or multiple news URLs.
+ */
+async function handleIngestCommand(ctx) {
+  const urls = extractAllArticleUrls(ctx.message);
+  if (urls.length === 0) {
+    return ctx.replyWithHTML([
+      '❌ <b>Format Perintah Salah</b>',
+      '',
+      'Gunakan format:',
+      '<code>/ingest &lt;url1&gt; [url2 ...]</code>',
+      '',
+      'Contoh:',
+      '<code>/ingest https://kontan.co.id/news/contoh-berita</code>',
+    ].join('\n'));
+  }
+
+  const jobs = await processingQueue.addBatch(urls);
+  const lines = [
+    `📥 <b>${jobs.length} Berita Berhasil Didaftarkan ke Antrean Ingestion:</b>`,
+    '',
+    ...jobs.map((j, i) => `${i + 1}. <code>${escapeHtml(j.jobId)}</code>\n🔗 ${escapeHtml(j.url)}\n📌 Status: <i>${escapeHtml(j.status)} (${escapeHtml(j.stageName)})</i>`),
+    '',
+    '<i>Gunakan <code>/newsstatus</code> untuk memantau progres antrean.</i>',
+  ];
+
+  return ctx.replyWithHTML(lines.join('\n'), { disable_web_page_preview: true });
+}
+
+/**
+ * /newsstatus command handler: reports async processing queue depth and active clusters.
+ */
+async function handleNewsStatusCommand(ctx) {
+  const status = processingQueue.getQueueStatus();
+  const clusters = eventClusterer.getClusters().slice(0, 5);
+
+  const lines = [
+    '📊 <b>Status News Engine Queue & Clusters:</b>',
+    '',
+    `⏳ <b>Menunggu (Queued):</b> ${status.queued}`,
+    `⚙️ <b>Sedang Diproses:</b> ${status.processing}`,
+    `✅ <b>Selesai (Completed):</b> ${status.completed}`,
+    `❌ <b>Gagal (Failed):</b> ${status.failed}`,
+    `🔄 <b>Worker Aktif / Kapasitas:</b> ${status.activeWorkers} / ${status.concurrency}`,
+  ];
+
+  if (clusters.length > 0) {
+    lines.push('', `🏷️ <b>Klaster Event Aktif (${clusters.length}):</b>`);
+    clusters.forEach((c) => {
+      lines.push(`• [${escapeHtml(c.event_category)}] <b>${escapeHtml(c.primary_entity)}</b> — <i>${escapeHtml(c.topic_title.slice(0, 45))}</i> (${c.articles.length} artikel)`);
+    });
+  }
+
+  return ctx.replyWithHTML(lines.join('\n'));
+}
 module.exports = {
   authMiddleware,
   handleStart,
@@ -837,7 +945,10 @@ module.exports = {
   sendTelegramGeneratedMedia,
   handleNewsCheck,
   handleBroadcastNow,
+  handleIngestCommand,
+  handleNewsStatusCommand,
 
   extractArticleUrl,
+  extractAllArticleUrls,
   cleanExtractedUrl,
 };

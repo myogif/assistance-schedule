@@ -15,6 +15,8 @@ const {
   handleCarouselCommand,
   handleGenerateCommand,
   handleGenerateCarouselCommand,
+  handleIngestCommand,
+  handleNewsStatusCommand,
 } = require('./handlers');
 const { startBroadcastScheduler } = require('../services/broadcastScheduler');
 
@@ -56,6 +58,8 @@ function registerHandlers(bot) {
   bot.command('genimage', handleGenerateCommand);
   bot.command('gencarousel', handleGenerateCarouselCommand);
   bot.command('generatecarousel', handleGenerateCarouselCommand);
+  bot.command('ingest', handleIngestCommand);
+  bot.command('newsstatus', handleNewsStatusCommand);
   bot.on('text', handleArticleMessage);
   bot.catch((err, ctx) => {
     console.error(`[BOT ERROR] chat=${ctx?.chat?.id} user=${ctx?.from?.id}:`, err.message);

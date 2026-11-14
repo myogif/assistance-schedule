@@ -4,6 +4,9 @@ const Niche = require('./Niche');
 const Prompt = require('./Prompt');
 const BotConfig = require('./BotConfig');
 const PostLog = require('./PostLog');
+const NewsArticle = require('./NewsArticle');
+const NewsEventCluster = require('./NewsEventCluster');
+const NewsQueueJob = require('./NewsQueueJob');
 
 const env = process.env.NODE_ENV || 'development';
 const config = dbConfig[env] || dbConfig.baseConfig;
@@ -38,6 +41,9 @@ const models = {
   Prompt: Prompt.initModel(sequelize),
   BotConfig: BotConfig.initModel(sequelize),
   PostLog: PostLog.initModel(sequelize),
+  NewsArticle: NewsArticle.initModel(sequelize),
+  NewsEventCluster: NewsEventCluster.initModel(sequelize),
+  NewsQueueJob: NewsQueueJob.initModel(sequelize),
 };
 
 Object.values(models).forEach((model) => {
