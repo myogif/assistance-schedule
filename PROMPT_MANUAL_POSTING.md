@@ -90,7 +90,7 @@ ALUR CERITA CAROUSEL (4 SLIDE):
 
 PANDUAN VISUAL SLIDE (Estetika Bloomberg / Financial Times):
 - Format portrait 4:5 vertikal (1080x1350).
-- Latar belakang navy gelap (#060B14), aksen neon cyan blue (#00D2FF), typography putih (#FFFFFF).
+- Latar belakang navy #001F3F dengan typography dan elemen visual white #FFFFFF; gunakan navy dan white saja untuk seluruh desain carousel.
 - Setiap slide memuat nomor slide (contoh: '— SLIDE 2/4 • LATAR BELAKANG —') dan tombol swipe indicator di bagian bawah ('[Swipe icon] GESER KE KIRI >>' untuk slide 1-3, dan '[Discussion icon] TULIS PENDAPAT DI KOMENTAR >>' untuk slide 4).
 - Branding resmi 'SOVSTOCK' di tepi bawah setiap slide.
 - Aturan Integritas Data: Dilarang mengarang angka atau data grafik fiktif.
@@ -101,46 +101,50 @@ FORMAT OUTPUT WAJIB:
 
 #### PROMPT SLIDE 1 (COVER):
 Format: Tall portrait 4:5 editorial poster (1080x1350) for Instagram carousel cover slide. Strictly vertical/portrait.
-Style & Aesthetic: Ultra-sharp Bloomberg Markets & Financial Times magazine cover aesthetic, dark navy blue (#060B14), electric cyan (#00D2FF), pristine lighting, 8k resolution.
-Upper-Center Visual: [Deskripsi scene visual pembuka yang dramatis]
+Style & Aesthetic: Ultra-sharp Bloomberg Markets & Financial Times magazine cover aesthetic, navy #001F3F background, white #FFFFFF typography and graphic elements, pristine editorial lighting, 8k resolution.
+Upper-Center Visual: [Deskripsi scene visual pembuka yang dramatis dengan treatment navy #001F3F dan white #FFFFFF]
 Bottom-Center Typography:
-- Category Badge: '— [KATEGORI] —'
-- Headline: Bold uppercase masif "[HEADLINE UTAMA]"
-- Subtitle: "[KALIMAT HOOK PEMBUKA]"
-Footer: [Swipe icon] GESER KE KIRI (SLIDE 2/4) | Centered official branding 'SOVSTOCK'.
+- Category Badge: '— [KATEGORI] —' in white #FFFFFF
+- Headline: Bold uppercase masif "[HEADLINE UTAMA]" in white #FFFFFF
+- Subtitle: "[KALIMAT HOOK PEMBUKA]" in white #FFFFFF
+Footer: [Swipe icon] GESER KE KIRI (SLIDE 2/4) | Centered official branding 'SOVSTOCK' in white #FFFFFF on navy #001F3F.
+Strict palette: Use navy #001F3F and white #FFFFFF only for every typography and visual element.
 Strict visual data constraint: Do not invent unverified numbers or fake statistics.
 
 #### PROMPT SLIDE 2 (LATAR BELAKANG / KRONOLOGI):
 Format: Tall portrait 4:5 editorial poster (1080x1350) for Instagram carousel slide 2. Strictly vertical/portrait.
-Style & Aesthetic: Ultra-sharp Bloomberg Markets editorial aesthetic, dark navy blue (#060B14), electric cyan accents (#00D2FF), 8k resolution.
-Upper-Center Visual: [Deskripsi visual latar belakang peristiwa / corporate analytics card]
+Style & Aesthetic: Ultra-sharp Bloomberg Markets editorial aesthetic, navy #001F3F background, white #FFFFFF typography and graphic elements, pristine editorial lighting, 8k resolution.
+Upper-Center Visual: [Deskripsi visual latar belakang peristiwa / corporate analytics card dengan treatment navy #001F3F dan white #FFFFFF]
 Bottom-Center Typography:
-- Slide Badge: '— SLIDE 2/4 • LATAR BELAKANG —'
-- Headline: Bold uppercase "[JUDUL BAB 2]"
-- Subtitle: "[RINGKASAN KONTEKS PERISTIWA]"
-Footer: [Swipe icon] GESER KE KIRI (SLIDE 3/4) | Centered official branding 'SOVSTOCK'.
+- Slide Badge: '— SLIDE 2/4 • LATAR BELAKANG —' in white #FFFFFF
+- Headline: Bold uppercase "[JUDUL BAB 2]" in white #FFFFFF
+- Subtitle: "[RINGKASAN KONTEKS PERISTIWA]" in white #FFFFFF
+Footer: [Swipe icon] GESER KE KIRI (SLIDE 3/4) | Centered official branding 'SOVSTOCK' in white #FFFFFF on navy #001F3F.
+Strict palette: Use navy #001F3F and white #FFFFFF only for every typography and visual element.
 Strict visual data constraint: Do not invent unverified numbers or fake statistics.
 
 #### PROMPT SLIDE 3 (DATA & FAKTA KUNCI):
 Format: Tall portrait 4:5 editorial poster (1080x1350) for Instagram carousel slide 3. Strictly vertical/portrait.
-Style & Aesthetic: Ultra-sharp Bloomberg Markets editorial aesthetic, dark navy blue (#060B14), electric cyan accents (#00D2FF), 8k resolution.
-Upper-Center Visual: 3D floating glassmorphic data cards displaying [SEBUTKAN TICKER / ANGKA NOMINAL RESMI DARI BERITA] with glowing candlestick indicators.
+Style & Aesthetic: Ultra-sharp Bloomberg Markets editorial aesthetic, navy #001F3F background, white #FFFFFF typography and graphic elements, pristine editorial lighting, 8k resolution.
+Upper-Center Visual: White #FFFFFF line-based data cards on navy #001F3F displaying [SEBUTKAN TICKER / ANGKA NOMINAL RESMI DARI BERITA].
 Bottom-Center Typography:
-- Slide Badge: '— SLIDE 3/4 • DATA & FAKTA —'
-- Headline: Bold uppercase "[JUDUL BAB 3]"
-- Subtitle: "[ANGKA & FAKTA KUNCI DARI BERITA]"
-Footer: [Swipe icon] GESER KE KIRI (SLIDE 4/4) | Centered official branding 'SOVSTOCK'.
+- Slide Badge: '— SLIDE 3/4 • DATA & FAKTA —' in white #FFFFFF
+- Headline: Bold uppercase "[JUDUL BAB 3]" in white #FFFFFF
+- Subtitle: "[ANGKA & FAKTA KUNCI DARI BERITA]" in white #FFFFFF
+Footer: [Swipe icon] GESER KE KIRI (SLIDE 4/4) | Centered official branding 'SOVSTOCK' in white #FFFFFF on navy #001F3F.
+Strict palette: Use navy #001F3F and white #FFFFFF only for every typography and visual element.
 Strict visual data constraint: Accurately render only the exact ticker symbols and numbers provided. Do not hallucinate fake numbers.
 
 #### PROMPT SLIDE 4 (KESIMPULAN & DISKUSI):
 Format: Tall portrait 4:5 editorial poster (1080x1350) for Instagram carousel slide 4 (final slide). Strictly vertical/portrait.
-Style & Aesthetic: Ultra-sharp Bloomberg Markets editorial aesthetic, dark navy blue (#060B14), electric cyan accents (#00D2FF), 8k resolution.
-Upper-Center Visual: Modern architectural financial monument with glowing network nodes and discussion icon accents.
+Style & Aesthetic: Ultra-sharp Bloomberg Markets editorial aesthetic, navy #001F3F background, white #FFFFFF typography and graphic elements, pristine editorial lighting, 8k resolution.
+Upper-Center Visual: Modern architectural financial monument with navy #001F3F structure, white #FFFFFF network nodes, and discussion icon accents.
 Bottom-Center Typography:
-- Slide Badge: '— SLIDE 4/4 • KESIMPULAN —'
-- Headline: Bold uppercase "[JUDUL BAB 4 / PERTANYAAN DISKUSI]"
-- Subtitle: "[IMPLIKASI INVESTOR & PERTANYAAN DISKUSI]"
-Footer: [Discussion icon] TULIS PENDAPAT DI KOMENTAR | Centered official branding 'SOVSTOCK'.
+- Slide Badge: '— SLIDE 4/4 • KESIMPULAN —' in white #FFFFFF
+- Headline: Bold uppercase "[JUDUL BAB 4 / PERTANYAAN DISKUSI]" in white #FFFFFF
+- Subtitle: "[IMPLIKASI INVESTOR & PERTANYAAN DISKUSI]" in white #FFFFFF
+Footer: [Discussion icon] TULIS PENDAPAT DI KOMENTAR | Centered official branding 'SOVSTOCK' in white #FFFFFF on navy #001F3F.
+Strict palette: Use navy #001F3F and white #FFFFFF only for every typography and visual element.
 Strict visual data constraint: Do not invent unverified numbers or fake statistics.
 
 ---

@@ -32,6 +32,25 @@ test.before(async () => {
     isActive: true,
   });
 });
+function assertCarouselPalette(prompt, label) {
+  assert.match(prompt, /#001F3F/, `${label} should use navy`);
+  assert.match(prompt, /#FFFFFF/, `${label} should use white`);
+  assert.doesNotMatch(prompt, /#FF7A00|#00D2FF|#0B0E14/, `${label} should not use legacy colors`);
+
+  const strictRule = 'Strict palette: use navy #001F3F and white #FFFFFF only; do not use orange, cyan, yellow, gold, golden, amber, or any other color for text or visual elements.';
+  assert.ok(prompt.includes(strictRule), `${label} should include the strict palette rule`);
+
+  const promptBeforeStrictRule = prompt.slice(0, prompt.indexOf(strictRule));
+  assert.doesNotMatch(
+    promptBeforeStrictRule,
+    /\b(?:orange|cyan|yellow|gold|golden|amber)\b/i,
+    `${label} should not contain legacy color instructions before the strict palette rule`,
+  );
+
+  const hexColors = [...new Set(prompt.match(/#[0-9A-F]{6}/gi) || [])].sort();
+  assert.deepEqual(hexColors, ['#001F3F', '#FFFFFF'].sort(), `${label} should use only navy and white hex colors`);
+}
+
 
 test('COLOR_SCHEME constants defined correctly', () => {
   // This test will verify constants are exported
@@ -150,7 +169,7 @@ test('buildVisualPrompt template interpolation works with new colors', () => {
   assert.ok(!result.includes('{{'), 'Should not contain unresolved template placeholders');
 });
 
-test('buildCarouselSlidePrompt cover slide uses navy color (#001F3F)', () => {
+test('buildCarouselSlidePrompt cover slide uses strict navy-white palette', () => {
   const slide = {
     slide_number: 1,
     slide_type: 'cover',
@@ -169,21 +188,11 @@ test('buildCarouselSlidePrompt cover slide uses navy color (#001F3F)', () => {
 
   const result = promptService.buildCarouselSlidePrompt(slide, carouselData, { totalSlides: 1 });
 
-  // Should NOT contain old dark charcoal color
-  assert.ok(!result.includes('#0B0E14'), 'Cover slide should not contain old #0B0E14 color');
-
-  // Should contain new navy color
-  assert.ok(result.includes('#001F3F'), 'Cover slide should contain new navy #001F3F color');
-
-  // Should contain orange and white
-  assert.ok(result.includes('#FF7A00'), 'Cover slide should contain orange #FF7A00');
-  assert.ok(result.includes('#FFFFFF'), 'Cover slide should contain white #FFFFFF');
-
-  // Should use "navy" aesthetic
+  assertCarouselPalette(result, 'Cover slide');
   assert.ok(result.includes('navy'), 'Cover slide should mention navy aesthetic');
 });
 
-test('buildCarouselSlidePrompt content slides use navy color (#001F3F)', () => {
+test('buildCarouselSlidePrompt content slides use strict navy-white palette', () => {
   const slides = [
     {
       slide_number: 1,
@@ -217,17 +226,10 @@ test('buildCarouselSlidePrompt content slides use navy color (#001F3F)', () => {
 
   const result = promptService.buildCarouselSlidePrompt(slides[1], carouselData, { totalSlides: 2 });
 
-  // Should NOT contain old dark charcoal color
-  assert.ok(!result.includes('#0B0E14'), 'Content slide should not contain old #0B0E14 color');
-
-  // Should contain new navy color
-  assert.ok(result.includes('#001F3F'), 'Content slide should contain new navy #001F3F color');
-
-  // Should contain orange and white
-  assert.ok(result.includes('#FF7A00'), 'Content slide should contain orange #FF7A00');
+  assertCarouselPalette(result, 'Content slide');
 });
 
-test('buildCarouselSlidePrompt preserves all color references across slides', () => {
+test('buildCarouselSlidePrompt enforces one palette across content slides', () => {
   const slide = {
     slide_number: 2,
     slide_type: 'content',
@@ -248,15 +250,9 @@ test('buildCarouselSlidePrompt preserves all color references across slides', ()
 
   const result = promptService.buildCarouselSlidePrompt(slide, carouselData, { totalSlides: 2 });
 
-  // Count color references
-  const navyCount = (result.match(/#001F3F/g) || []).length;
-  const orangeCount = (result.match(/#FF7A00/g) || []).length;
-
-  assert.ok(navyCount >= 1, 'Should have navy color reference');
-  assert.ok(orangeCount >= 1, 'Should have orange color reference');
-  // Content slides mention "crisp white" but may not have hex code
-  assert.ok(result.includes('white') || result.includes('#FFFFFF'), 'Should mention white color');
+  assertCarouselPalette(result, 'Content slide');
 });
+
 
 test('buildCarouselCaption does not require color changes', () => {
   const carouselData = {
@@ -335,7 +331,7 @@ test('buildVisualPrompt handles multiple stocks correctly with navy colors', () 
   assert.ok(result.includes('#FF7A00'), 'Should preserve orange color');
 });
 
-test('buildCarouselSlidePrompt renders last slide correctly with new colors', () => {
+test('buildCarouselSlidePrompt renders last slide with strict palette', () => {
   const totalSlides = 3;
   const lastSlide = {
     slide_number: totalSlides,
@@ -358,11 +354,7 @@ test('buildCarouselSlidePrompt renders last slide correctly with new colors', ()
 
   const result = promptService.buildCarouselSlidePrompt(lastSlide, carouselData, { totalSlides });
 
-  // Should mention it's the last slide with different action
   assert.ok(result.includes('[Discussion icon]'), 'Last slide should have discussion action');
   assert.ok(result.includes('TULIS PENDAPAT'), 'Last slide should prompt for comments');
-
-  // Should still use navy colors
-  assert.ok(!result.includes('#0B0E14'), 'Should not contain old color');
-  assert.ok(result.includes('#001F3F'), 'Should contain navy color');
+  assertCarouselPalette(result, 'Last slide');
 });

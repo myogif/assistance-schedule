@@ -168,9 +168,9 @@ const CAROUSEL_SYSTEM_PROMPT = `You are an elite Indonesian financial editor and
 Transform the provided news article into an engaging, content-driven multi-slide Instagram carousel story (default 4 slides) focused on high-density factual news summary, realistic photojournalistic aesthetic, and clear structured information:
 
 Slide 1 (Cover / Headline):
-- "headline": Massive high-impact uppercase headline in Indonesian (max 8-10 words) with clear dual-tone contrast (bright orange and crisp white keywords).
+- "headline": Massive high-impact uppercase headline in Indonesian (max 8-10 words) with clear navy #001F3F and white #FFFFFF contrast.
 - "subtitle": Financial kicker or 1-sentence curiosity-inducing news summary (e.g. "Kas 123T, Baru 16T Diinvestasikan").
-- "visual_scene": Photojournalistic realistic montage description of the actual decision-maker / public official in sharp formal suit with natural expression, set against a backdrop of financial vaults, currency suitcases with prominent nominal amounts, or stock exchange halls with cinematic warm amber & gold lighting.
+- "visual_scene": Photojournalistic realistic montage description of the actual decision-maker / public official in sharp formal suit with natural expression, set against a navy #001F3F editorial background with white #FFFFFF typography and graphic elements.
 
 Slide 2+ (Content Slides / Rangkuman Berita):
 - "chapter_title" & "headline": Specific thematic chapter headline in uppercase (e.g. "POSISI KAS & PARKIR DANA (30 APR 2026)", "RENCANA INVESTASI & AMUNISI TAMBAHAN").
@@ -181,7 +181,7 @@ Slide 2+ (Content Slides / Rangkuman Berita):
   ]
 - "subtitle": 1-2 concise summary sentences synthesizing the slide's core insight.
 - "person": The relevant prominent official or executive to feature as a cutout photo in the lower corner.
-- "visual_scene": Clean dark matte charcoal (#0B0E14) editorial background, high-contrast typography, minimal visual noise, corner cutout photo of the official, and source footnote anchor.
+- "visual_scene": Clean editorial navy #001F3F background with white #FFFFFF typography and graphic elements, minimal visual noise, corner cutout photo of the official, and source footnote anchor.
 
 Output strict JSON:
 {
@@ -284,7 +284,7 @@ async function extractArticleCarouselStory(article, nicheCode = 'finance', opena
           headline: singleData.headline,
           subtitle: singleData.subtitle,
           bullet_points: [],
-          visual_scene: 'Natural photojournalistic Indonesian financial decision-maker portrait in dark charcoal and warm amber lighting.',
+          visual_scene: 'Natural photojournalistic Indonesian financial decision-maker portrait against a navy #001F3F background with white #FFFFFF lighting and typography.',
         },
         {
           slide_number: 2,
@@ -295,7 +295,7 @@ async function extractArticleCarouselStory(article, nicheCode = 'finance', opena
           bullet_points: [
             { label: 'Pokok Berita', detail: singleData.subtitle || article.title || '' },
           ],
-          visual_scene: 'Clean dark matte charcoal background with high-contrast text and warm accent lighting.',
+          visual_scene: 'Clean editorial navy #001F3F background with white #FFFFFF typography and graphic elements.',
         },
       ],
       draftCaption: singleData.draftCaption,
@@ -347,7 +347,7 @@ async function extractArticleCarouselStory(article, nicheCode = 'finance', opena
           }))
           .filter((bp) => bp.label || bp.detail)
       : [],
-    visual_scene: String(s.visual_scene || 'Editorial Bloomberg style Jakarta market atmosphere').trim(),
+    visual_scene: String(s.visual_scene || 'Editorial navy #001F3F background with white #FFFFFF typography and Jakarta market atmosphere').trim(),
   }));
 
   return {

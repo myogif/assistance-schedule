@@ -45,6 +45,21 @@ test.before(async () => {
     isActive: true,
   });
 });
+function assertCarouselPalette(prompt, label) {
+  assert.match(prompt, /#001F3F/, `${label} should use navy`);
+  assert.match(prompt, /#FFFFFF/, `${label} should use white`);
+  assert.doesNotMatch(prompt, /#FF7A00|#00D2FF|#0B0E14/, `${label} should not use legacy colors`);
+
+  const strictRule = 'Strict palette: use navy #001F3F and white #FFFFFF only; do not use orange, cyan, yellow, gold, golden, amber, or any other color for text or visual elements.';
+  assert.ok(prompt.includes(strictRule), `${label} should include the strict palette rule`);
+  const promptBeforeStrictRule = prompt.slice(0, prompt.indexOf(strictRule));
+  assert.doesNotMatch(
+    promptBeforeStrictRule,
+    /\b(?:orange|cyan|yellow|gold|golden|amber)\b/i,
+    `${label} should not contain legacy color instructions before the strict palette rule`,
+  );
+}
+
 
 test('extractArticleCarouselStory extracts structured 4-slide narrative from article', async () => {
   const mockOpenAI = {
@@ -151,9 +166,8 @@ test('buildCarouselSlidePrompt properly anchors slide number and visual data int
   assert.match(coverPrompt, /Slide 1 of 4/);
   assert.match(coverPrompt, /Visual Data Integrity/);
   assert.match(coverPrompt, /photojournalistic editorial cover aesthetic/i);
-  assert.match(coverPrompt, /warm golden amber/i);
-  assert.match(coverPrompt, /#FF7A00/);
-  assert.match(coverPrompt, /#FFFFFF/);
+  assertCarouselPalette(coverPrompt, 'Cover slide');
+
 
   const dataSlide = {
     slide_number: 3,
@@ -167,8 +181,8 @@ test('buildCarouselSlidePrompt properly anchors slide number and visual data int
   const dataPrompt = promptService.buildCarouselSlidePrompt(dataSlide, carouselData, { totalSlides: 4 });
   assert.match(dataPrompt, /SLIDE 3\/4 • DATA EMITEN/);
   assert.match(dataPrompt, /\$BBCA \(Bank Central Asia\) Rp 5\.025/);
-  assert.match(dataPrompt, /#001F3F/);
-  assert.match(dataPrompt, /#FF7A00/);
+  assertCarouselPalette(dataPrompt, 'Data slide');
+
 
   const contentSlideWithBullets = {
     slide_number: 2,
@@ -190,6 +204,7 @@ test('buildCarouselSlidePrompt properly anchors slide number and visual data int
   assert.match(bulletPrompt, /• \[Asal Dana\]: Modal Rp70 T dividen BUMN/);
   assert.match(bulletPrompt, /Sumber: Invezgo/);
   assert.match(bulletPrompt, /Jahja Setiaatmadja/);
+  assertCarouselPalette(bulletPrompt, 'Content slide');
 });
 test('buildCarouselCaption formats multi-slide swipe instruction and recap', () => {
   const carouselData = {
@@ -253,6 +268,15 @@ test('extractArticleCarouselStory fallback properly initializes structured bulle
   assert.ok(Array.isArray(result.slides[1].bullet_points));
   assert.ok(result.slides[1].bullet_points.length > 0);
   assert.equal(result.slides[1].bullet_points[0].label, 'Pokok Berita');
+  result.slides.forEach((slide, index) => {
+    assert.match(slide.visual_scene, /#001F3F/, `Fallback slide ${index + 1} should use navy`);
+    assert.match(slide.visual_scene, /#FFFFFF/, `Fallback slide ${index + 1} should use white`);
+    assert.doesNotMatch(
+      slide.visual_scene,
+      /dark charcoal|orange|cyan|yellow|gold|golden|amber/i,
+      `Fallback slide ${index + 1} should not use legacy color language`,
+    );
+  });
 });
 test('runPipeline in carousel mode executes multi-image publishing flow', async () => {
   const originalGenerateCarouselImages = imageGenerator.generateCarouselImages;

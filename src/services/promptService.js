@@ -6,6 +6,8 @@ const COLOR_SCHEME = {
   ORANGE_ACCENT: '#FF7A00',
   WHITE: '#FFFFFF',
 };
+const STRICT_CAROUSEL_PALETTE_RULE = 'Strict palette: use navy #001F3F and white #FFFFFF only; do not use orange, cyan, yellow, gold, golden, amber, or any other color for text or visual elements.';
+
 
 // In-memory cache for active prompts: key = `${nicheCode}:${type}`
 const promptCache = new Map();
@@ -372,22 +374,23 @@ function buildCarouselSlidePrompt(slide, carouselData, options = {}) {
   if (isCover) {
     return [
       'Format: Tall portrait 4:5 editorial poster (1080x1350 portrait format) for Instagram feed carousel slide. The entire canvas is strictly vertical/portrait orientation — DO NOT generate a square or landscape image.',
-      'Style & Aesthetic: Ultra-sharp realistic photojournalistic editorial cover aesthetic, cinematic warm golden amber & navy (#001F3F) lighting, high contrast, clean centered typography integration, 8k resolution. Natural real-world executive portraits and authentic financial atmosphere, zero floating sci-fi neon or abstract 3D gimmicks.',
+      'Style & Aesthetic: Ultra-sharp realistic photojournalistic editorial cover aesthetic, cinematic navy #001F3F background with white #FFFFFF typography and graphic elements, high contrast, clean centered typography integration, 8k resolution. Natural real-world executive portraits and authentic financial atmosphere, zero floating sci-fi neon or abstract 3D gimmicks.',
       '',
       `Upper-Center Composition & Visual Scene (Slide 1 of ${totalSlides}):`,
-      `- Scene & Atmosphere: ${slide.visual_scene || 'Photojournalistic realistic montage of prominent decision-maker in formal business suit, natural facial expression, set against Indonesian financial district or vault room with warm amber & gold lighting.'}${stockVisualDetail}`,
+      `- Scene & Atmosphere: ${slide.visual_scene || 'Photojournalistic realistic montage of prominent decision-maker in formal business suit, natural facial expression, set against an editorial navy #001F3F background with white #FFFFFF typography and graphic elements.'}${stockVisualDetail}`,
       '',
       'Bottom-Center Typography & Information Structure (Strictly Anchored at Lower-Center / Bottom 40-45%):',
-      `1. Category Tag / Micro-Typography Bar: Centered badge '${chapterBadge}' in clean tracked uppercase sans-serif positioned directly above the headline.`,
-      `2. Centered Dual-Tone Headline Typography: Centered bold condensed uppercase typography reading "${slide.headline}". Key action words and numbers styled in vibrant bright orange (#FF7A00), entity names in crisp white (#FFFFFF).`,
-      `3. Centered Subtitle & Kicker: Set directly below headline, financial kicker or 1-sentence intrigue hook: "${slide.subtitle}".`,
-      '4. Visual Hierarchy Invariant: The text block is strictly anchored at the lower-center / bottom 40-45% of the poster, leaving the upper 55-60% clean and dramatic for the authentic photojournalistic subject and warm lighting.',
+      `1. Category Tag / Micro-Typography Bar: Centered badge '${chapterBadge}' in clean tracked uppercase sans-serif positioned directly above the headline, using white #FFFFFF on navy #001F3F.`,
+      `2. Headline Typography: Centered bold condensed uppercase typography reading "${slide.headline}", using white #FFFFFF text and navy #001F3F graphic elements only.`,
+      `3. Centered Subtitle & Kicker: Set directly below headline, financial kicker or 1-sentence intrigue hook: "${slide.subtitle}", in white #FFFFFF.`,
+      '4. Visual Hierarchy Invariant: The text block is strictly anchored at the lower-center / bottom 40-45% of the poster, leaving the upper 55-60% clean and dramatic for the authentic photojournalistic subject and navy-white editorial treatment.',
       '',
       'Footer & Branding Elements (Anchored at very bottom edge):',
       `- Carousel Indicator: ${footerAction}`,
-      "- Official Footer Branding: Centered elegant dark navy shield emblem logo with gold crown and gold letter 'S' watermark, bold branding text 'SOVSTOCK', and tagline 'MARKET INSIGHTS FOR A BRIGHTER TOMORROW' placed at the bottom edge beneath the text block.",
+      "- Official Footer Branding: Centered elegant navy #001F3F shield emblem with white crown and white letter 'S' watermark, bold branding text 'SOVSTOCK', and tagline 'MARKET INSIGHTS FOR A BRIGHTER TOMORROW' placed at the bottom edge beneath the text block.",
       '',
       '- Visual Data Integrity: Accurately render only the exact text and numbers provided above. Do not invent unverified numbers, fake ticker symbols, or random text.',
+      `- ${STRICT_CAROUSEL_PALETTE_RULE}`,
     ].join('\n');
   }
 
@@ -395,33 +398,34 @@ function buildCarouselSlidePrompt(slide, carouselData, options = {}) {
   let bulletSection = '';
   if (Array.isArray(slide.bullet_points) && slide.bullet_points.length > 0) {
     const points = slide.bullet_points.map((bp) => `• [${bp.label}]: ${bp.detail}`).join('\n  ');
-    bulletSection = `- Structured Factual Points (Orange bullets '•', bold orange labels, crisp white factual text with exact numbers):\n  ${points}`;
+    bulletSection = `- Structured Factual Points (white #FFFFFF bullets '•', bold white #FFFFFF labels, white #FFFFFF factual text with exact numbers):\n  ${points}`;
   } else {
-    bulletSection = `- Structured Factual Summary: Crisp white text highlighting exact figures, percentages, and events from the article.`;
+    bulletSection = `- Structured Factual Summary: White #FFFFFF text highlighting exact figures, percentages, and events from the article.`;
   }
 
   return [
     'Format: Tall portrait 4:5 editorial poster (1080x1350 portrait format) for Instagram feed carousel slide. The entire canvas is strictly vertical/portrait orientation — DO NOT generate a square or landscape image.',
-    'Style & Aesthetic: Clean dark matte navy (#001F3F) editorial news summary layout, 100% focus on readability and structured factual content. High contrast crisp white and vibrant orange (#FF7A00) typography. Strict visual rule: NO floating neon 3D elements, NO futuristic hologram shapes, NO abstract visual clutter obscuring text.',
+    'Style & Aesthetic: Clean navy #001F3F editorial news summary layout, 100% focus on readability and structured factual content. High contrast white #FFFFFF typography and graphic elements. Strict visual rule: NO floating neon 3D elements, NO futuristic hologram shapes, NO abstract visual clutter obscuring text.',
     '',
     `Top Header Bar (Slide ${slideNumber} of ${totalSlides}):`,
-    `- Section Badge: Centered badge '${chapterBadge}' in bold vibrant orange (#FF7A00).`,
-    `- Chapter Title: Bold condensed uppercase chapter headline "${slide.headline}".`,
+    `- Section Badge: Centered badge '${chapterBadge}' in bold white #FFFFFF on navy #001F3F.`,
+    `- Chapter Title: Bold condensed uppercase chapter headline "${slide.headline}" in white #FFFFFF.`,
     '',
     'Body & Structured Content (Anchored across central canvas for maximum readability):',
     bulletSection,
-    `- Narrative Summary: "${slide.subtitle}"`,
+    `- Narrative Summary: "${slide.subtitle}" in white #FFFFFF.`,
     '',
     'Lower Accent & Footnote:',
-    `- Corner Accent: Authentic cutout portrait of relevant executive / official (${carouselData.person?.name || 'decision-maker'}) with natural lighting anchored in the lower corner.`,
-    `- Background & Atmosphere: ${slide.visual_scene || 'Clean dark matte navy (#001F3F) textured editorial background with subtle warm ambient glow.'}${stockVisualDetail}`,
-    `- Footnote & Source: 'Sumber: ${carouselData.source || 'Editorial'}' anchored at the bottom margin.`,
+    `- Corner Accent: Authentic cutout portrait of relevant executive / official (${carouselData.person?.name || 'decision-maker'}) with navy #001F3F and white #FFFFFF treatment anchored in the lower corner.`,
+    `- Background & Atmosphere: ${slide.visual_scene || 'Clean navy #001F3F textured editorial background with white #FFFFFF graphic accents.'}${stockVisualDetail}`,
+    `- Footnote & Source: 'Sumber: ${carouselData.source || 'Editorial'}' in white #FFFFFF anchored at the bottom margin.`,
     '',
     'Footer & Branding Elements (Anchored at very bottom edge):',
     `- Carousel Indicator: ${footerAction}`,
-    "- Official Footer Branding: Subtle 'SOVSTOCK' editorial watermark at bottom margin.",
+    "- Official Footer Branding: Subtle white #FFFFFF 'SOVSTOCK' editorial watermark on the navy #001F3F bottom margin.",
     '',
     '- Visual Data Integrity: Accurately render only the exact text and numbers provided above. Do not invent unverified numbers, fake ticker symbols, or random text.',
+    `- ${STRICT_CAROUSEL_PALETTE_RULE}`,
   ].join('\n');
 }
 
