@@ -62,6 +62,8 @@ class UniversalArticleSchema {
     if (domain.includes('bloombergtechnoz.com')) return 'Bloomberg Technoz';
     if (domain.includes('investor.id')) return 'Investor Daily';
     if (domain.includes('kompas.com')) return 'Kompas.com';
+    if (domain.includes('antaranews.com') || domain.includes('antara.news')) return 'Antara';
+    if (domain.includes('tempo.co')) return 'Tempo';
     if (domain.includes('detik.com')) return 'Detik';
     return domain.charAt(0).toUpperCase() + domain.slice(1);
   }

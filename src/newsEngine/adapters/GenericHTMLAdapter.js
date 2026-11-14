@@ -203,6 +203,9 @@ class GenericHTMLAdapter extends BaseSourceAdapter {
         warnings.push(`Network fetch failed: ${err.message}`);
       }
     }
+    if (!rawHtml && input && typeof input === 'object' && (input.title || input.content || input.description)) {
+      rawHtml = `<!DOCTYPE html><html><head><title>${input.title || ''}</title><meta name="description" content="${input.description || ''}"></head><body><article class="detail_text"><p>${input.content || input.description || input.title || ''}</p></article></body></html>`;
+    }
 
     if (!rawHtml) {
       return new UniversalArticleSchema({

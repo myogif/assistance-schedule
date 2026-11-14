@@ -1,8 +1,9 @@
+/* eslint-disable no-use-before-define */
 const fs = require('fs');
 const { Niche, Prompt, sequelize } = require('../models');
 const promptService = require('../services/promptService');
 const pipelineService = require('../services/pipelineService');
-const invezgoScraper = require('../services/invezgoScraper');
+const multiSourcePoller = require('../newsEngine/poller/MultiSourcePoller');
 const broadcastScheduler = require('../services/broadcastScheduler');
 const processingQueue = require('../newsEngine/queue/ProcessingQueue');
 const eventClusterer = require('../newsEngine/clustering/EventClusterer');
@@ -83,15 +84,15 @@ async function handleStart(ctx) {
     '• Publikasi otomatis ke Instagram via Zernio API',
     '',
     '📌 <b>Cara Kirim Berita:</b>',
-    '1. Kirim URL berita langsung (contoh: <code>https://invezgo.com/id/blog/...</code>)',
-    '2. Atau teruskan (forward) pesan siaran berita berformat Invezgo yang memuat link artikel',
+    '1. Kirim URL berita langsung (contoh: <code>https://cnbcindonesia.com/market/...</code> atau <code>https://kontan.co.id/...</code>)',
+    '2. Atau teruskan (forward) pesan siaran berita yang memuat link artikel',
     '3. Tambahkan <code>!carousel</code> untuk format carousel (multi-slide storytelling)',
     '4. Tambahkan <code>!generate</code> atau <code>!gen</code> untuk generate poster + caption ke Telegram',
     '5. Tambahkan <code>!gencarousel</code> untuk generate slide carousel + caption ke Telegram',
     '6. Tambahkan <code>!dryrun</code> untuk simulasi tanpa posting ke Instagram',
     '👥 <b>Cara Pakai di Grup:</b>',
     '1. Tambahkan bot ke grup Telegram',
-    '2. Kirim atau teruskan link/pesan siaran artikel Invezgo di grup',
+    '2. Kirim atau teruskan link/pesan siaran artikel berita di grup',
     '3. Bot akan memproses otomatis dan mengirimkan notifikasi publikasi ke grup',
     '',
     '⚙️ <b>Perintah Bot:</b>',
@@ -103,8 +104,8 @@ async function handleStart(ctx) {
     '/getprompt &lt;type&gt; — Tampilkan teks prompt tertentu',
     '/setprompt &lt;type&gt; &lt;teks&gt; — Perbarui prompt di database',
     '/resetprompt &lt;type&gt; — Kembalikan prompt ke versi default',
-    '/newscheck — Cek artikel terbaru Invezgo',
-    '/broadcastnow — Broadcast & posting Instagram artikel terbaru',
+    '/newscheck — Cek leaderboard berita finansial teratas (multi-source)',
+    '/broadcastnow — Broadcast & posting Instagram artikel peringkat teratas',
     '/ingest &lt;url1&gt; [url2...] — Masukkan satu atau banyak URL ke multi-source news engine',
     '/newsstatus — Cek status antrean news engine & klaster event aktif',
   ].join('\n');
@@ -428,7 +429,7 @@ async function handleArticleMessage(ctx) {
         '',
         'Harap kirimkan pesan yang memuat URL artikel yang valid.',
         'Contoh:',
-        '• <code>https://invezgo.com/id/blog/judul-artikel</code>',
+        '• <code>https://cnbcindonesia.com/market/...</code> atau <code>https://kontan.co.id/...</code>',
         '• Atau teruskan (forward) pesan berita yang memuat link artikel.',
         '',
         '<i>Tips: Tambahkan <code>!dryrun</code> untuk simulasi tanpa posting ke Instagram.</i>',
@@ -532,7 +533,7 @@ async function handleCarouselCommand(ctx) {
     return ctx.replyWithHTML(
       '⚠️ <b>Format Perintah Salah</b>\n\n'
       + 'Gunakan: <code>/carousel &lt;URL artikel&gt;</code>\n'
-      + 'Contoh: <code>/carousel https://invezgo.com/id/blog/ihsg-menguat</code>\n\n'
+      + 'Contoh: <code>/carousel https://cnbcindonesia.com/market/ihsg-menguat</code>\n\n'
       + '<i>Artikel akan dirangkum menjadi carousel storytelling (4 slide) dan diposting ke Instagram via Zernio.</i>',
     );
   }
@@ -664,7 +665,7 @@ async function handleGenerateCommand(ctx) {
     return ctx.replyWithHTML(
       '⚠️ <b>Format Perintah Salah</b>\n\n'
       + 'Gunakan: <code>/generate &lt;URL artikel&gt;</code>\n'
-      + 'Contoh: <code>/generate https://invezgo.com/id/blog/ihsg-menguat</code>\n\n'
+      + 'Contoh: <code>/generate https://cnbcindonesia.com/market/ihsg-menguat</code>\n\n'
       + '<i>Bot akan men-generate gambar single poster dan caption Instagram siap upload langsung ke chat ini.</i>',
     );
   }
@@ -701,7 +702,7 @@ async function handleGenerateCommand(ctx) {
     const summaryText = [
       '🎨 <b>[POSTER SELESAI DIGENERATE]</b>',
       `📰 <b>Headline:</b> ${escapeHtml(displayHeadline)}`,
-      `📱 <b>Format:</b> Single Poster`,
+      '📱 <b>Format:</b> Single Poster',
       `🏷️ <b>Kategori:</b> #${escapeHtml(category)}`,
       `💾 <b>Database Log ID:</b> #${result.logId}`,
       '',
@@ -729,7 +730,7 @@ async function handleGenerateCarouselCommand(ctx) {
     return ctx.replyWithHTML(
       '⚠️ <b>Format Perintah Salah</b>\n\n'
       + 'Gunakan: <code>/gencarousel &lt;URL artikel&gt;</code>\n'
-      + 'Contoh: <code>/gencarousel https://invezgo.com/id/blog/ihsg-menguat</code>\n\n'
+      + 'Contoh: <code>/gencarousel https://cnbcindonesia.com/market/ihsg-menguat</code>\n\n'
       + '<i>Bot akan men-generate seluruh slide carousel dan caption siap upload langsung ke chat ini.</i>',
     );
   }
@@ -782,28 +783,34 @@ async function handleGenerateCarouselCommand(ctx) {
 }
 
 /**
- * /newscheck — manually trigger one Invezgo blog fetch and preview 5 latest articles.
+ * /newscheck — fetch & display top 5 ranked financial articles across all media sources.
  */
 async function handleNewsCheck(ctx) {
   try {
-    const articles = await invezgoScraper.fetchInvezgoBlogList();
+    await multiSourcePoller.syncFeedsToQueue();
+    const articles = await multiSourcePoller.getTopRankedArticles({ limit: 5 });
     if (articles.length === 0) {
-      return ctx.replyWithHTML('⚠️ Tidak ada artikel ditemukan. Struktur halaman mungkin berubah.');
+      return ctx.replyWithHTML('⚠️ Tidak ada artikel berita ditemukan.');
     }
-    const preview = articles.slice(0, 5).map((a, i) => (
-      `${i + 1}. <a href="${escapeHtml(a.url)}">${escapeHtml(a.title)}</a>\n   🗓 ${escapeHtml(a.date)}`
-    )).join('\n\n');
+    const preview = articles.map((a, i) => {
+      const tickers = a.stockTickers && a.stockTickers.length > 0
+        ? ` [${a.stockTickers.join(', ')}]`
+        : '';
+      const score = (typeof a.priorityScore === 'number' ? a.priorityScore.toFixed(2) : '0.50');
+      return `${i + 1}. [${escapeHtml(a.sourceName || 'Media')}] ⭐ <b>${score}/1.0</b>\n   <a href="${escapeHtml(a.url)}">${escapeHtml(a.title)}</a>${escapeHtml(tickers)}\n   🗓 ${escapeHtml(a.date || '')}`;
+    }).join('\n\n');
+
     return ctx.replyWithHTML(
-      `📋 <b>5 Artikel Terbaru Invezgo:</b>\n\n${preview}\n\n<i>Total ditemukan: ${articles.length} artikel</i>`,
+      `🏆 <b>Top 5 Berita Finansial Teratas (Multi-Source):</b>\n\n${preview}`,
       { disable_web_page_preview: true },
     );
   } catch (err) {
-    return ctx.replyWithHTML(`❌ <b>Gagal fetch blog Invezgo:</b>\n<code>${escapeHtml(err.message)}</code>`);
+    return ctx.replyWithHTML(`❌ <b>Gagal fetch berita:</b>\n<code>${escapeHtml(err.message)}</code>`);
   }
 }
 
 /**
- * /broadcastnow — manually trigger fetching the latest Invezgo article
+ * /broadcastnow — manually trigger fetching the highest-ranked article across all sources
  * and immediately broadcast + execute full autopost pipeline to Instagram.
  */
 async function handleBroadcastNow(ctx) {
@@ -819,13 +826,14 @@ async function handleBroadcastNow(ctx) {
     : `telegram_user_${ctx.from?.id || 'anon'}`;
 
   const initMsg = await ctx.replyWithHTML(
-    '🚀 <b>Memulai broadcast & auto-posting artikel terbaru ke Instagram...</b>\n<i>Mengambil artikel dari blog Invezgo...</i>',
+    '🚀 <b>Memulai broadcast & auto-posting artikel terbaru ke Instagram...</b>\n<i>Mengambil artikel peringkat teratas dari berbagai media...</i>',
   );
 
   try {
-    const articles = await invezgoScraper.fetchInvezgoBlogList();
+    await multiSourcePoller.syncFeedsToQueue();
+    const articles = await multiSourcePoller.getTopRankedArticles({ limit: 1 });
     if (!articles || articles.length === 0) {
-      return ctx.replyWithHTML('⚠️ <b>Tidak ada artikel ditemukan di blog Invezgo.</b>');
+      return ctx.replyWithHTML('⚠️ <b>Tidak ada artikel ditemukan untuk di-broadcast.</b>');
     }
 
     const latestArticle = articles[0];
@@ -837,7 +845,7 @@ async function handleBroadcastNow(ctx) {
           ctx.chat.id,
           initMsg.message_id,
           null,
-          `🚀 <b>Memproses Artikel Terbaru:</b>\n📰 <b>${escapeHtml(latestArticle.title)}</b>\n🎯 <b>Target:</b> <code>${escapeHtml(String(targetGroupId))}</code>\n\n<i>Pesan siaran dan progres dikirim ke grup target.</i>`,
+          `🚀 <b>Memproses Artikel Terbaru:</b>\n📰 <b>[${escapeHtml(latestArticle.sourceName || 'Media')}] ${escapeHtml(latestArticle.title)}</b>\n🎯 <b>Target:</b> <code>${escapeHtml(String(targetGroupId))}</code>\n\n<i>Pesan siaran dan progres dikirim ke grup target.</i>`,
           { parse_mode: 'HTML' },
         );
       } catch (_) {

@@ -1,11 +1,7 @@
 /**
  * Invezgo Blog Scraper
- *
- * Fetches the article list from https://invezgo.com/id/blog using plain HTTP fetch
- * (no Playwright needed — page is server-rendered).
- *
- * Parses structured JSON-LD data embedded in the page (Blog/@graph[0].mainEntity.itemListElement)
- * which provides clean title, URL, and datePublished without HTML parsing fragility.
+ * @deprecated Deprecated in favor of MultiSourcePoller (src/newsEngine/poller/MultiSourcePoller.js)
+ * which supports multi-source Indonesian financial news ranking and deduplication.
  */
 
 const BLOG_URL = 'https://invezgo.com/id/blog';

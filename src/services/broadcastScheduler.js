@@ -1,7 +1,7 @@
 /**
- * Invezgo Time-based Broadcast Scheduler
+ * Multi-source ranked financial news broadcast scheduler.
  *
- * Articles are fetched every INVEZGO_CHECK_INTERVAL_MS milliseconds and queued
+ * Articles are fetched every NEWS_POLL_INTERVAL_MS milliseconds and queued
  * in memory.
  *
  * Supported Modes:
@@ -18,19 +18,20 @@
  *   BROADCAST_MODE              — 'instant' (default) or 'slot'
  *   BROADCAST_PROCESS_ON_START  — in slot mode, process 1 article on start (default: true)
  *   BROADCAST_SCHEDULE_HOURS    — comma-separated 24h hours (default: 8,10,12,14,17)
- *   INVEZGO_CHECK_INTERVAL_MS   — polling interval in ms (default: 1800000 = 30 min)
+ *   NEWS_POLL_INTERVAL_MS       — polling interval in ms (default: 1800000 = 30 min)
  *   ACTIVE_NICHE                — niche code passed to pipeline (default: 'finance')
  */
-
-const invezgoScraper = require('./invezgoScraper');
+const multiSourcePoller = require('../newsEngine/poller/MultiSourcePoller');
+const UniversalArticleSchema = require('../newsEngine/schema/UniversalArticleSchema');
 const pipelineService = require('./pipelineService');
 
 let PostLog = null;
+let NewsArticle = null;
 try {
   // eslint-disable-next-line global-require
-  ({ PostLog } = require('../models'));
+  ({ PostLog, NewsArticle } = require('../models'));
 } catch (_) {
-  // PostLog model optional during standalone unit tests
+  // Models optional during standalone unit tests
 }
 
 let isProcessingGlobal = false;
@@ -64,16 +65,28 @@ function escapeHtml(str) {
  */
 function buildArticleBroadcastMessage(article) {
   if (!article) return '';
-  const lines = ['📰 <b>INVEZGO — Artikel Baru</b>', ''];
+  const sourceName = article.sourceName
+    || article.source
+    || (article.url ? UniversalArticleSchema.extractSourceName(article.url) : '')
+    || 'FINANCIAL MEDIA';
+  const eventCategory = article.eventCategory || 'UPDATE PASAR';
+  const header = `📰 <b>${escapeHtml(sourceName.toUpperCase())} — ${escapeHtml(eventCategory)}</b>`;
+
+  const lines = [header, ''];
 
   if (article.title) {
     lines.push(`<b>${escapeHtml(article.title)}</b>`);
   }
-  if (article.description) {
-    lines.push(`<i>${escapeHtml(article.description)}</i>`);
+  const summary = article.executiveSummary || article.description;
+  if (summary) {
+    lines.push(`<i>${escapeHtml(summary)}</i>`);
   }
   if (article.date) {
     lines.push(`🗓 ${escapeHtml(article.date)}`);
+  }
+  if (Array.isArray(article.stockTickers) && article.stockTickers.length > 0) {
+    const tags = article.stockTickers.map((t) => `#${t.toUpperCase()}`).join(' ');
+    lines.push(`🏷️ ${escapeHtml(tags)}`);
   }
 
   lines.push('');
@@ -111,7 +124,7 @@ async function processArticleWithFeedback(
     throw new Error('Valid article with url is required for processArticleWithFeedback');
   }
 
-  // 1. Send broadcast message with formatted Invezgo text with plain URL
+  // 1. Send the ranked article with its source and event metadata.
   const broadcastText = buildArticleBroadcastMessage(article);
   await tg.sendMessage(groupId, broadcastText, {
     parse_mode: 'HTML',
@@ -146,7 +159,7 @@ async function processArticleWithFeedback(
 
   try {
     // 4. Run full pipeline
-    const postFormat = options.postFormat || process.env.BROADCAST_POST_FORMAT || process.env.POST_FORMAT || 'single';
+    const postFormat = options.postFormat || article.recommendedFormat || process.env.BROADCAST_POST_FORMAT || process.env.POST_FORMAT || 'single';
     const result = await pipelineService.runPipeline({
       input: { url: article.url },
       nicheCode: nicheCode || 'finance',
@@ -333,7 +346,7 @@ function startBroadcastScheduler(bot) {
     return;
   }
 
-  const intervalMs = parseInt(process.env.INVEZGO_CHECK_INTERVAL_MS, 10) || DEFAULT_INTERVAL_MS;
+  const intervalMs = parseInt(process.env.NEWS_POLL_INTERVAL_MS || process.env.INVEZGO_CHECK_INTERVAL_MS, 10) || DEFAULT_INTERVAL_MS;
   const nicheCode = process.env.ACTIVE_NICHE || 'finance';
   const instantDelayMs = parseInt(
     process.env.BROADCAST_INSTANT_DELAY_MS ?? (process.env.NODE_ENV === 'test' ? '0' : '5000'),
@@ -440,30 +453,53 @@ function startBroadcastScheduler(bot) {
 
   async function pollArticles() {
     try {
-      if (isFirstPoll && PostLog) {
+      if (isFirstPoll) {
+        if (PostLog) {
+          try {
+            const existingLogs = await PostLog.findAll({
+              attributes: ['articleUrl'],
+              limit: 100,
+              order: [['createdAt', 'DESC']],
+            });
+            for (let i = 0; i < existingLogs.length; i += 1) {
+              const u = existingLogs[i]?.articleUrl;
+              if (u) {
+                sentUrls.add(u);
+              }
+            }
+          } catch (dbErr) {
+            console.warn('[broadcastScheduler] Could not seed sentUrls from PostLog:', dbErr.message);
+          }
+        }
         try {
-          const existingLogs = await PostLog.findAll({
-            attributes: ['articleUrl'],
-            limit: 100,
-            order: [['createdAt', 'DESC']],
-          });
-          for (let i = 0; i < existingLogs.length; i += 1) {
-            const u = existingLogs[i]?.articleUrl;
-            if (u) {
-              sentUrls.add(u);
+          if (NewsArticle && typeof NewsArticle.findAll === 'function') {
+            const existingArticles = await NewsArticle.findAll({
+              attributes: ['canonicalUrl', 'originalUrl'],
+              limit: 100,
+              order: [['createdAt', 'DESC']],
+            });
+            for (let i = 0; i < existingArticles.length; i += 1) {
+              const u = existingArticles[i]?.canonicalUrl || existingArticles[i]?.originalUrl;
+              if (u) {
+                sentUrls.add(u);
+              }
             }
           }
-          if (sentUrls.size > 0) {
-            console.log(
-              `[broadcastScheduler] Seeded ${sentUrls.size} previously processed article URL(s) from database.`,
-            );
-          }
-        } catch (dbErr) {
-          console.warn('[broadcastScheduler] Could not seed sentUrls from PostLog:', dbErr.message);
+        } catch (_) {
+          // Safe DB fallback
+        }
+        if (sentUrls.size > 0) {
+          console.log(
+            `[broadcastScheduler] Seeded ${sentUrls.size} previously processed article URL(s) from database.`,
+          );
         }
       }
 
-      const articles = await invezgoScraper.fetchInvezgoBlogList();
+      await multiSourcePoller.syncFeedsToQueue(undefined, { excludeUrls: sentUrls });
+      const articles = await multiSourcePoller.getTopRankedArticles({
+        excludeUrls: sentUrls,
+        limit: maxPerPoll > 0 ? maxPerPoll : 5,
+      });
 
       // Cold-start protection: on empty database/history, baseline-seed older articles
       // so only the single newest article is queued on initial boot.
@@ -484,10 +520,9 @@ function startBroadcastScheduler(bot) {
         (a) => !sentUrls.has(a.url) && !queue.find((q) => q.url === a.url),
       );
 
-      // Enqueue oldest first
-      const reversed = newArticles.slice().reverse();
-      for (let i = 0; i < reversed.length; i += 1) {
-        const article = reversed[i];
+      // Enqueue top-ranked candidates
+      for (let i = 0; i < newArticles.length; i += 1) {
+        const article = newArticles[i];
         sentUrls.add(article.url);
         queue.push(article);
       }
@@ -505,7 +540,7 @@ function startBroadcastScheduler(bot) {
         processOneSlotArticle();
       }
     } catch (err) {
-      console.error('[broadcastScheduler] Failed to fetch blog list:', err.message);
+      console.error('[broadcastScheduler] Failed to poll and rank articles:', err.message);
     } finally {
       isFirstPoll = false;
     }
