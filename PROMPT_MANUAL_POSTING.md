@@ -20,17 +20,19 @@ Tugas Anda adalah membedah berita di atas dan menghasilkan DUA OUTPUT:
 1. PROMPT GAMBAR (Visual Prompt bahasa Inggris siap copy-paste ke DALL-E 3 / Midjourney / ChatGPT Image).
 2. CAPTION INSTAGRAM (Bahasa Indonesia siap copy-paste ke feed Instagram).
 
-PANDUAN PROMPT GAMBAR:
 - Format: Portrait 4:5 vertikal (1080x1350).
 - Estetika: Ultra-sharp Bloomberg Markets & Financial Times Weekend magazine cover, dark navy blue background (#060B14), electric cyan blue accents (#00D2FF), pencahayaan studio editorial 8k.
+- Latar belakang dan pakaian tokoh wajib menyesuaikan isi berita secara spesifik: proyek energi memakai pelabuhan/galangan/pembangkit dan rompi keselamatan; berita dana asing atau bursa memakai lantai perdagangan/papan pasar; pejabat pemerintah memakai pakaian dinas yang sesuai perannya.
+- Pertahankan desain, layout, typography, dan color palette SOVSTOCK; yang boleh berubah hanya scene latar dan wardrobe agar relevan dengan berita.
 - Komposisi:
-  * 55% Bagian Atas: Objek visual utama (potret eksekutif jas navy rapi jika ada tokoh; atau kartu 3D glassmorphic saham dengan ticker dan candlestick chart glowing green/red; atau arsitektur finansial bursa/bank sentral dengan data streams untuk berita makro).
+  * 55% Bagian Atas: Objek visual utama (potret eksekutif dengan pakaian sesuai peristiwa jika ada tokoh; atau kartu 3D glassmorphic saham dengan ticker dan candlestick chart glowing green/red; atau arsitektur finansial bursa/bank sentral dengan data streams untuk berita makro).
   * 45% Bagian Bawah: Blok tipografi strictly center-aligned.
     1. Kategori: Badge '— [KATEGORI: IDX MARKET WATCH / PERBANKAN / EMITEN / MAKRO / REGULASI] —'
     2. Headline: Bold uppercase masif (maks 8-10 kata). Kata transaksi (seperti REBOUND, CATAT LABA, TAHAN BUNGA, NAIK) berwarna electric cyan (#00D2FF), nama entitas berwarna putih (#FFFFFF).
     3. Subtitle: 1 kalimat penjelas yang rapi di bawah headline.
   * Bagian Paling Bawah: Bottom metrics bar [STRATEGIC INVESTMENTS | SUSTAINABLE GROWTH | A STRONGER INDONESIA] dan official branding 'SOVSTOCK' dengan logo perisai navy-gold.
   * Aturan Integritas Data: Hanya gunakan kode ticker dan angka yang valid dari berita. Jangan mengarang angka atau persentase fiktif.
+
 
 PANDUAN CAPTION INSTAGRAM:
 - Hook pembuka yang memicu rasa ingin tahu dilengkapi emoji.

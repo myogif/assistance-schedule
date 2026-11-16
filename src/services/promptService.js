@@ -123,6 +123,66 @@ const IHSG_DATA_INTEGRITY_INSTRUCTION = [
   'Do not use historical numbers from the headline/article as current data.',
 ].join(' ');
 
+function buildNewsVisualContext(extracted = {}) {
+  const topicText = [
+    extracted.category,
+    extracted.headline,
+    extracted.subtitle,
+    extracted.person?.role,
+    ...(extracted.stocks || []).map((stock) => `${stock.ticker || ''} ${stock.name || ''}`),
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+  const topicWords = topicText.split(/[^a-z0-9]+/).filter(Boolean);
+  const roleText = String(extracted.person?.role || '').toLowerCase();
+
+  const hasTopic = (terms) => terms.some((term) => (
+    term.includes(' ')
+      ? ` ${topicText} `.includes(` ${term} `)
+      : topicWords.includes(term)
+  ));
+  const isGovernmentOfficial = /menteri|kemenkeu|ministry|government/.test(roleText);
+
+  let scene = 'a realistic Indonesian news environment directly connected to the headline, with recognizable real-world context and no generic studio backdrop';
+  let wardrobe = extracted.person
+    ? 'a polished professional outfit appropriate to the person’s verified role and the reported event'
+    : 'no invented featured person; keep the scene focused on the reported event';
+
+  if (hasTopic(['nuklir', 'pltn', 'energi', 'listrik', 'batu bara', 'batubara', 'minyak', 'gas', 'tambang', 'smelter', 'kilang', 'pelabuhan', 'kapal', 'konstruksi', 'infrastruktur', 'proyek'])) {
+    scene = 'a realistic industrial energy project environment directly tied to the story: port or shipyard activity, power infrastructure, construction cranes, workers, and relevant equipment';
+    wardrobe = extracted.person
+      ? 'topic-appropriate field attire: a high-visibility safety vest over a neat button-down shirt, practical workwear, and subtle protective equipment'
+      : 'no invented featured person; keep the industrial project and equipment as the visual focus';
+  } else if (hasTopic(['msci', 'dana asing', 'asing keluar', 'saham', 'ihsg', 'idx', 'bursa', 'pasar modal', 'investor', 'indeks', 'rupiah', 'arus modal'])) {
+    scene = 'a realistic Indonesian stock-exchange trading floor and capital-market environment with market boards, analysts, restrained financial charts, and visible news-driven market tension';
+    if (extracted.person) {
+      wardrobe = isGovernmentOfficial
+        ? 'a formal white government-service shirt with a restrained nameplate and official insignia, without inventing seals or text'
+        : 'a formal dark navy business suit with a clean shirt and role-appropriate professional styling';
+    } else {
+      wardrobe = 'no invented featured person; keep the trading floor and market data as the visual focus';
+    }
+  } else if (hasTopic(['suku bunga', 'inflasi', 'pajak', 'apbn', 'kebijakan', 'regulasi', 'fiskal', 'moneter', 'pertumbuhan ekonomi', 'produk domestik bruto', 'gdp'])) {
+    scene = 'a realistic Indonesian policy setting such as a finance ministry briefing room, central-bank architecture, or official economic press event directly related to the story';
+    if (!extracted.person) {
+      wardrobe = 'no invented featured person; keep the official policy setting as the visual focus';
+    } else if (isGovernmentOfficial) {
+      wardrobe = 'formal white government-service attire with a restrained nameplate and official insignia, without inventing seals or text';
+    } else {
+      wardrobe = 'a formal dark navy business suit with a clean shirt and role-appropriate professional styling';
+    }
+  } else if (hasTopic(['bank', 'kredit', 'perbankan', 'deposito'])) {
+    scene = 'a realistic Indonesian banking environment: a major bank headquarters, modern branch, or executive briefing room connected to the story';
+  }
+
+  return [
+    `- Dynamic News Scene: ${scene}.`,
+    `- Topic-Matched Wardrobe: ${wardrobe}.`,
+    '- Palette and Layout Lock: Keep the existing SOVSTOCK design, typography, layout, and color palette exactly; only the background and wardrobe adapt to the reported story.',
+  ].join('\n');
+}
+
 /**
  * Builds the visual prompt from the visual_image prompt template and extracted entities.
  * @param {Prompt} promptRecord
@@ -272,8 +332,9 @@ function buildVisualPrompt(promptRecord, extracted) {
     .replace(/\{\{category\}\}/g, category)
     .replace(/\{\{headline\}\}/g, headline)
     .replace(/\{\{subtitle\}\}/g, subtitle);
+  const dynamicVisualContext = buildNewsVisualContext(extracted);
 
-  return `${visualPrompt}\n\n${IHSG_DATA_INTEGRITY_INSTRUCTION}`;
+  return `${visualPrompt}\n\n${dynamicVisualContext}\n\n${IHSG_DATA_INTEGRITY_INSTRUCTION}`;
 }
 
 /**

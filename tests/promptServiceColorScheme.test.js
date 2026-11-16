@@ -110,6 +110,35 @@ test('buildVisualPrompt forbids invented or stale IHSG index levels', () => {
   assert.match(result, /If no current IHSG value is supplied, show only "IHSG"/i);
   assert.match(result, /Do not use historical numbers from the headline\/article as current data/i);
 });
+test('buildVisualPrompt adapts the background and wardrobe to an industrial energy story', () => {
+  const result = promptService.buildVisualPrompt({ systemPrompt: null, config: {} }, {
+    category: 'EMITEN',
+    headline: 'INDONESIA BANGUN PLTN TERAPUNG',
+    subtitle: 'Proyek energi nuklir dikerjakan di pelabuhan.',
+    person: { name: 'Executive Leader', role: 'Direktur Proyek' },
+    stocks: [],
+    composition_mode: 'person_only',
+  });
+
+  assert.match(result, /industrial energy project|port|shipyard|power infrastructure/i);
+  assert.match(result, /high-visibility safety vest|protective equipment|field attire/i);
+  assert.match(result, /keep the existing SOVSTOCK design.*color palette exactly/i);
+});
+
+test('buildVisualPrompt adapts the background and official wardrobe to a market-flow story', () => {
+  const result = promptService.buildVisualPrompt({ systemPrompt: null, config: {} }, {
+    category: 'MAKRO',
+    headline: 'DANA ASING KELUAR DARI SAHAM RI',
+    subtitle: 'MSCI memicu tekanan pada pasar modal.',
+    person: { name: 'Sri Mulyani Indrawati', role: 'Menteri Keuangan RI' },
+    stocks: [],
+    composition_mode: 'person_only',
+  });
+
+  assert.match(result, /Indonesian stock-exchange trading floor|market boards|capital-market/i);
+  assert.match(result, /formal white government-service shirt|official insignia|nameplate/i);
+  assert.match(result, /keep the existing SOVSTOCK design.*color palette exactly/i);
+});
 
 test('buildVisualPrompt preserves orange and white color references', () => {
   const promptRecord = {
